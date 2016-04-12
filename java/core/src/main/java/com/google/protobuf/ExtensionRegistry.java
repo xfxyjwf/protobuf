@@ -243,6 +243,18 @@ public class ExtensionRegistry extends ExtensionRegistryLite {
     add(newExtensionInfo(extension), extension.getExtensionType());
   }
 
+  /**
+   * @deprecated
+   */
+  public void add(final GeneratedMessage.GeneratedExtension<?, ?> extension) {
+    if (extension.getExtensionType() != Extension.ExtensionType.IMMUTABLE &&
+        extension.getExtensionType() != Extension.ExtensionType.MUTABLE) {
+      // do not support other extension types. ignore
+      return;
+    }
+    add(newExtensionInfo(extension), extension.getExtensionType());
+  }
+
   static ExtensionInfo newExtensionInfo(final Extension<?, ?> extension) {
     if (extension.getDescriptor().getJavaType() ==
         FieldDescriptor.JavaType.MESSAGE) {

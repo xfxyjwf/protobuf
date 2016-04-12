@@ -59,6 +59,14 @@ public abstract class GeneratedMessageLite<
     BuilderType extends GeneratedMessageLite.Builder<MessageType, BuilderType>> 
         extends AbstractMessageLite
         implements Serializable {
+  
+  protected GeneratedMessageLite() {
+    
+  }
+  
+  protected GeneratedMessageLite(BuilderType builder) {
+    
+  }
 
   private static final long serialVersionUID = 1L;
 
@@ -69,7 +77,7 @@ public abstract class GeneratedMessageLite<
   protected int memoizedSerializedSize = -1;
   
   @SuppressWarnings("unchecked") // Guaranteed by runtime.
-  public final Parser<MessageType> getParserForType() {
+  public Parser<MessageType> getParserForType() {
     return (Parser<MessageType>) dynamicMethod(MethodToInvoke.GET_PARSER);
   }
 
@@ -138,7 +146,7 @@ public abstract class GeneratedMessageLite<
     }
   }
 
-  public final boolean isInitialized() {
+  public boolean isInitialized() {
     return dynamicMethod(MethodToInvoke.IS_INITIALIZED, Boolean.TRUE) != null;
   }
 
@@ -224,10 +232,18 @@ public abstract class GeneratedMessageLite<
     private final MessageType defaultInstance;
     protected MessageType instance;
     protected boolean isBuilt;
+    
+    protected Builder() {
+      defaultInstance = null;
+      instance = null;
+      isBuilt = false;
+    }
 
     protected Builder(MessageType defaultInstance) {
       this.defaultInstance = defaultInstance;
-      this.instance = (MessageType) defaultInstance.dynamicMethod(MethodToInvoke.NEW_INSTANCE);
+      if (defaultInstance != null) {
+        this.instance = (MessageType) defaultInstance.dynamicMethod(MethodToInvoke.NEW_INSTANCE);
+      }
       isBuilt = false;
     }
 
@@ -245,14 +261,17 @@ public abstract class GeneratedMessageLite<
     }
 
     //@Override (Java 1.6 override semantics, but we must support 1.5)
-    public final boolean isInitialized() {
+    public boolean isInitialized() {
       return GeneratedMessageLite.isInitialized(instance, false /* shouldMemoize */);
     }
 
     //@Override (Java 1.6 override semantics, but we must support 1.5)
-    public final BuilderType clear() {
-      // No need to copy on write since we're dropping the instance anyways.
-      instance = (MessageType) instance.dynamicMethod(MethodToInvoke.NEW_INSTANCE);
+    public BuilderType clear() {
+      if (instance == null) {
+      } else {
+      //    No need to copy on write since we're dropping the instance anyways.
+        instance = (MessageType) instance.dynamicMethod(MethodToInvoke.NEW_INSTANCE);
+      }
       return (BuilderType) this;
     }
 
@@ -361,12 +380,31 @@ public abstract class GeneratedMessageLite<
      * code only.
      */
     protected FieldSet<ExtensionDescriptor> extensions = FieldSet.newFieldSet();
+    
+    protected void makeExtensionsImmutable() {
+      extensions.makeImmutable();
+    }
+    
+    protected ExtendableMessage() {
+      
+    }
+    
+    protected ExtendableMessage(ExtendableBuilder<MessageType, BuilderType> builder) {
+      extensions = builder.extensions;
+    }
 
     protected final void mergeExtensionFields(final MessageType other) {
       if (extensions.isImmutable()) {
         extensions = extensions.clone();
       }
       extensions.mergeFrom(((ExtendableMessage) other).extensions);
+    }
+    
+    protected <MessageType extends MessageLite> boolean parseUnknownField(
+        CodedInputStream input,
+        ExtensionRegistryLite extensionRegistry,
+        int tag) throws IOException {
+      return parseUnknownField(null, input, extensionRegistry, tag);
     }
     
     /**
@@ -638,6 +676,13 @@ public abstract class GeneratedMessageLite<
         BuilderType extends ExtendableBuilder<MessageType, BuilderType>>
       extends Builder<MessageType, BuilderType>
       implements ExtendableMessageOrBuilder<MessageType, BuilderType> {
+    protected ExtendableBuilder() {
+      super(null);
+      extensions = FieldSet.newFieldSet();
+    }
+    
+    private final FieldSet<ExtensionDescriptor> extensions;
+    
     protected ExtendableBuilder(MessageType defaultInstance) {
       super(defaultInstance);
       
@@ -646,6 +691,7 @@ public abstract class GeneratedMessageLite<
       //     immutable. This extra allocation shouldn't matter in practice
       //     though.
       instance.extensions = instance.extensions.clone();
+      extensions = instance.extensions;
     }
 
     // For immutable message conversion.
@@ -737,6 +783,25 @@ public abstract class GeneratedMessageLite<
       return (BuilderType) this;
     }
 
+    
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType setExtension(
+        final GeneratedExtension<MessageType, Type> extension,
+        final Type value) {
+      GeneratedExtension<MessageType, Type> extensionLite =
+          checkIsLite(extension);
+      
+      verifyExtensionContainingType(extensionLite);
+      if (instance == null) {
+        extensions.setField(extension.descriptor, value);
+      } else {
+        copyOnWrite();
+        instance.extensions.setField(extensionLite.descriptor, extensionLite.toFieldSetType(value));
+      }
+      return (BuilderType) this;
+    }
     /** Set the value of one element of a repeated extension. */
     public final <Type> BuilderType setExtension(
         final ExtensionLite<MessageType, List<Type>> extension,
@@ -762,6 +827,25 @@ public abstract class GeneratedMessageLite<
       copyOnWrite();
       instance.extensions.addRepeatedField(
           extensionLite.descriptor, extensionLite.singularToFieldSetType(value));
+      return (BuilderType) this;
+    }
+
+    /** Append a value to a repeated extension. */
+    public final <Type> BuilderType addExtension(
+        final GeneratedExtension<MessageType, List<Type>> extension,
+        final Type value) {
+      GeneratedExtension<MessageType, List<Type>> extensionLite =
+          checkIsLite(extension);
+      
+      verifyExtensionContainingType(extensionLite);
+      if (instance == null) {
+        extensions.addRepeatedField(extension.descriptor,
+            extensionLite.singularToFieldSetType(value));
+      } else {
+        copyOnWrite();
+        instance.extensions.addRepeatedField(
+            extensionLite.descriptor, extensionLite.singularToFieldSetType(value));
+      }
       return (BuilderType) this;
     }
 
@@ -800,6 +884,28 @@ public abstract class GeneratedMessageLite<
         singularType);
   }
 
+  /**
+   * @deprecated
+   */
+  public static <ContainingType extends MessageLite, Type>
+      GeneratedExtension<ContainingType, Type>
+          newSingularGeneratedExtension(
+              final ContainingType containingTypeDefaultInstance,
+              final Type defaultValue,
+              final MessageLite messageDefaultInstance,
+              final Internal.EnumLiteMap<?> enumTypeMap,
+              final int number,
+              final WireFormat.FieldType type) {
+    return new GeneratedExtension<ContainingType, Type>(
+        containingTypeDefaultInstance,
+        defaultValue,
+        messageDefaultInstance,
+        new ExtensionDescriptor(enumTypeMap, number, type,
+                                false /* isRepeated */,
+                                false /* isPacked */),
+        null);
+  }
+
   /** For use by generated code only. */
   public static <ContainingType extends MessageLite, Type>
       GeneratedExtension<ContainingType, Type>
@@ -820,6 +926,29 @@ public abstract class GeneratedMessageLite<
         new ExtensionDescriptor(
             enumTypeMap, number, type, true /* isRepeated */, isPacked),
         singularType);
+  }
+
+  /**
+   * @deprecated
+   */
+  public static <ContainingType extends MessageLite, Type>
+      GeneratedExtension<ContainingType, Type>
+          newRepeatedGeneratedExtension(
+              final ContainingType containingTypeDefaultInstance,
+              final MessageLite messageDefaultInstance,
+              final Internal.EnumLiteMap<?> enumTypeMap,
+              final int number,
+              final WireFormat.FieldType type,
+              final boolean isPacked) {
+    @SuppressWarnings("unchecked")  // Subclasses ensure Type is a List
+    Type emptyList = (Type) Collections.emptyList();
+    return new GeneratedExtension<ContainingType, Type>(
+        containingTypeDefaultInstance,
+        emptyList,
+        messageDefaultInstance,
+        new ExtensionDescriptor(
+            enumTypeMap, number, type, true /* isRepeated */, isPacked),
+        null);
   }
 
   static final class ExtensionDescriptor
@@ -1083,9 +1212,35 @@ public abstract class GeneratedMessageLite<
       } catch (ClassNotFoundException e) {
         throw new RuntimeException("Unable to find proto buffer class: " + messageClassName, e);
       } catch (NoSuchFieldException e) {
-        throw new RuntimeException("Unable to find DEFAULT_INSTANCE in " + messageClassName, e);
+        return readResolveFallback();
       } catch (SecurityException e) {
         throw new RuntimeException("Unable to call DEFAULT_INSTANCE in " + messageClassName, e);
+      } catch (IllegalAccessException e) {
+        throw new RuntimeException("Unable to call parsePartialFrom", e);
+      } catch (InvalidProtocolBufferException e) {
+        throw new RuntimeException("Unable to understand proto buffer", e);
+      }
+    }
+    
+    /**
+     * @deprecated
+     */
+    private Object readResolveFallback() throws ObjectStreamException {
+      try {
+        Class<?> messageClass = Class.forName(messageClassName);
+        java.lang.reflect.Field defaultInstanceField =
+            messageClass.getDeclaredField("defaultInstance");
+        defaultInstanceField.setAccessible(true);
+        MessageLite defaultInstance = (MessageLite) defaultInstanceField.get(null);
+        return defaultInstance.newBuilderForType()
+            .mergeFrom(asBytes)
+            .buildPartial();
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException("Unable to find proto buffer class: " + messageClassName, e);
+      } catch (NoSuchFieldException e) {
+        throw new RuntimeException("Unable to find defaultInstance in " + messageClassName, e);
+      } catch (SecurityException e) {
+        throw new RuntimeException("Unable to call defaultInstance in " + messageClassName, e);
       } catch (IllegalAccessException e) {
         throw new RuntimeException("Unable to call parsePartialFrom", e);
       } catch (InvalidProtocolBufferException e) {

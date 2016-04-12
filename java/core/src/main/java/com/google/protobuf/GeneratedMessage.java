@@ -741,17 +741,51 @@ public abstract class GeneratedMessage extends AbstractMessage
     <Type> boolean hasExtension(
         ExtensionLite<MessageType, Type> extension);
 
+    /** Check if a singular extension is present. */
+    <Type> boolean hasExtension(
+        Extension<MessageType, Type> extension);
+
+    /** Check if a singular extension is present. */
+    <Type> boolean hasExtension(
+        GeneratedExtension<MessageType, Type> extension);
+
     /** Get the number of elements in a repeated extension. */
     <Type> int getExtensionCount(
         ExtensionLite<MessageType, List<Type>> extension);
+
+    /** Get the number of elements in a repeated extension. */
+    <Type> int getExtensionCount(
+        Extension<MessageType, List<Type>> extension);
+
+    /** Get the number of elements in a repeated extension. */
+    <Type> int getExtensionCount(
+        GeneratedExtension<MessageType, List<Type>> extension);
 
     /** Get the value of an extension. */
     <Type> Type getExtension(
         ExtensionLite<MessageType, Type> extension);
 
+    /** Get the value of an extension. */
+    <Type> Type getExtension(
+        Extension<MessageType, Type> extension);
+
+    /** Get the value of an extension. */
+    <Type> Type getExtension(
+        GeneratedExtension<MessageType, Type> extension);
+
     /** Get one element of a repeated extension. */
     <Type> Type getExtension(
         ExtensionLite<MessageType, List<Type>> extension,
+        int index);
+
+    /** Get one element of a repeated extension. */
+    <Type> Type getExtension(
+        Extension<MessageType, List<Type>> extension,
+        int index);
+
+    /** Get one element of a repeated extension. */
+    <Type> Type getExtension(
+        GeneratedExtension<MessageType, List<Type>> extension,
         int index);
   }
 
@@ -830,10 +864,56 @@ public abstract class GeneratedMessage extends AbstractMessage
       return extensions.hasField(extension.getDescriptor());
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> boolean hasExtension(
+        final Extension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      return extensions.hasField(extension.getDescriptor());
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> boolean hasExtension(
+        final GeneratedExtension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      return extensions.hasField(extension.getDescriptor());
+    }
+
     /** Get the number of elements in a repeated extension. */
     //@Override (Java 1.6 override semantics, but we must support 1.5)
     public final <Type> int getExtensionCount(
         final ExtensionLite<MessageType, List<Type>> extensionLite) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      return extensions.getRepeatedFieldCount(descriptor);
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> int getExtensionCount(
+        final Extension<MessageType, List<Type>> extensionLite) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      return extensions.getRepeatedFieldCount(descriptor);
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> int getExtensionCount(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite) {
       Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
 
       verifyExtensionContainingType(extension);
@@ -866,11 +946,93 @@ public abstract class GeneratedMessage extends AbstractMessage
       }
     }
 
+    /**
+     * @deprecated
+     */
+    @SuppressWarnings("unchecked")
+    public final <Type> Type getExtension(
+        final Extension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      final Object value = extensions.getField(descriptor);
+      if (value == null) {
+        if (descriptor.isRepeated()) {
+          return (Type) Collections.emptyList();
+        } else if (descriptor.getJavaType() ==
+                   FieldDescriptor.JavaType.MESSAGE) {
+          return (Type) extension.getMessageDefaultInstance();
+        } else {
+          return (Type) extension.fromReflectionType(
+              descriptor.getDefaultValue());
+        }
+      } else {
+        return (Type) extension.fromReflectionType(value);
+      }
+    }
+
+    /**
+     * @deprecated
+     */
+    @SuppressWarnings("unchecked")
+    public final <Type> Type getExtension(
+        final GeneratedExtension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      final Object value = extensions.getField(descriptor);
+      if (value == null) {
+        if (descriptor.isRepeated()) {
+          return (Type) Collections.emptyList();
+        } else if (descriptor.getJavaType() ==
+                   FieldDescriptor.JavaType.MESSAGE) {
+          return (Type) extension.getMessageDefaultInstance();
+        } else {
+          return (Type) extension.fromReflectionType(
+              descriptor.getDefaultValue());
+        }
+      } else {
+        return (Type) extension.fromReflectionType(value);
+      }
+    }
+
     /** Get one element of a repeated extension. */
     //@Override (Java 1.6 override semantics, but we must support 1.5)
     @SuppressWarnings("unchecked")
     public final <Type> Type getExtension(
         final ExtensionLite<MessageType, List<Type>> extensionLite,
+        final int index) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      return (Type) extension.singularFromReflectionType(
+          extensions.getRepeatedField(descriptor, index));
+    }
+
+    /**
+     * @deprecated
+     */
+    @SuppressWarnings("unchecked")
+    public final <Type> Type getExtension(
+        final Extension<MessageType, List<Type>> extensionLite,
+        final int index) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      return (Type) extension.singularFromReflectionType(
+          extensions.getRepeatedField(descriptor, index));
+    }
+
+    /**
+     * @deprecated
+     */
+    @SuppressWarnings("unchecked")
+    public final <Type> Type getExtension(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite,
         final int index) {
       Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
 
@@ -1164,6 +1326,28 @@ public abstract class GeneratedMessage extends AbstractMessage
       return extensions.hasField(extension.getDescriptor());
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> boolean hasExtension(
+        final Extension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      return extensions.hasField(extension.getDescriptor());
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> boolean hasExtension(
+        final GeneratedExtension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      return extensions.hasField(extension.getDescriptor());
+    }
+
     /** Get the number of elements in a repeated extension. */
     //@Override (Java 1.6 override semantics, but we must support 1.5)
     public final <Type> int getExtensionCount(
@@ -1175,10 +1359,84 @@ public abstract class GeneratedMessage extends AbstractMessage
       return extensions.getRepeatedFieldCount(descriptor);
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> int getExtensionCount(
+        final Extension<MessageType, List<Type>> extensionLite) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      return extensions.getRepeatedFieldCount(descriptor);
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> int getExtensionCount(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      return extensions.getRepeatedFieldCount(descriptor);
+    }
+
     /** Get the value of an extension. */
     //@Override (Java 1.6 override semantics, but we must support 1.5)
     public final <Type> Type getExtension(
         final ExtensionLite<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      final Object value = extensions.getField(descriptor);
+      if (value == null) {
+        if (descriptor.isRepeated()) {
+          return (Type) Collections.emptyList();
+        } else if (descriptor.getJavaType() ==
+                   FieldDescriptor.JavaType.MESSAGE) {
+          return (Type) extension.getMessageDefaultInstance();
+        } else {
+          return (Type) extension.fromReflectionType(
+              descriptor.getDefaultValue());
+        }
+      } else {
+        return (Type) extension.fromReflectionType(value);
+      }
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> Type getExtension(
+        final Extension<MessageType, Type> extensionLite) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      final Object value = extensions.getField(descriptor);
+      if (value == null) {
+        if (descriptor.isRepeated()) {
+          return (Type) Collections.emptyList();
+        } else if (descriptor.getJavaType() ==
+                   FieldDescriptor.JavaType.MESSAGE) {
+          return (Type) extension.getMessageDefaultInstance();
+        } else {
+          return (Type) extension.fromReflectionType(
+              descriptor.getDefaultValue());
+        }
+      } else {
+        return (Type) extension.fromReflectionType(value);
+      }
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> Type getExtension(
+        final GeneratedExtension<MessageType, Type> extensionLite) {
       Extension<MessageType, Type> extension = checkNotLite(extensionLite);
 
       verifyExtensionContainingType(extension);
@@ -1212,6 +1470,34 @@ public abstract class GeneratedMessage extends AbstractMessage
           extensions.getRepeatedField(descriptor, index));
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> Type getExtension(
+        final Extension<MessageType, List<Type>> extensionLite,
+        final int index) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      return (Type) extension.singularFromReflectionType(
+          extensions.getRepeatedField(descriptor, index));
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> Type getExtension(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite,
+        final int index) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      FieldDescriptor descriptor = extension.getDescriptor();
+      return (Type) extension.singularFromReflectionType(
+          extensions.getRepeatedField(descriptor, index));
+    }
+
     /** Set the value of an extension. */
     public final <Type> BuilderType setExtension(
         final ExtensionLite<MessageType, Type> extensionLite,
@@ -1226,9 +1512,77 @@ public abstract class GeneratedMessage extends AbstractMessage
       return (BuilderType) this;
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType setExtension(
+        final Extension<MessageType, Type> extensionLite,
+        final Type value) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.setField(descriptor, extension.toReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType setExtension(
+        final GeneratedExtension<MessageType, Type> extensionLite,
+        final Type value) {
+      Extension<MessageType, Type> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.setField(descriptor, extension.toReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
     /** Set the value of one element of a repeated extension. */
     public final <Type> BuilderType setExtension(
         final ExtensionLite<MessageType, List<Type>> extensionLite,
+        final int index, final Type value) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.setRepeatedField(
+        descriptor, index,
+        extension.singularToReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType setExtension(
+        final Extension<MessageType, List<Type>> extensionLite,
+        final int index, final Type value) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.setRepeatedField(
+        descriptor, index,
+        extension.singularToReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType setExtension(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite,
         final int index, final Type value) {
       Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
 
@@ -1257,9 +1611,71 @@ public abstract class GeneratedMessage extends AbstractMessage
       return (BuilderType) this;
     }
 
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType addExtension(
+        final Extension<MessageType, List<Type>> extensionLite,
+        final Type value) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.addRepeatedField(
+          descriptor, extension.singularToReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType addExtension(
+        final GeneratedExtension<MessageType, List<Type>> extensionLite,
+        final Type value) {
+      Extension<MessageType, List<Type>> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      final FieldDescriptor descriptor = extension.getDescriptor();
+      extensions.addRepeatedField(
+          descriptor, extension.singularToReflectionType(value));
+      onChanged();
+      return (BuilderType) this;
+    }
+
     /** Clear an extension. */
     public final <Type> BuilderType clearExtension(
         final ExtensionLite<MessageType, ?> extensionLite) {
+      Extension<MessageType, ?> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      extensions.clearField(extension.getDescriptor());
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType clearExtension(
+        final Extension<MessageType, ?> extensionLite) {
+      Extension<MessageType, ?> extension = checkNotLite(extensionLite);
+
+      verifyExtensionContainingType(extension);
+      ensureExtensionsIsMutable();
+      extensions.clearField(extension.getDescriptor());
+      onChanged();
+      return (BuilderType) this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public final <Type> BuilderType clearExtension(
+        final GeneratedExtension<MessageType, ?> extensionLite) {
       Extension<MessageType, ?> extension = checkNotLite(extensionLite);
 
       verifyExtensionContainingType(extension);
