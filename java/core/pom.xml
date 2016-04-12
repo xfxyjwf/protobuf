@@ -96,6 +96,9 @@
         <configuration>
           <generatedSourcesDirectory>${generated.sources.dir}</generatedSourcesDirectory>
           <generatedTestSourcesDirectory>${generated.testsources.dir}</generatedTestSourcesDirectory>
+          <compilerArgs>
+            <arg>-Xlint:unchecked</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
 
