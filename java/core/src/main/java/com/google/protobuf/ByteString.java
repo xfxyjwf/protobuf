@@ -166,7 +166,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @return the iterator
    */
   @Override
-  public final ByteIterator iterator() {
+  public ByteIterator iterator() {
     return new ByteIterator() {
       private int position = 0;
       private final int limit = size();
@@ -241,7 +241,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @throws IndexOutOfBoundsException if {@code beginIndex < 0} or
    *     {@code beginIndex > size()}.
    */
-  public final ByteString substring(int beginIndex) {
+  public ByteString substring(int beginIndex) {
     return substring(beginIndex, size());
   }
 
@@ -590,7 +590,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @throws IndexOutOfBoundsException if an offset or size is negative or too
    *     large
    */
-  public final void copyTo(byte[] target, int sourceOffset, int targetOffset,
+  public void copyTo(byte[] target, int sourceOffset, int targetOffset,
       int numberToCopy) {
     checkRange(sourceOffset, sourceOffset + numberToCopy, size());
     checkRange(targetOffset, targetOffset + numberToCopy, target.length);
@@ -709,7 +709,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @return new string
    * @throws UnsupportedEncodingException if charset isn't recognized
    */
-  public final String toString(String charsetName)
+  public String toString(String charsetName)
       throws UnsupportedEncodingException {
     try {
       return toString(Charset.forName(charsetName));
@@ -727,7 +727,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @param charset encode using this charset
    * @return new string
    */
-  public final String toString(Charset charset) {
+  public String toString(Charset charset) {
     return size() == 0 ? "" : toStringInternal(charset);
   }
 
@@ -839,7 +839,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    * @return hashCode value
    */
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     int h = hash;
 
     if (h == 0) {
@@ -1238,7 +1238,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    */
   // Keep this class private to avoid deadlocks in classloading across threads as ByteString's
   // static initializer loads LiteralByteString and another thread loads LiteralByteString.
-  private static class LiteralByteString extends ByteString.LeafByteString {
+  static class LiteralByteString extends ByteString.LeafByteString {
     private static final long serialVersionUID = 1L;
 
     protected final byte[] bytes;
@@ -1270,7 +1270,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     // ByteString -> substring
 
     @Override
-    public final ByteString substring(int beginIndex, int endIndex) {
+    public ByteString substring(int beginIndex, int endIndex) {
       final int length = checkRange(beginIndex, endIndex, size());
 
       if (length == 0) {
@@ -1293,22 +1293,22 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     }
 
     @Override
-    public final void copyTo(ByteBuffer target) {
+    public void copyTo(ByteBuffer target) {
       target.put(bytes, getOffsetIntoBytes(), size()); // Copies bytes
     }
 
     @Override
-    public final ByteBuffer asReadOnlyByteBuffer() {
+    public ByteBuffer asReadOnlyByteBuffer() {
       return ByteBuffer.wrap(bytes, getOffsetIntoBytes(), size()).asReadOnlyBuffer();
     }
 
     @Override
-    public final List<ByteBuffer> asReadOnlyByteBufferList() {
+    public List<ByteBuffer> asReadOnlyByteBufferList() {
       return Collections.singletonList(asReadOnlyByteBuffer());
     }
 
     @Override
-    public final void writeTo(OutputStream outputStream) throws IOException {
+    public void writeTo(OutputStream outputStream) throws IOException {
       outputStream.write(toByteArray());
     }
 
@@ -1332,7 +1332,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     // UTF-8 decoding
 
     @Override
-    public final boolean isValidUtf8() {
+    public boolean isValidUtf8() {
       int offset = getOffsetIntoBytes();
       return Utf8.isValidUtf8(bytes, offset, offset + size());
     }
@@ -1347,7 +1347,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     // equals() and hashCode()
 
     @Override
-    public final boolean equals(Object other) {
+    public boolean equals(Object other) {
       if (other == this) {
         return true;
       }
@@ -1426,12 +1426,12 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
     // Input stream
 
     @Override
-    public final InputStream newInput() {
+    public InputStream newInput() {
       return new ByteArrayInputStream(bytes, getOffsetIntoBytes(), size()); // No copy
     }
 
     @Override
-    public final CodedInputStream newCodedInput() {
+    public CodedInputStream newCodedInput() {
       // We trust CodedInputStream not to modify the bytes, or to give anyone
       // else access to them.
       return CodedInputStream.newInstance(
@@ -1465,7 +1465,7 @@ public abstract class ByteString implements Iterable<Byte>, Serializable {
    */
   // Keep this class private to avoid deadlocks in classloading across threads as ByteString's
   // static initializer loads LiteralByteString and another thread loads BoundedByteString.
-  private static final class BoundedByteString extends LiteralByteString {
+  static class BoundedByteString extends LiteralByteString {
 
     private final int bytesOffset;
     private final int bytesLength;
