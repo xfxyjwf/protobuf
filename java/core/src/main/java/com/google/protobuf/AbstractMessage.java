@@ -530,4 +530,41 @@ public abstract class AbstractMessage extends AbstractMessageLite
       return super.mergeDelimitedFrom(input, extensionRegistry);
     }
   }
+
+
+  /**
+   * Helper method for implementing {@link Message#hashCode()}.
+   * @see Boolean#hashCode()
+   */
+  protected static int hashLong(long n) {
+    return (int) (n ^ (n >>> 32));
+  }
+
+  /**
+   * Helper method for implementing {@link Message#hashCode()}.
+   * @see Boolean#hashCode()
+   */
+  protected static int hashBoolean(boolean b) {
+    return b ? 1231 : 1237;
+  }
+
+  /**
+   * Helper method for implementing {@link Message#hashCode()}.
+   * <p>
+   * This is needed because {@link java.lang.Enum#hashCode()} is final, but we
+   * need to use the field number as the hash code to ensure compatibility
+   * between statically and dynamically generated enum objects.
+   */
+  protected static int hashEnum(EnumLite e) {
+    return e.getNumber();
+  }
+
+  /** Helper method for implementing {@link Message#hashCode()}. */
+  protected static int hashEnumList(List<? extends EnumLite> list) {
+    int hash = 1;
+    for (EnumLite e : list) {
+      hash = 31 * hash + hashEnum(e);
+    }
+    return hash;
+  }
 }
