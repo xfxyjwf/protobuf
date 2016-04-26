@@ -451,11 +451,11 @@ GenerateParsingCode(io::Printer* printer) const {
 
   if (GetType(descriptor_) == FieldDescriptor::TYPE_GROUP) {
     printer->Print(variables_,
-      "$name$_ = input.readGroup($number$, $type$.parser(),\n"
+      "$name$_ = input.readGroup($number$, $type$.PARSER,\n"
       "    extensionRegistry);\n");
   } else {
     printer->Print(variables_,
-      "$name$_ = input.readMessage($type$.parser(), extensionRegistry);\n");
+      "$name$_ = input.readMessage($type$.PARSER, extensionRegistry);\n");
   }
 
   printer->Print(variables_,
