@@ -156,12 +156,14 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // Compute the byte size of a tag.  For groups, this includes both the start
   // and end tags.
   static inline int TagSize(int field_number, WireFormatLite::FieldType type);
+	static inline int TagSizeNewFormat(int field_number, WireFormatLite::FieldType type);
 
   // Skips a field value with the given tag.  The input should start
   // positioned immediately after the tag.  Skipped values are simply discarded,
   // not recorded anywhere.  See WireFormat::SkipField() for a version that
   // records to an UnknownFieldSet.
   static bool SkipField(io::CodedInputStream* input, uint32 tag);
+	static bool SkipFieldNewFormat(io::CodedInputStream* input, uint32 tag);
 
   // Skips a field value with the given tag.  The input should start
   // positioned immediately after the tag. Skipped values are recorded to a
@@ -173,6 +175,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // discarded, not recorded anywhere.  See WireFormat::SkipMessage() for a
   // version that records to an UnknownFieldSet.
   static bool SkipMessage(io::CodedInputStream* input);
+	static bool SkipMessageNewFormat(io::CodedInputStream* input);
 
   // Reads and ignores a message from the input.  Skipped values are recorded
   // to a CodedOutputStream.
@@ -252,6 +255,8 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   // appropriate definition for each declared type.
   template <typename CType, enum FieldType DeclaredType> INL
   static bool ReadPrimitive(input, CType* value);
+	template <typename CType, enum FieldType DeclaredType> INL
+	static bool ReadPrimitiveNewFormat(input, CType* value);
 
   // Reads repeated primitive values, with optimizations for repeats.
   // tag_size and tag should both be compile-time constants provided by the
@@ -261,6 +266,12 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
                                     uint32 tag,
                                     input,
                                     RepeatedField<CType>* value);
+
+	template <typename CType, enum FieldType DeclaredType> INL
+		static bool ReadRepeatedPrimitiveNewFormat(int tag_size,
+			uint32 tag,
+			input,
+			RepeatedField<CType>* value);
 
   // Identical to ReadRepeatedPrimitive, except will not inline the
   // implementation.
@@ -275,8 +286,10 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   //
   // This is only implemented for the types with fixed wire size, e.g.
   // float, double, and the (s)fixed* types.
-  template <typename CType, enum FieldType DeclaredType> INL
-  static const uint8* ReadPrimitiveFromArray(const uint8* buffer, CType* value);
+	template <typename CType, enum FieldType DeclaredType> INL
+	static const uint8* ReadPrimitiveFromArray(const uint8* buffer, CType* value);
+	template <typename CType, enum FieldType DeclaredType> INL
+	static const uint8* ReadPrimitiveFromArrayNewFormat(const uint8* buffer, CType* value);
 
   // Reads a primitive packed field.
   //
@@ -303,17 +316,28 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
       bool (*is_valid)(int),
       io::CodedOutputStream* unknown_fields_stream,
       RepeatedField<int>* values);
+	static bool ReadPackedEnumPreserveUnknownsNewFormat(
+		input,
+		field_number,
+		bool(*is_valid)(int),
+		io::CodedOutputStream* unknown_fields_stream,
+		RepeatedField<int>* values);
 
   // Read a string.  ReadString(..., string* value) requires an existing string.
   static inline bool ReadString(input, string* value);
+	static inline bool ReadStringNewFormat(input, string* value);
   // ReadString(..., string** p) is internal-only, and should only be called
   // from generated code. It starts by setting *p to "new string"
   // if *p == &GetEmptyStringAlreadyInited().  It then invokes
   // ReadString(input, *p).  This is useful for reducing code size.
   static inline bool ReadString(input, string** p);
+	static inline bool ReadStringNewFormat(input, string** p);
+
   // Analogous to ReadString().
   static bool ReadBytes(input, string* value);
-  static bool ReadBytes(input, string** p);
+	static bool ReadBytes(input, string** p);
+	static bool ReadBytesNewFormat(input, string* value);
+	static bool ReadBytesNewFormat(input, string** p);
 
 
   enum Operation {
@@ -329,6 +353,9 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   static inline bool ReadGroup  (field_number, input, MessageLite* value);
   static inline bool ReadMessage(input, MessageLite* value);
 
+	static inline bool ReadGroupNewFormat(field_number, input, MessageLite* value);
+	static inline bool ReadMessageNewFormat(input, MessageLite* value);
+
   // Like above, but de-virtualize the call to MergePartialFromCodedStream().
   // The pointer must point at an instance of MessageType, *not* a subclass (or
   // the subclass must not override MergePartialFromCodedStream()).
@@ -337,6 +364,12 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
                                         MessageType* value);
   template<typename MessageType>
   static inline bool ReadMessageNoVirtual(input, MessageType* value);
+
+	template<typename MessageType>
+	static inline bool ReadGroupNoVirtualNewFormat(field_number, input,
+		MessageType* value);
+	template<typename MessageType>
+	static inline bool ReadMessageNoVirtualNewFormat(input, MessageType* value);
 
   // The same, but do not modify input's recursion depth.  This is useful
   // when reading a bunch of groups or messages in a loop, because then the
@@ -348,6 +381,13 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   template<typename MessageType>
   static inline bool ReadMessageNoVirtualNoRecursionDepth(input,
                                                           MessageType* value);
+	template<typename MessageType>
+	static inline bool ReadGroupNoVirtualNoRecursionDepthNewFormat(field_number, input,
+		MessageType* value);
+
+	template<typename MessageType>
+	static inline bool ReadMessageNoVirtualNoRecursionDepthNewFormat(input,
+		MessageType* value);
 
   // Write a tag.  The Write*() functions typically include the tag, so
   // normally there's no need to call this unless using the Write*NoTag()
@@ -397,6 +437,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
     field_number, const MessageLite& value, output);
   static void WriteMessage(
     field_number, const MessageLite& value, output);
+
   // Like above, but these will check if the output stream has enough
   // space to write directly to a flat array.
   static void WriteGroupMaybeToArray(
@@ -419,6 +460,7 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
 
   // Like above, but use only *ToArray methods of CodedOutputStream.
   INL static uint8* WriteTagToArray(field_number, WireType type, output);
+	INL static uint8* WriteTagToArrayNewFormat(field_number, WireType type, output);
 
   // Write fields, without tags.
   INL static uint8* WriteInt32NoTagToArray   (int32 value, output);
@@ -435,6 +477,20 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   INL static uint8* WriteDoubleNoTagToArray  (double value, output);
   INL static uint8* WriteBoolNoTagToArray    (bool value, output);
   INL static uint8* WriteEnumNoTagToArray    (int value, output);
+	INL static uint8* WriteInt32NoTagToArrayNewFormat(int32 value, output);
+	INL static uint8* WriteInt64NoTagToArrayNewFormat(int64 value, output);
+	INL static uint8* WriteUInt32NoTagToArrayNewFormat(uint32 value, output);
+	INL static uint8* WriteUInt64NoTagToArrayNewFormat(uint64 value, output);
+	INL static uint8* WriteSInt32NoTagToArrayNewFormat(int32 value, output);
+	INL static uint8* WriteSInt64NoTagToArrayNewFormat(int64 value, output);
+	INL static uint8* WriteFixed32NoTagToArrayNewFormat(uint32 value, output);
+	INL static uint8* WriteFixed64NoTagToArrayNewFormat(uint64 value, output);
+	INL static uint8* WriteSFixed32NoTagToArrayNewFormat(int32 value, output);
+	INL static uint8* WriteSFixed64NoTagToArrayNewFormat(int64 value, output);
+	INL static uint8* WriteFloatNoTagToArrayNewFormat(float value, output);
+	INL static uint8* WriteDoubleNoTagToArrayNewFormat(double value, output);
+	INL static uint8* WriteBoolNoTagToArrayNewFormat(bool value, output);
+	INL static uint8* WriteEnumNoTagToArrayNewFormat(int value, output);
 
   // Write fields, including tags.
   INL static uint8* WriteInt32ToArray(field_number, int32 value, output);
@@ -451,6 +507,20 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   INL static uint8* WriteDoubleToArray(field_number, double value, output);
   INL static uint8* WriteBoolToArray(field_number, bool value, output);
   INL static uint8* WriteEnumToArray(field_number, int value, output);
+	INL static uint8* WriteInt32ToArrayNewFormat(field_number, int32 value, output);
+	INL static uint8* WriteInt64ToArrayNewFormat(field_number, int64 value, output);
+	INL static uint8* WriteUInt32ToArrayNewFormat(field_number, uint32 value, output);
+	INL static uint8* WriteUInt64ToArrayNewFormat(field_number, uint64 value, output);
+	INL static uint8* WriteSInt32ToArrayNewFormat(field_number, int32 value, output);
+	INL static uint8* WriteSInt64ToArrayNewFormat(field_number, int64 value, output);
+	INL static uint8* WriteFixed32ToArrayNewFormat(field_number, uint32 value, output);
+	INL static uint8* WriteFixed64ToArrayNewFormat(field_number, uint64 value, output);
+	INL static uint8* WriteSFixed32ToArrayNewFormat(field_number, int32 value, output);
+	INL static uint8* WriteSFixed64ToArrayNewFormat(field_number, int64 value, output);
+	INL static uint8* WriteFloatToArrayNewFormat(field_number, float value, output);
+	INL static uint8* WriteDoubleToArrayNewFormat(field_number, double value, output);
+	INL static uint8* WriteBoolToArrayNewFormat(field_number, bool value, output);
+	INL static uint8* WriteEnumToArrayNewFormat(field_number, int value, output);
 
   INL static uint8* WriteStringToArray(
     field_number, const string& value, output);
@@ -462,6 +532,16 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   INL static uint8* WriteMessageToArray(
       field_number, const MessageLite& value, output);
 
+	INL static uint8* WriteStringToArrayNewFormat(
+		field_number, const string& value, output);
+	INL static uint8* WriteBytesToArrayNewFormat(
+		field_number, const string& value, output);
+
+	INL static uint8* WriteGroupToArrayNewFormat(
+		field_number, const MessageLite& value, output);
+	INL static uint8* WriteMessageToArrayNewFormat(
+		field_number, const MessageLite& value, output);
+
   // Like above, but de-virtualize the call to SerializeWithCachedSizes().  The
   // pointer must point at an instance of MessageType, *not* a subclass (or
   // the subclass must not override SerializeWithCachedSizes()).
@@ -471,6 +551,12 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   template<typename MessageType>
   INL static uint8* WriteMessageNoVirtualToArray(
     field_number, const MessageType& value, output);
+	template<typename MessageType>
+	INL static uint8* WriteGroupNoVirtualToArrayNewFormat(
+		field_number, const MessageType& value, output);
+	template<typename MessageType>
+	INL static uint8* WriteMessageNoVirtualToArrayNewFormat(
+		field_number, const MessageType& value, output);
 
 #undef output
 #undef input
@@ -490,6 +576,14 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   static inline int SInt64Size  ( int64 value);
   static inline int EnumSize    (   int value);
 
+	static inline int Int32SizeNewFormat(int32 value);
+	static inline int Int64SizeNewFormat(int64 value);
+	static inline int UInt32SizeNewFormat(uint32 value);
+	static inline int UInt64SizeNewFormat(uint64 value);
+	static inline int SInt32SizeNewFormat(int32 value);
+	static inline int SInt64SizeNewFormat(int64 value);
+	static inline int EnumSizeNewFormat(int value);
+
   // These types always have the same size.
   static const int kFixed32Size  = 4;
   static const int kFixed64Size  = 8;
@@ -501,9 +595,14 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
 
   static inline int StringSize(const string& value);
   static inline int BytesSize (const string& value);
+	static inline int StringSizeNewFormat(const string& value);
+	static inline int BytesSizeNewFormat(const string& value);
 
   static inline int GroupSize  (const MessageLite& value);
   static inline int MessageSize(const MessageLite& value);
+
+	static inline int GroupSizeNewFormat(const MessageLite& value);
+	static inline int MessageSizeNewFormat(const MessageLite& value);
 
   // Like above, but de-virtualize the call to ByteSize().  The
   // pointer must point at an instance of MessageType, *not* a subclass (or
@@ -512,10 +611,15 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   static inline int GroupSizeNoVirtual  (const MessageType& value);
   template<typename MessageType>
   static inline int MessageSizeNoVirtual(const MessageType& value);
+	template<typename MessageType>
+	static inline int GroupSizeNoVirtualNewFormat(const MessageType& value);
+	template<typename MessageType>
+	static inline int MessageSizeNoVirtualNewFormat(const MessageType& value);
 
   // Given the length of data, calculate the byte size of the data on the
   // wire if we encode the data as a length delimited field.
   static inline int LengthDelimitedSize(int length);
+	static inline int LengthDelimitedSizeNewFormat(int length);
 
  private:
   // A helper method for the repeated primitive reader. This method has
@@ -532,6 +636,9 @@ class LIBPROTOBUF_EXPORT WireFormatLite {
   template <typename CType, enum FieldType DeclaredType> GOOGLE_ATTRIBUTE_ALWAYS_INLINE
   static bool ReadPackedFixedSizePrimitive(google::protobuf::io::CodedInputStream* input,
                                            RepeatedField<CType>* value);
+	template <typename CType, enum FieldType DeclaredType> GOOGLE_ATTRIBUTE_ALWAYS_INLINE
+		static bool ReadPackedFixedSizePrimitiveNewFormat(google::protobuf::io::CodedInputStream* input,
+			RepeatedField<CType>* value);
 
   static const CppType kFieldTypeToCppTypeMap[];
   static const WireFormatLite::WireType kWireTypeForFieldType[];
@@ -608,6 +715,17 @@ inline int WireFormatLite::TagSize(int field_number,
   } else {
     return result;
   }
+}
+
+inline int WireFormatLite::TagSizeNewFormat(int field_number,
+	WireFormatLite::FieldType type) {
+	int result = 4;
+	if (type == TYPE_GROUP) {
+		// Groups have both a start and an end tag.
+		return result * 2;
+	} else {
+		return result;
+	}
 }
 
 inline uint32 WireFormatLite::EncodeFloat(float value) {
@@ -687,6 +805,16 @@ inline bool WireFormatLite::ReadString(io::CodedInputStream* input,
 inline bool WireFormatLite::ReadString(io::CodedInputStream* input,
                                        string** p) {
   return ReadBytes(input, p);
+}
+
+inline bool WireFormatLite::ReadStringNewFormat(io::CodedInputStream* input,
+	string* value) {
+	return ReadBytesNewFormat(input, value);
+}
+
+inline bool WireFormatLite::ReadStringNewFormat(io::CodedInputStream* input,
+	string** p) {
+	return ReadBytesNewFormat(input, p);
 }
 
 }  // namespace internal

@@ -257,6 +257,40 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void MapFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	const FieldDescriptor* value_field =
+		descriptor_->message_type()->FindFieldByName("value");
+	printer->Print(variables_,
+		"::google::protobuf::scoped_ptr<$map_classname$> entry($name$_.NewEntry());\n");
+
+	printer->Print(variables_,
+		"DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNewFormat(\n"
+		"    input, entry.get()));\n");
+	switch (value_field->cpp_type()) {
+	case FieldDescriptor::CPPTYPE_MESSAGE:
+		printer->Print(variables_,
+			"(*mutable_$name$())[entry->key()].Swap("
+		  "entry->mutable_value());\n");
+		break;
+	case FieldDescriptor::CPPTYPE_ENUM:
+		printer->Print(variables_,
+			"(*mutable_$name$())[entry->key()] =\n"
+			"    static_cast< $val_cpp$ >(*entry->mutable_value());\n");
+		break;
+	default:
+		printer->Print(variables_,
+			"(*mutable_$name$())[entry->key()] = *entry->mutable_value();\n");
+		break;
+	}
+
+	// If entry is allocated by arena, its desctructor should be avoided.
+	if (SupportsArenas(descriptor_)) {
+		printer->Print(variables_,
+			"if (entry->GetArena() != NULL) entry.release();\n");
+	}
+}
+
+void MapFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   printer->Print(variables_,
       "{\n"
@@ -371,6 +405,41 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void MapFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"{\n"
+		"  ::google::protobuf::scoped_ptr<$map_classname$> entry;\n"
+		"  for (::google::protobuf::Map< $key_cpp$, $val_cpp$ >::const_iterator\n"
+		"      it = this->$name$().begin();\n"
+		"      it != this->$name$().end(); ++it) {\n");
+
+	// If entry is allocated by arena, its desctructor should be avoided.
+	if (SupportsArenas(descriptor_)) {
+		printer->Print(variables_,
+			"    if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+			"      entry.release();\n"
+			"    }\n");
+	}
+
+	printer->Print(variables_,
+		"    entry.reset($name$_.New$wrapper$(it->first, it->second));\n"
+		"    target = ::google::protobuf::internal::WireFormatLite::\n"
+		"        Write$declared_type$NoVirtualToArrayNewFormat(\n"
+		"            $number$, *entry, target);\n"
+		"  }\n");
+
+	// If entry is allocated by arena, its desctructor should be avoided.
+	if (SupportsArenas(descriptor_)) {
+		printer->Print(variables_,
+			"  if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+			"    entry.release();\n"
+			"  }\n");
+	}
+
+	printer->Print("}\n");
+}
+
+void MapFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
       "total_size += $tag_size$ * this->$name$_size();\n"
@@ -403,6 +472,41 @@ GenerateByteSize(io::Printer* printer) const {
   }
 
   printer->Print("}\n");
+}
+
+void MapFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ * this->$name$_size();\n"
+		"{\n"
+		"  ::google::protobuf::scoped_ptr<$map_classname$> entry;\n"
+		"  for (::google::protobuf::Map< $key_cpp$, $val_cpp$ >::const_iterator\n"
+		"      it = this->$name$().begin();\n"
+		"      it != this->$name$().end(); ++it) {\n");
+
+	// If entry is allocated by arena, its desctructor should be avoided.
+	if (SupportsArenas(descriptor_)) {
+		printer->Print(variables_,
+			"    if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+			"      entry.release();\n"
+			"    }\n");
+	}
+
+	printer->Print(variables_,
+		"    entry.reset($name$_.New$wrapper$(it->first, it->second));\n"
+		"    total_size += ::google::protobuf::internal::WireFormatLite::\n"
+		"        $declared_type$SizeNoVirtualNewFormat(*entry);\n"
+		"  }\n");
+
+	// If entry is allocated by arena, its desctructor should be avoided.
+	if (SupportsArenas(descriptor_)) {
+		printer->Print(variables_,
+			"  if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+			"    entry.release();\n"
+			"  }\n");
+	}
+
+	printer->Print("}\n");
 }
 
 }  // namespace cpp

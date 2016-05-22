@@ -152,6 +152,16 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void EnumFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"int value;\n"
+		"DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitiveNewFormat<\n"
+		"         int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(\n"
+		"       input, &value)));\n"
+		"set_$name$(static_cast< $type$ >(value));\n");
+}
+
+void EnumFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   printer->Print(variables_,
     "::google::protobuf::internal::WireFormatLite::WriteEnum(\n"
@@ -166,10 +176,24 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void EnumFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArrayNewFormat(\n"
+		"  $number$, this->$name$(), target);\n");
+}
+
+void EnumFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "total_size += $tag_size$ +\n"
     "  ::google::protobuf::internal::WireFormatLite::EnumSize(this->$name$());\n");
+}
+
+void EnumFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ +\n"
+		"  ::google::protobuf::internal::WireFormatLite::EnumSizeNewFormat(this->$name$());\n");
 }
 
 // ===================================================================
@@ -350,6 +374,18 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void RepeatedEnumFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"DO_((::google::protobuf::internal::"
+		"WireFormatLite::ReadPackedEnumPreserveUnknownsNewFormat(\n"
+		"       input,\n"
+		"       $number$,\n"
+		"       NULL,\n"
+		"       NULL,\n"
+		"       this->mutable_$name$())));\n");
+}
+
+void RepeatedEnumFieldGenerator::
 GenerateMergeFromCodedStreamWithPacking(io::Printer* printer) const {
   if (!descriptor_->is_packed()) {
       // This path is rarely executed, so we use a non-inlined implementation.
@@ -472,6 +508,26 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void RepeatedEnumFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	// Write the tag and the size.
+	printer->Print(variables_,
+		"if (this->$name$_size() > 0) {\n"
+		"  target = ::google::protobuf::internal::WireFormatLite::WriteTagToArrayNewFormat(\n"
+		"    $number$,\n"
+		"    ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,\n"
+		"    target);\n"
+		"  target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArrayNewFormat("
+		"    _$name$_cached_byte_size_, target);\n"
+		"}\n");
+	printer->Print(variables_,
+		"for (int i = 0; i < this->$name$_size(); i++) {\n");
+	printer->Print(variables_,
+		"  target = ::google::protobuf::internal::WireFormatLite::WriteEnumNoTagToArrayNewFormat(\n"
+		"    this->$name$(i), target);\n");
+	printer->Print("}\n");
+}
+
+void RepeatedEnumFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "{\n"
@@ -499,6 +555,30 @@ GenerateByteSize(io::Printer* printer) const {
   }
   printer->Outdent();
   printer->Print("}\n");
+}
+
+void RepeatedEnumFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"{\n"
+		"  int data_size = 0;\n");
+	printer->Indent();
+	printer->Print(variables_,
+		"for (int i = 0; i < this->$name$_size(); i++) {\n"
+		"  data_size += ::google::protobuf::internal::WireFormatLite::EnumSizeNewFormat(\n"
+		"    this->$name$(i));\n"
+		"}\n");
+	printer->Print(variables_,
+		"if (data_size > 0) {\n"
+		"  total_size += $tag_size$ +\n"
+		"    ::google::protobuf::internal::WireFormatLite::Int32SizeNewFormat(data_size);\n"
+		"}\n"
+		"GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();\n"
+		"_$name$_cached_byte_size_ = data_size;\n"
+		"GOOGLE_SAFE_CONCURRENT_WRITES_END();\n"
+		"total_size += data_size;\n");
+	printer->Outdent();
+	printer->Print("}\n");
 }
 
 }  // namespace cpp

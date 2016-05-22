@@ -61,8 +61,11 @@ class PrimitiveFieldGenerator : public FieldGenerator {
   void GenerateConstructorCode(io::Printer* printer) const;
   void GenerateMergeFromCodedStream(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
-  void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  protected:
   const FieldDescriptor* descriptor_;
@@ -85,6 +88,7 @@ class PrimitiveOneofFieldGenerator : public PrimitiveFieldGenerator {
   void GenerateSwappingCode(io::Printer* printer) const;
   void GenerateConstructorCode(io::Printer* printer) const;
   void GenerateMergeFromCodedStream(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
 
  private:
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(PrimitiveOneofFieldGenerator);
@@ -110,6 +114,9 @@ class RepeatedPrimitiveFieldGenerator : public FieldGenerator {
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  private:
   const FieldDescriptor* descriptor_;

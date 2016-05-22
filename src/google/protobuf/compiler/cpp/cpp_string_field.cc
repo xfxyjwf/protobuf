@@ -378,6 +378,13 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void StringFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"DO_(::google::protobuf::internal::WireFormatLite::Read$declared_type$NewFormat(\n"
+		"      input, this->mutable_$name$()));\n");
+}
+
+void StringFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   if (descriptor_->type() == FieldDescriptor::TYPE_STRING) {
     GenerateUtf8CheckCodeForString(
@@ -403,11 +410,27 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void StringFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"target =\n"
+		"  ::google::protobuf::internal::WireFormatLite::Write$declared_type$ToArrayNewFormat(\n"
+		"    $number$, this->$name$(), target);\n");
+}
+
+void StringFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "total_size += $tag_size$ +\n"
     "  ::google::protobuf::internal::WireFormatLite::$declared_type$Size(\n"
     "    this->$name$());\n");
+}
+
+void StringFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ +\n"
+		"  ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNewFormat(\n"
+		"    this->$name$());\n");
 }
 
 // ===================================================================
@@ -670,6 +693,13 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
   }
 }
 
+void StringOneofFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"DO_(::google::protobuf::internal::WireFormatLite::Read$declared_type$NewFormat(\n"
+		"      input, this->mutable_$name$()));\n");
+}
+
 
 // ===================================================================
 
@@ -822,6 +852,13 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void RepeatedStringFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"DO_(::google::protobuf::internal::WireFormatLite::Read$declared_type$NewFormat(\n"
+		"      input, this->add_$name$()));\n");
+}
+
+void RepeatedStringFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   printer->Print(variables_,
     "for (int i = 0; i < this->$name$_size(); i++) {\n");
@@ -856,6 +893,16 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void RepeatedStringFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"for (int i = 0; i < this->$name$_size(); i++) {\n");
+	printer->Print(variables_,
+		"  target = ::google::protobuf::internal::WireFormatLite::\n"
+		"    Write$declared_type$ToArrayNewFormat($number$, this->$name$(i), target);\n"
+		"}\n");
+}
+
+void RepeatedStringFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "total_size += $tag_size$ * this->$name$_size();\n"
@@ -863,6 +910,16 @@ GenerateByteSize(io::Printer* printer) const {
     "  total_size += ::google::protobuf::internal::WireFormatLite::$declared_type$Size(\n"
     "    this->$name$(i));\n"
     "}\n");
+}
+
+void RepeatedStringFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ * this->$name$_size();\n"
+		"for (int i = 0; i < this->$name$_size(); i++) {\n"
+		"  total_size += ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNewFormat(\n"
+		"    this->$name$(i));\n"
+		"}\n");
 }
 
 }  // namespace cpp

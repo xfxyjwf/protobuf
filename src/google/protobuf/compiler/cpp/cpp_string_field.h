@@ -66,8 +66,11 @@ class StringFieldGenerator : public FieldGenerator {
   void GenerateShutdownCode(io::Printer* printer) const;
   void GenerateMergeFromCodedStream(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
-  void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  protected:
   const FieldDescriptor* descriptor_;
@@ -91,6 +94,7 @@ class StringOneofFieldGenerator : public StringFieldGenerator {
   void GenerateConstructorCode(io::Printer* printer) const;
   void GenerateDestructorCode(io::Printer* printer) const;
   void GenerateMergeFromCodedStream(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
 
  private:
   const bool dependent_field_;
@@ -116,6 +120,9 @@ class RepeatedStringFieldGenerator : public FieldGenerator {
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  private:
   const FieldDescriptor* descriptor_;

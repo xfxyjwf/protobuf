@@ -59,6 +59,9 @@ class MapFieldGenerator : public FieldGenerator {
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  private:
   const FieldDescriptor* descriptor_;

@@ -194,6 +194,19 @@ class FieldGenerator {
   // are placed in the message's ByteSize() method.
   virtual void GenerateByteSize(io::Printer* printer) const = 0;
 
+	// Generate lines to compute the serialized size of this field, which
+	// are placed in the message's ByteSize() method.
+	virtual void GenerateByteSizeNewFormat(io::Printer* printer) const = 0;
+
+	// Generate lines to decode this field, which will be placed inside the
+	// message's MergeFromCodedStream() method.
+	virtual void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const = 0;
+
+	// Generate lines to serialize this field directly to the array "target",
+	// which are placed within the message's SerializeWithCachedSizesToArray()
+	// method. This must also advance "target" past the written bytes.
+	virtual void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const = 0;
+
  protected:
   const Options& options_;
 

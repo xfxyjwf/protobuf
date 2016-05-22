@@ -1057,17 +1057,23 @@ GenerateClassDefinition(io::Printer* printer) {
         "void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);\n");
     }
 
-    printer->Print(vars,
-      "void CopyFrom(const $classname$& from);\n"
-      "void MergeFrom(const $classname$& from);\n"
-      "void Clear();\n"
-      "bool IsInitialized() const;\n"
-      "\n"
-      "int ByteSize() const;\n"
-      "bool MergePartialFromCodedStream(\n"
-      "    ::google::protobuf::io::CodedInputStream* input);\n"
-      "void SerializeWithCachedSizes(\n"
-      "    ::google::protobuf::io::CodedOutputStream* output) const;\n");
+		printer->Print(vars,
+			"void CopyFrom(const $classname$& from);\n"
+			"void MergeFrom(const $classname$& from);\n"
+			"void Clear();\n"
+			"bool IsInitialized() const;\n"
+			"\n"
+			"int ByteSize() const;\n"
+			"bool MergePartialFromCodedStream(\n"
+			"    ::google::protobuf::io::CodedInputStream* input);\n"
+			"void SerializeWithCachedSizes(\n"
+			"    ::google::protobuf::io::CodedOutputStream* output) const;\n"
+			"int ByteSizeNewFormat() const;\n"
+			"bool MergePartialFromCodedStreamNewFormat(\n"
+			"    ::google::protobuf::io::CodedInputStream* input);\n"
+			"void SerializeWithCachedSizesNewFormat(\n"
+			"    ::google::protobuf::io::CodedOutputStream* output) const;\n"
+			);
     // DiscardUnknownFields() is implemented in message.cc using reflections. We
     // need to implement this function in generated code for messages.
     if (!UseUnknownFieldSet(descriptor_->file(), options_)) {
@@ -3317,6 +3323,20 @@ GenerateSerializeWithCachedSizes(io::Printer* printer) {
 
 void MessageGenerator::
 GenerateSerializeWithCachedSizesToArray(io::Printer* printer) {
+	printer->Print(
+		"::google::protobuf::uint8* $classname$::SerializeWithCachedSizesToArray(\n"
+		"    ::google::protobuf::uint8* target) const {\n",
+		"classname", classname_);
+	printer->Indent();
+
+	for (int i = 0; i < descriptor_->field_count(); ++i) {
+		field_generators_.get(descriptor_->field(i)).GenerateSerializeWithCachedSizesToArrayNewFormat(printer);
+	}
+
+	printer->Outdent();
+	printer->Print(
+		"}\n");
+
   if (descriptor_->options().message_set_wire_format()) {
     // Special-case MessageSet.
     printer->Print(
@@ -3455,6 +3475,20 @@ static string ConditionalToCheckBitmasks(const vector<uint32>& masks) {
 
 void MessageGenerator::
 GenerateByteSize(io::Printer* printer) {
+	printer->Print(
+		"int $classname$::ByteSizeNewFormat() const {\n"
+		"  int total_size = 0;\n",
+		"classname", classname_, "full_name", descriptor_->full_name());
+	for (int i = 0; i < descriptor_->field_count(); ++i) {
+		field_generators_.get(descriptor_->field(i)).GenerateByteSizeNewFormat(printer);
+	}
+	printer->Print(
+		"  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();\n"
+		"  _cached_size_ = total_size;\n"
+		"  GOOGLE_SAFE_CONCURRENT_WRITES_END();\n"
+		"  return total_size;\n"
+		"}\n");
+
   if (descriptor_->options().message_set_wire_format()) {
     // Special-case MessageSet.
     printer->Print(

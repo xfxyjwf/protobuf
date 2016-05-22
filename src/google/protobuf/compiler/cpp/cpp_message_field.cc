@@ -510,6 +510,19 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void MessageFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	if (descriptor_->type() == FieldDescriptor::TYPE_MESSAGE) {
+		printer->Print(variables_,
+			"DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNewFormat(\n"
+			"     input, mutable_$name$()));\n");
+	} else {
+		printer->Print(variables_,
+			"DO_(::google::protobuf::internal::WireFormatLite::ReadGroupNoVirtualNewFormat(\n"
+			"      $number$, input, mutable_$name$()));\n");
+	}
+}
+
+void MessageFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   printer->Print(variables_,
     "::google::protobuf::internal::WireFormatLite::Write$stream_writer$(\n"
@@ -525,11 +538,27 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void MessageFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"target = ::google::protobuf::internal::WireFormatLite::\n"
+		"  Write$declared_type$NoVirtualToArrayNewFormat(\n"
+		"    $number$, *$non_null_ptr_to_name$, target);\n");
+}
+
+void MessageFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "total_size += $tag_size$ +\n"
     "  ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNoVirtual(\n"
     "    *$non_null_ptr_to_name$);\n");
+}
+
+void MessageFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ +\n"
+		"  ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNoVirtualNewFormat(\n"
+		"    *$non_null_ptr_to_name$);\n");
 }
 
 // ===================================================================
@@ -1020,6 +1049,21 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
 }
 
 void RepeatedMessageFieldGenerator::
+GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const {
+	if (descriptor_->type() == FieldDescriptor::TYPE_MESSAGE) {
+		printer->Print(variables_,
+			"DO_(::google::protobuf::internal::WireFormatLite::"
+			"ReadMessageNoVirtualNoRecursionDepthNewFormat(\n"
+			"      input, add_$name$()));\n");
+	} else {
+		printer->Print(variables_,
+			"DO_(::google::protobuf::internal::WireFormatLite::"
+			"ReadGroupNoVirtualNoRecursionDepthNewFormat(\n"
+			"      $number$, input, add_$name$()));\n");
+	}
+}
+
+void RepeatedMessageFieldGenerator::
 GenerateSerializeWithCachedSizes(io::Printer* printer) const {
   printer->Print(variables_,
     "for (unsigned int i = 0, n = this->$name$_size(); i < n; i++) {\n"
@@ -1039,6 +1083,16 @@ GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const {
 }
 
 void RepeatedMessageFieldGenerator::
+GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"for (unsigned int i = 0, n = this->$name$_size(); i < n; i++) {\n"
+		"  target = ::google::protobuf::internal::WireFormatLite::\n"
+		"    Write$declared_type$NoVirtualToArrayNewFormat(\n"
+		"      $number$, this->$name$(i), target);\n"
+		"}\n");
+}
+
+void RepeatedMessageFieldGenerator::
 GenerateByteSize(io::Printer* printer) const {
   printer->Print(variables_,
     "total_size += $tag_size$ * this->$name$_size();\n"
@@ -1047,6 +1101,17 @@ GenerateByteSize(io::Printer* printer) const {
     "    ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNoVirtual(\n"
     "      this->$name$(i));\n"
     "}\n");
+}
+
+void RepeatedMessageFieldGenerator::
+GenerateByteSizeNewFormat(io::Printer* printer) const {
+	printer->Print(variables_,
+		"total_size += $tag_size$ * this->$name$_size();\n"
+		"for (int i = 0; i < this->$name$_size(); i++) {\n"
+		"  total_size +=\n"
+		"    ::google::protobuf::internal::WireFormatLite::$declared_type$SizeNoVirtualNewFormat(\n"
+		"      this->$name$(i));\n"
+		"}\n");
 }
 
 }  // namespace cpp

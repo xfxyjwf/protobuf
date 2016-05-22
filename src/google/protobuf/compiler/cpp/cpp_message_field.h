@@ -66,6 +66,9 @@ class MessageFieldGenerator : public FieldGenerator {
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  protected:
   void GenerateArenaManipulationCode(const map<string, string>& variables,
@@ -129,6 +132,9 @@ class RepeatedMessageFieldGenerator : public FieldGenerator {
   void GenerateSerializeWithCachedSizes(io::Printer* printer) const;
   void GenerateSerializeWithCachedSizesToArray(io::Printer* printer) const;
   void GenerateByteSize(io::Printer* printer) const;
+	void GenerateByteSizeNewFormat(io::Printer* printer) const;
+	void GenerateMergeFromCodedStreamNewFormat(io::Printer* printer) const;
+	void GenerateSerializeWithCachedSizesToArrayNewFormat(io::Printer* printer) const;
 
  private:
   void InternalGenerateTypeDependentAccessorDeclarations(

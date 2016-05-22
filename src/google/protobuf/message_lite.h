@@ -192,6 +192,10 @@ class LIBPROTOBUF_EXPORT MessageLite {
   // followed by IsInitialized().
   virtual bool MergePartialFromCodedStream(io::CodedInputStream* input) = 0;
 
+	virtual bool MergePartialFromCodedStreamNewFormat(io::CodedInputStream* input) {
+		return false;
+	}
+
 
   // Serialization ---------------------------------------------------
   // Methods for serializing in protocol buffer format.  Most of these
@@ -242,12 +246,17 @@ class LIBPROTOBUF_EXPORT MessageLite {
   // ByteSize() is generally linear in the number of fields defined for the
   // proto.
   virtual int ByteSize() const = 0;
+	virtual int ByteSizeNewFormat() const { return 0; }
 
   // Serializes the message without recomputing the size.  The message must
   // not have changed since the last call to ByteSize(); if it has, the results
   // are undefined.
   virtual void SerializeWithCachedSizes(
       io::CodedOutputStream* output) const = 0;
+
+	virtual void SerializeWithCachedSizesNewFormat(
+		io::CodedOutputStream* output) const {
+	}
 
   // Like SerializeWithCachedSizes, but writes directly to *target, returning
   // a pointer to the byte immediately after the last byte written.  "target"
