@@ -151,7 +151,7 @@ class InternalMetadataWithArenaBase {
   }
 
   // If ptr_'s tag is kTagContainer, it points to an instance of this struct.
-  struct Container {
+  struct LIBPROTOBUF_EXPORT Container {
     T unknown_fields;
     Arena* arena;
   };
@@ -202,6 +202,8 @@ class LIBPROTOBUF_EXPORT InternalMetadataWithArenaLite
 
   explicit InternalMetadataWithArenaLite(Arena* arena)
       : InternalMetadataWithArenaBase(arena) {}
+
+  ~InternalMetadataWithArenaLite() {}
 
   void DoSwap(string* other) {
     mutable_unknown_fields()->swap(*other);

@@ -631,7 +631,7 @@ class GeneratedMessageReflection PROTOBUF_FINAL : public Reflection {
   internal::MapFieldBase* MapData(
       Message* message, const FieldDescriptor* field) const;
 
-  friend void RegisterAllTypes(const Metadata* file_level_metadata, int size);
+  friend LIBPROTOBUF_EXPORT void RegisterAllTypes(const Metadata* file_level_metadata, int size);
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(GeneratedMessageReflection);
 };
 

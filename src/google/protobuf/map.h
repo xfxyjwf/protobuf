@@ -1085,7 +1085,7 @@ class Map {
         return InsertUniqueInTree(b, node);
       }
       index_of_first_non_null_ =
-          std::min(index_of_first_non_null_, result.bucket_index_);
+          std::min<size_t>(index_of_first_non_null_, result.bucket_index_);
       return result;
     }
 
