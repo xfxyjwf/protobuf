@@ -41,16 +41,16 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
@@ -58,7 +58,7 @@ PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Type, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -111,8 +111,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Option, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Option, value_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(Type)},
   { 11, -1, sizeof(Field)},
   { 26, -1, sizeof(Enum)},
@@ -152,15 +151,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _Type_default_instance_.Shutdown();
+  _Type_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
-  _Field_default_instance_.Shutdown();
+  _Field_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _Enum_default_instance_.Shutdown();
+  _Enum_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
-  _EnumValue_default_instance_.Shutdown();
+  _EnumValue_default_instance_.Destruct();
   delete file_level_metadata[3].reflection;
-  _Option_default_instance_.Shutdown();
+  _Option_default_instance_.Destruct();
   delete file_level_metadata[4].reflection;
 }
 
@@ -189,7 +188,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\032google/protobuf/type.proto\022\017google.pro"
       "tobuf\032\031google/protobuf/any.proto\032$google"
       "/protobuf/source_context.proto\"\327\001\n\004Type\022"
@@ -486,6 +485,10 @@ Type* Type::New(::google::protobuf::Arena* arena) const {
 
 void Type::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Type)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   fields_.Clear();
   oneofs_.Clear();
   options_.Clear();
@@ -593,9 +596,7 @@ bool Type::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -667,7 +668,6 @@ void Type::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Type::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Type)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -859,13 +859,14 @@ void Type::UnsafeArenaSwap(Type* other) {
   InternalSwap(other);
 }
 void Type::InternalSwap(Type* other) {
+  using std::swap;
   fields_.InternalSwap(&other->fields_);
   oneofs_.InternalSwap(&other->oneofs_);
   options_.InternalSwap(&other->options_);
   name_.Swap(&other->name_);
-  std::swap(source_context_, other->source_context_);
-  std::swap(syntax_, other->syntax_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(source_context_, other->source_context_);
+  swap(syntax_, other->syntax_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Type::GetMetadata() const {
@@ -1259,6 +1260,10 @@ Field* Field::New(::google::protobuf::Arena* arena) const {
 
 void Field::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Field)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   options_.Clear();
   name_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
   type_url_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
@@ -1428,9 +1433,7 @@ bool Field::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1531,7 +1534,6 @@ void Field::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Field::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Field)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1789,17 +1791,18 @@ void Field::UnsafeArenaSwap(Field* other) {
   InternalSwap(other);
 }
 void Field::InternalSwap(Field* other) {
+  using std::swap;
   options_.InternalSwap(&other->options_);
   name_.Swap(&other->name_);
   type_url_.Swap(&other->type_url_);
   json_name_.Swap(&other->json_name_);
   default_value_.Swap(&other->default_value_);
-  std::swap(kind_, other->kind_);
-  std::swap(cardinality_, other->cardinality_);
-  std::swap(number_, other->number_);
-  std::swap(oneof_index_, other->oneof_index_);
-  std::swap(packed_, other->packed_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(kind_, other->kind_);
+  swap(cardinality_, other->cardinality_);
+  swap(number_, other->number_);
+  swap(oneof_index_, other->oneof_index_);
+  swap(packed_, other->packed_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Field::GetMetadata() const {
@@ -2315,6 +2318,10 @@ Enum* Enum::New(::google::protobuf::Arena* arena) const {
 
 void Enum::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Enum)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   enumvalue_.Clear();
   options_.Clear();
   name_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
@@ -2404,9 +2411,7 @@ bool Enum::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -2468,7 +2473,6 @@ void Enum::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Enum::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Enum)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2641,12 +2645,13 @@ void Enum::UnsafeArenaSwap(Enum* other) {
   InternalSwap(other);
 }
 void Enum::InternalSwap(Enum* other) {
+  using std::swap;
   enumvalue_.InternalSwap(&other->enumvalue_);
   options_.InternalSwap(&other->options_);
   name_.Swap(&other->name_);
-  std::swap(source_context_, other->source_context_);
-  std::swap(syntax_, other->syntax_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(source_context_, other->source_context_);
+  swap(syntax_, other->syntax_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Enum::GetMetadata() const {
@@ -2940,6 +2945,10 @@ EnumValue* EnumValue::New(::google::protobuf::Arena* arena) const {
 
 void EnumValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.EnumValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   options_.Clear();
   name_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
   number_ = 0;
@@ -2999,9 +3008,7 @@ bool EnumValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -3050,7 +3057,6 @@ void EnumValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* EnumValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.EnumValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -3187,10 +3193,11 @@ void EnumValue::UnsafeArenaSwap(EnumValue* other) {
   InternalSwap(other);
 }
 void EnumValue::InternalSwap(EnumValue* other) {
+  using std::swap;
   options_.InternalSwap(&other->options_);
   name_.Swap(&other->name_);
-  std::swap(number_, other->number_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(number_, other->number_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata EnumValue::GetMetadata() const {
@@ -3440,6 +3447,10 @@ Option* Option::New(::google::protobuf::Arena* arena) const {
 
 void Option::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Option)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   name_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
   if (GetArenaNoVirtual() == NULL && value_ != NULL) {
     delete value_;
@@ -3487,9 +3498,7 @@ bool Option::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -3533,7 +3542,6 @@ void Option::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Option::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Option)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -3653,9 +3661,10 @@ void Option::UnsafeArenaSwap(Option* other) {
   InternalSwap(other);
 }
 void Option::InternalSwap(Option* other) {
+  using std::swap;
   name_.Swap(&other->name_);
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Option::GetMetadata() const {

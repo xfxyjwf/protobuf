@@ -34,7 +34,6 @@ import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.CharBuffer;
@@ -220,6 +219,23 @@ public final class TextFormat {
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  /**
+   * Outputs a unicode textual representation of the value of given field value.
+   *
+   * <p>Same as {@code printFieldValue()}, except that non-ASCII characters in string type fields
+   * are not escaped in backslash+octals.
+   *
+   * @param field the descriptor of the field
+   * @param value the value of the field
+   * @param output the output to which to append the formatted value
+   * @throws ClassCastException if the value is not appropriate for the given field descriptor
+   * @throws IOException if there is an exception writing to the output
+   */
+  public static void printUnicodeFieldValue(
+      final FieldDescriptor field, final Object value, final Appendable output) throws IOException {
+    UNICODE_PRINTER.printFieldValue(field, value, new TextGenerator(output));
   }
 
   /**
@@ -1469,9 +1485,15 @@ public final class TextFormat {
             extensionRegistry, name.toString());
 
         if (extension == null) {
-          unknownFields.add((tokenizer.getPreviousLine() + 1) + ":" +
-              (tokenizer.getPreviousColumn() + 1) + ":\t" +
-              type.getFullName() + ".[" + name + "]");
+          unknownFields.add(
+              (tokenizer.getPreviousLine() + 1)
+                  + ":"
+                  + (tokenizer.getPreviousColumn() + 1)
+                  + ":\t"
+                  + type.getFullName()
+                  + ".["
+                  + name
+                  + "]");
         } else {
           if (extension.descriptor.getContainingType() != type) {
             throw tokenizer.parseExceptionPreviousToken(
@@ -1506,9 +1528,14 @@ public final class TextFormat {
         }
 
         if (field == null) {
-          unknownFields.add((tokenizer.getPreviousLine() + 1) + ":" +
-              (tokenizer.getPreviousColumn() + 1) + ":\t" +
-              type.getFullName() + "." + name);
+          unknownFields.add(
+              (tokenizer.getPreviousLine() + 1)
+                  + ":"
+                  + (tokenizer.getPreviousColumn() + 1)
+                  + ":\t"
+                  + type.getFullName()
+                  + "."
+                  + name);
         }
       }
 

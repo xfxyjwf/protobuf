@@ -613,7 +613,7 @@ jspb.utils.decimalStringToHash64 = function(dec) {
     muladd(1, 1);
   }
 
-  return goog.crypt.byteArrayToString(resultBytes);
+  return String.fromCharCode.apply(null, resultBytes);
 };
 
 
@@ -967,10 +967,6 @@ jspb.utils.byteSourceToUint8Array = function(data) {
 
   if (data.constructor === ArrayBuffer) {
     data = /** @type {!ArrayBuffer} */(data);
-    return /** @type {!Uint8Array} */(new Uint8Array(data));
-  }
-
-  if (data.constructor === Buffer) {
     return /** @type {!Uint8Array} */(new Uint8Array(data));
   }
 

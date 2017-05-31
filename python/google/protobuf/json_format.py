@@ -88,7 +88,9 @@ class ParseError(Error):
 
 def MessageToJson(message,
                   including_default_value_fields=False,
-                  preserving_proto_field_name=False):
+                  preserving_proto_field_name=False,
+                  indent=2,
+                  sort_keys=False):
   """Converts protobuf message to JSON format.
 
   Args:
@@ -100,13 +102,16 @@ def MessageToJson(message,
     preserving_proto_field_name: If True, use the original proto field
         names as defined in the .proto file. If False, convert the field
         names to lowerCamelCase.
+    indent: The JSON object will be pretty-printed with this indent level.
+        An indent level of 0 or negative will only insert newlines.
+    sort_keys: If True, then the output will be sorted by field names.
 
   Returns:
     A string containing the JSON formatted protocol buffer message.
   """
   printer = _Printer(including_default_value_fields,
                      preserving_proto_field_name)
-  return printer.ToJsonString(message)
+  return printer.ToJsonString(message, indent, sort_keys)
 
 
 def MessageToDict(message,
@@ -148,9 +153,9 @@ class _Printer(object):
     self.including_default_value_fields = including_default_value_fields
     self.preserving_proto_field_name = preserving_proto_field_name
 
-  def ToJsonString(self, message):
+  def ToJsonString(self, message, indent, sort_keys):
     js = self._MessageToJsonObject(message)
-    return json.dumps(js, indent=2)
+    return json.dumps(js, indent=indent, sort_keys=sort_keys)
 
   def _MessageToJsonObject(self, message):
     """Converts message to an object according to Proto3 JSON Specification."""

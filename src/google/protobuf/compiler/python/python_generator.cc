@@ -75,12 +75,21 @@ namespace python {
 
 namespace {
 
+// Reimplemented here because we can't bring in
+// absl/strings/string_view_utils.h because it needs C++11.
+bool StrStartsWith(StringPiece sp, StringPiece x) {
+  return sp.size() >= x.size() && sp.substr(0, x.size()) == x;
+}
+bool StrEndsWith(StringPiece sp, StringPiece x) {
+  return sp.size() >= x.size() && sp.substr(sp.size() - x.size()) == x;
+}
+
 // Returns a copy of |filename| with any trailing ".protodevel" or ".proto
 // suffix stripped.
 // TODO(robinson): Unify with copy in compiler/cpp/internal/helpers.cc.
 string StripProto(const string& filename) {
-  const char* suffix = HasSuffixString(filename, ".protodevel")
-      ? ".protodevel" : ".proto";
+  const char* suffix =
+      StrEndsWith(filename, ".protodevel") ? ".protodevel" : ".proto";
   return StripSuffixString(filename, suffix);
 }
 
@@ -350,7 +359,9 @@ bool Generator::Generate(const FileDescriptor* file,
   // can only be successfully parsed after we register corresponding
   // extensions. Therefore we parse all options again here to recognize
   // custom options that may be unknown when we define the descriptors.
+  // This does not apply to services because they are not used by extensions.
   FixAllDescriptorOptions();
+  PrintServiceDescriptors();
   if (HasGenericServices(file)) {
     PrintServices();
   }
@@ -562,9 +573,16 @@ void Generator::PrintMessageDescriptors() const {
   }
 }
 
-void Generator::PrintServices() const {
+void Generator::PrintServiceDescriptors() const {
   for (int i = 0; i < file_->service_count(); ++i) {
     PrintServiceDescriptor(*file_->service(i));
+    AddServiceToFileDescriptor(*file_->service(i));
+    printer_->Print("\n");
+  }
+}
+
+void Generator::PrintServices() const {
+  for (int i = 0; i < file_->service_count(); ++i) {
     PrintServiceClass(*file_->service(i));
     PrintServiceStub(*file_->service(i));
     printer_->Print("\n");
@@ -884,6 +902,18 @@ void Generator::AddMessageToFileDescriptor(const Descriptor& descriptor) const {
   const char file_descriptor_template[] =
       "$descriptor_name$.message_types_by_name['$message_name$'] = "
       "$message_descriptor_name$\n";
+  printer_->Print(m, file_descriptor_template);
+}
+
+void Generator::AddServiceToFileDescriptor(
+    const ServiceDescriptor& descriptor) const {
+  std::map<string, string> m;
+  m["descriptor_name"] = kDescriptorKey;
+  m["service_name"] = descriptor.name();
+  m["service_descriptor_name"] = ModuleLevelServiceDescriptorName(descriptor);
+  const char file_descriptor_template[] =
+      "$descriptor_name$.services_by_name['$service_name$'] = "
+      "$service_descriptor_name$\n";
   printer_->Print(m, file_descriptor_template);
 }
 

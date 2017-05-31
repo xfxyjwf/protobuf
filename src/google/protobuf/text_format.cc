@@ -42,20 +42,21 @@
 
 #include <google/protobuf/text_format.h>
 
+#include <google/protobuf/stubs/stringprintf.h>
+#include <google/protobuf/any.h>
+#include <google/protobuf/io/strtod.h>
+#include <google/protobuf/io/coded_stream.h>
+#include <google/protobuf/io/tokenizer.h>
+#include <google/protobuf/io/zero_copy_stream.h>
+#include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/dynamic_message.h>
 #include <google/protobuf/repeated_field.h>
-#include <google/protobuf/wire_format_lite.h>
-#include <google/protobuf/io/strtod.h>
-#include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/io/zero_copy_stream.h>
-#include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/descriptor.pb.h>
-#include <google/protobuf/io/tokenizer.h>
-#include <google/protobuf/any.h>
-#include <google/protobuf/stubs/stringprintf.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/stubs/strutil.h>
+
 #include <google/protobuf/stubs/map_util.h>
 #include <google/protobuf/stubs/stl_util.h>
 
@@ -364,7 +365,7 @@ class TextFormat::Parser::ParserImpl {
     const Descriptor* descriptor = message->GetDescriptor();
 
     string field_name;
-
+    bool reserved_field = false;
     const FieldDescriptor* field = NULL;
     int start_line = tokenizer_.current().line;
     int start_column = tokenizer_.current().column;
@@ -426,6 +427,8 @@ class TextFormat::Parser::ParserImpl {
       if (allow_field_number_ && safe_strto32(field_name, &field_number)) {
         if (descriptor->IsExtensionNumber(field_number)) {
           field = reflection->FindKnownExtensionByNumber(field_number);
+        } else if (descriptor->IsReservedNumber(field_number)) {
+          reserved_field = true;
         } else {
           field = descriptor->FindFieldByNumber(field_number);
         }
@@ -454,9 +457,13 @@ class TextFormat::Parser::ParserImpl {
           LowerString(&lower_field_name);
           field = descriptor->FindFieldByLowercaseName(lower_field_name);
         }
+
+        if (field == NULL) {
+          reserved_field = descriptor->IsReservedName(field_name);
+        }
       }
 
-      if (field == NULL) {
+      if (field == NULL && !reserved_field) {
         if (!allow_unknown_field_) {
           ReportError("Message type \"" + descriptor->full_name() +
                       "\" has no field named \"" + field_name + "\".");
@@ -468,9 +475,10 @@ class TextFormat::Parser::ParserImpl {
       }
     }
 
-    // Skips unknown field.
+    // Skips unknown or reserved fields.
     if (field == NULL) {
-      GOOGLE_CHECK(allow_unknown_field_);
+      GOOGLE_CHECK(allow_unknown_field_ || reserved_field);
+
       // Try to guess the type of this field.
       // If this field is not a message, there should be a ":" between the
       // field name and the field value and also the field value should not

@@ -1136,7 +1136,8 @@ public class JsonFormatTest extends TestCase {
   }
 
   public void testParserAcceptBase64Variants() throws Exception {
-    assertAccepts("optionalBytes", "AQI");
+    assertAccepts("optionalBytes", "AQI");  // No padding
+    assertAccepts("optionalBytes", "-_w");  // base64Url, no padding
   }
 
   public void testParserRejectInvalidEnumValue() throws Exception {
@@ -1319,7 +1320,7 @@ public class JsonFormatTest extends TestCase {
     }
 
     try {
-      JsonFormat.printer().includingDefaultValueFields(Collections.<FieldDescriptor>emptySet());
+      JsonFormat.printer().includingDefaultValueFields(Collections.emptySet());
       fail("IllegalArgumentException is expected.");
     } catch (IllegalArgumentException e) {
       // Expected.

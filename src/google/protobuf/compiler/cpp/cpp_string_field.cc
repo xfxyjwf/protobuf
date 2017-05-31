@@ -142,28 +142,49 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   }
 
   printer->Print(variables_,
-    "$deprecated_attr$const ::std::string& $name$() const;\n"
-    "$deprecated_attr$void set_$name$(const ::std::string& value);\n");
+                 "$deprecated_attr$const ::std::string& $name$() const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_$name$$}$(const ::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
 
   if (!SupportsArenas(descriptor_)) {
     printer->Print(variables_,
-      "#if LANG_CXX11\n"
-      "$deprecated_attr$void set_$name$(::std::string&& value);\n"
-      "#endif\n");
+                   "#if LANG_CXX11\n"
+                   "$deprecated_attr$void ${$set_$name$$}$(::std::string&& value);\n"
+                   "#endif\n");
+    printer->Annotate("{", "}", descriptor_);
   }
 
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_$name$$}$(const char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
   printer->Print(variables_,
-    "$deprecated_attr$void set_$name$(const char* value);\n"
-    "$deprecated_attr$void set_$name$(const $pointer_type$* value, size_t size)"
-                 ";\n"
-    "$deprecated_attr$::std::string* mutable_$name$();\n"
-    "$deprecated_attr$::std::string* $release_name$();\n"
-    "$deprecated_attr$void set_allocated_$name$(::std::string* $name$);\n");
+                 "$deprecated_attr$void ${$set_$name$$}$(const $pointer_type$* "
+                 "value, size_t size)"
+                 ";\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::std::string* ${$mutable_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_, "$deprecated_attr$::std::string* $release_name$();\n");
+  printer->Annotate("release_name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_allocated_$name$$}$(::std::string* $name$);\n");
+  printer->Annotate("{", "}", descriptor_);
   if (SupportsArenas(descriptor_)) {
-    printer->Print(variables_,
-      "$deprecated_attr$::std::string* unsafe_arena_release_$name$();\n"
-      "$deprecated_attr$void unsafe_arena_set_allocated_$name$(\n"
-      "    ::std::string* $name$);\n");
+    printer->Print(
+        variables_,
+        "$deprecated_attr$::std::string* ${$unsafe_arena_release_$name$$}$();\n");
+    printer->Annotate("{", "}", descriptor_);
+    printer->Print(
+        variables_,
+        "$deprecated_attr$void ${$unsafe_arena_set_allocated_$name$$}$(\n"
+        "    ::std::string* $name$);\n");
+    printer->Annotate("{", "}", descriptor_);
   }
 
 
@@ -464,7 +485,7 @@ void StringFieldGenerator::
 GenerateShutdownCode(io::Printer* printer) const {
   if (!descriptor_->default_value_string().empty()) {
     printer->Print(variables_,
-                   "$classname$::$default_variable_name$.Shutdown();\n");
+                   "$classname$::$default_variable_name$.Destruct();\n");
   }
 }
 
@@ -833,28 +854,62 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   }
 
   printer->Print(variables_,
-    "$deprecated_attr$const ::std::string& $name$(int index) const;\n"
-    "$deprecated_attr$::std::string* mutable_$name$(int index);\n"
-    "$deprecated_attr$void set_$name$(int index, const ::std::string& value);\n"
-    "#if LANG_CXX11\n"
-    "$deprecated_attr$void set_$name$(int index, ::std::string&& value);\n"
-    "#endif\n"
-    "$deprecated_attr$void set_$name$(int index, const char* value);\n"
-    ""
-    "$deprecated_attr$void set_$name$("
-                 "int index, const $pointer_type$* value, size_t size);\n"
-    "$deprecated_attr$::std::string* add_$name$();\n"
-    "$deprecated_attr$void add_$name$(const ::std::string& value);\n"
-    "#if LANG_CXX11\n"
-    "$deprecated_attr$void add_$name$(::std::string&& value);\n"
-    "#endif\n"
-    "$deprecated_attr$void add_$name$(const char* value);\n"
-    "$deprecated_attr$void add_$name$(const $pointer_type$* value, size_t size)"
-                 ";\n"
-    "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< ::std::string>& $name$() "
-                 "const;\n"
-    "$deprecated_attr$::google::protobuf::RepeatedPtrField< ::std::string>* mutable_$name$()"
+                 "$deprecated_attr$const ::std::string& $name$(int index) const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$::std::string* ${$mutable_$name$$}$(int index);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_$name$$}$(int index, const "
+                 "::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "#if LANG_CXX11\n"
+      "$deprecated_attr$void ${$set_$name$$}$(int index, ::std::string&& value);\n"
+      "#endif\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_$name$$}$(int index, const "
+                 "char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 ""
+                 "$deprecated_attr$void ${$set_$name$$}$("
+                 "int index, const $pointer_type$* value, size_t size);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::std::string* ${$add_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$add_$name$$}$(const ::std::string& value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "#if LANG_CXX11\n"
+                 "$deprecated_attr$void ${$add_$name$$}$(::std::string&& value);\n"
+                 "#endif\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$add_$name$$}$(const char* value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$add_$name$$}$(const $pointer_type$* "
+                 "value, size_t size)"
                  ";\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< ::std::string>& $name$() "
+      "const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::google::protobuf::RepeatedPtrField< ::std::string>* "
+                 "${$mutable_$name$$}$()"
+                 ";\n");
+  printer->Annotate("{", "}", descriptor_);
 
   if (unknown_ctype) {
     printer->Outdent();

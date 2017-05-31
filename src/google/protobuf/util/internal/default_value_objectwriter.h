@@ -172,7 +172,7 @@ class LIBPROTOBUF_EXPORT DefaultValueObjectWriter : public ObjectWriter {
     // If this node is a leaf (has data), writes the current node to the
     // ObjectWriter; if not, then recursively writes the children to the
     // ObjectWriter.
-    void WriteTo(ObjectWriter* ow);
+    virtual void WriteTo(ObjectWriter* ow);
 
     // Accessors
     const string& name() const { return name_; }

@@ -229,7 +229,7 @@ public abstract class AbstractMessage
    * This method is used to implement {@link AbstractMessage#equals(Object)}
    * and {@link AbstractMutableMessage#equals(Object)}. It takes special care
    * of bytes fields because immutable messages and mutable messages use
-   * different Java type to reprensent a bytes field and this method should be
+   * different Java type to represent a bytes field and this method should be
    * able to compare immutable messages, mutable messages and also an immutable
    * message to a mutable message.
    */

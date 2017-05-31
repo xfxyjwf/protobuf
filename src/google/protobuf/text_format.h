@@ -65,21 +65,22 @@ namespace io {
 class LIBPROTOBUF_EXPORT TextFormat {
  public:
   // Outputs a textual representation of the given message to the given
-  // output stream.
+  // output stream. Returns false if printing fails.
   static bool Print(const Message& message, io::ZeroCopyOutputStream* output);
 
   // Print the fields in an UnknownFieldSet.  They are printed by tag number
   // only.  Embedded messages are heuristically identified by attempting to
-  // parse them.
+  // parse them. Returns false if printing fails.
   static bool PrintUnknownFields(const UnknownFieldSet& unknown_fields,
                                  io::ZeroCopyOutputStream* output);
 
   // Like Print(), but outputs directly to a string.
   // Note: output will be cleared prior to printing, and will be left empty
-  // even if printing fails.
+  // even if printing fails. Returns false if printing fails.
   static bool PrintToString(const Message& message, string* output);
 
-  // Like PrintUnknownFields(), but outputs directly to a string.
+  // Like PrintUnknownFields(), but outputs directly to a string. Returns false
+  // if printing fails.
   static bool PrintUnknownFieldsToString(const UnknownFieldSet& unknown_fields,
                                          string* output);
 

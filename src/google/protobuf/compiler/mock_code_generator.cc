@@ -40,6 +40,7 @@
 #endif
 #include <vector>
 
+
 #include <google/protobuf/stubs/strutil.h>
 
 #include <google/protobuf/stubs/logging.h>
@@ -54,13 +55,6 @@
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/stubs/substitute.h>
 #include <gtest/gtest.h>
-
-#ifdef major		
-#undef major		
-#endif		
-#ifdef minor		
-#undef minor		
-#endif		
 
 namespace google {
 namespace protobuf {

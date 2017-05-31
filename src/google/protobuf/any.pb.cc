@@ -32,20 +32,20 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Any, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -54,8 +54,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Any, type_url_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Any, value_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(Any)},
 };
 
@@ -87,7 +86,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _Any_default_instance_.Shutdown();
+  _Any_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
 }
 
@@ -104,7 +103,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\031google/protobuf/any.proto\022\017google.prot"
       "obuf\"&\n\003Any\022\020\n\010type_url\030\001 \001(\t\022\r\n\005value\030\002"
       " \001(\014Bo\n\023com.google.protobufB\010AnyProtoP\001Z"
@@ -219,6 +218,10 @@ Any* Any::New(::google::protobuf::Arena* arena) const {
 
 void Any::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Any)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   type_url_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -263,9 +266,7 @@ bool Any::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -309,7 +310,6 @@ void Any::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Any::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Any)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -416,9 +416,10 @@ void Any::Swap(Any* other) {
   InternalSwap(other);
 }
 void Any::InternalSwap(Any* other) {
+  using std::swap;
   type_url_.Swap(&other->type_url_);
   value_.Swap(&other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Any::GetMetadata() const {

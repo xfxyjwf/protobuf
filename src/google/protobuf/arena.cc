@@ -170,9 +170,9 @@ void Arena::AddListNode(void* elem, void (*cleanup)(void*)) {
             reinterpret_cast<google::protobuf::internal::AtomicWord>(node)));
 }
 
-void* Arena::AllocateAligned(const std::type_info* allocated, size_t n) {
-  // Align n to next multiple of 8 (from Hacker's Delight, Chapter 3.)
-  n = (n + 7) & -8;
+void* Arena::AllocateAlignedInternal(const std::type_info* allocated,
+                                     size_t n) {
+  GOOGLE_DCHECK_EQ(AlignUpTo8(n), n);  // Must be already aligned.
 
   // Monitor allocation if needed.
   if (GOOGLE_PREDICT_FALSE(hooks_cookie_ != NULL) &&
@@ -183,21 +183,21 @@ void* Arena::AllocateAligned(const std::type_info* allocated, size_t n) {
   // If this thread already owns a block in this arena then try to use that.
   // This fast path optimizes the case where multiple threads allocate from the
   // same arena.
-  if (thread_cache().last_lifecycle_id_seen == lifecycle_id_ &&
-      thread_cache().last_block_used_ != NULL) {
-    if (thread_cache().last_block_used_->avail() < n) {
-      return SlowAlloc(n);
+  ThreadCache* tc = &thread_cache();
+  if (tc->last_lifecycle_id_seen == lifecycle_id_ &&
+      tc->last_block_used_ != NULL) {
+    if (tc->last_block_used_->avail() < n) {
+      return SlowAlloc(n, tc);
     }
-    return AllocFromBlock(thread_cache().last_block_used_, n);
+    return AllocFromBlock(tc->last_block_used_, n);
   }
 
   // Check whether we own the last accessed block on this arena.
   // This fast path optimizes the case where a single thread uses multiple
   // arenas.
-  void* me = &thread_cache();
   Block* b = reinterpret_cast<Block*>(google::protobuf::internal::Acquire_Load(&hint_));
-  if (!b || b->owner != me || b->avail() < n) {
-    return SlowAlloc(n);
+  if (!b || b->owner != tc || b->avail() < n) {
+    return SlowAlloc(n, tc);
   }
   return AllocFromBlock(b, n);
 }
@@ -211,8 +211,7 @@ void* Arena::AllocFromBlock(Block* b, size_t n) {
   return reinterpret_cast<char*>(b) + p;
 }
 
-void* Arena::SlowAlloc(size_t n) {
-  void* me = &thread_cache();
+void* Arena::SlowAlloc(size_t n, void* me) {
   Block* b = FindBlock(me);  // Find block owned by me.
   // See if allocation fits in my latest block.
   if (b != NULL && b->avail() >= n) {

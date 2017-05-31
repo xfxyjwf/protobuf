@@ -48,6 +48,7 @@ import junit.framework.TestCase;
  *
  * @author kenton@google.com Kenton Varda
  */
+@com.google.testing.testsize.MediumTest
 public class CodedOutputStreamTest extends TestCase {
   private interface Coder {
     CodedOutputStream stream();

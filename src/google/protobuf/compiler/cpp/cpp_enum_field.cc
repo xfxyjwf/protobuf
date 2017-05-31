@@ -74,9 +74,11 @@ GeneratePrivateMembers(io::Printer* printer) const {
 
 void EnumFieldGenerator::
 GenerateAccessorDeclarations(io::Printer* printer) const {
+  printer->Print(variables_, "$deprecated_attr$$type$ $name$() const;\n");
+  printer->Annotate("name", descriptor_);
   printer->Print(variables_,
-    "$deprecated_attr$$type$ $name$() const;\n"
-    "$deprecated_attr$void set_$name$($type$ value);\n");
+                 "$deprecated_attr$void ${$set_$name$$}$($type$ value);\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void EnumFieldGenerator::
@@ -113,7 +115,7 @@ GenerateMergingCode(io::Printer* printer) const {
 
 void EnumFieldGenerator::
 GenerateSwappingCode(io::Printer* printer) const {
-  printer->Print(variables_, "std::swap($name$_, other->$name$_);\n");
+  printer->Print(variables_, "swap($name$_, other->$name$_);\n");
 }
 
 void EnumFieldGenerator::
@@ -257,12 +259,23 @@ GeneratePrivateMembers(io::Printer* printer) const {
 void RepeatedEnumFieldGenerator::
 GenerateAccessorDeclarations(io::Printer* printer) const {
   printer->Print(variables_,
-    "$deprecated_attr$$type$ $name$(int index) const;\n"
-    "$deprecated_attr$void set_$name$(int index, $type$ value);\n"
-    "$deprecated_attr$void add_$name$($type$ value);\n");
+                 "$deprecated_attr$$type$ $name$(int index) const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$void ${$set_$name$$}$(int index, $type$ value);\n");
+  printer->Annotate("{", "}", descriptor_);
   printer->Print(variables_,
-    "$deprecated_attr$const ::google::protobuf::RepeatedField<int>& $name$() const;\n"
-    "$deprecated_attr$::google::protobuf::RepeatedField<int>* mutable_$name$();\n");
+                 "$deprecated_attr$void ${$add_$name$$}$($type$ value);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(
+      variables_,
+      "$deprecated_attr$const ::google::protobuf::RepeatedField<int>& $name$() const;\n");
+  printer->Annotate("name", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$::google::protobuf::RepeatedField<int>* "
+                 "${$mutable_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void RepeatedEnumFieldGenerator::

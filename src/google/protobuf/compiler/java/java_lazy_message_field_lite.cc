@@ -65,24 +65,26 @@ GenerateMembers(io::Printer* printer) const {
   WriteFieldDocComment(printer, descriptor_);
   if (SupportFieldPresence(descriptor_->file())) {
     printer->Print(variables_,
-      "$deprecation$public boolean has$capitalized_name$() {\n"
+      "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
       "  return $get_has_field_bit_message$;\n"
       "}\n");
   } else {
     printer->Print(variables_,
-      "$deprecation$public boolean has$capitalized_name$() {\n"
+      "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
       "  return $name$_ != null;\n"
       "}\n");
   }
+  printer->Annotate("{", "}", descriptor_);
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$() {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
     "  if ($name$_ == null) {\n"
     "    return $type$.getDefaultInstance();\n"
     "  }\n"
     "  return ($type$) $name$_.getValue($type$.getDefaultInstance());\n"
    "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field value)
   WriteFieldDocComment(printer, descriptor_);
@@ -145,52 +147,59 @@ GenerateBuilderMembers(io::Printer* printer) const {
   // boolean hasField()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public boolean has$capitalized_name$() {\n"
+    "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
     "  return instance.has$capitalized_name$();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$() {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
     "  return instance.get$capitalized_name$();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$($type$ value) {\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$($type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field.Builder builderForValue)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$(\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$(\n"
     "    $type$.Builder builderForValue) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(builderForValue);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder mergeField(Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder merge$capitalized_name$($type$ value) {\n"
+    "$deprecation$public Builder "
+    "${$merge$capitalized_name$$}$($type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.merge$capitalized_name$(value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder clearField()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder clear$capitalized_name$() {\n"
+    "$deprecation$public Builder ${$clear$capitalized_name$$}$() {\n"
     "  copyOnWrite();\n"
     "  instance.clear$capitalized_name$();\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 
@@ -257,19 +266,21 @@ GenerateMembers(io::Printer* printer) const {
   WriteFieldDocComment(printer, descriptor_);
 
   printer->Print(variables_,
-    "$deprecation$public boolean has$capitalized_name$() {\n"
+    "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
     "  return $has_oneof_case_message$;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
 
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$() {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
     "  if ($has_oneof_case_message$) {\n"
     "    return ($type$) (($lazy_type$) $oneof_name$_).getValue(\n"
     "        $type$.getDefaultInstance());\n"
     "  }\n"
     "  return $type$.getDefaultInstance();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field value)
   WriteFieldDocComment(printer, descriptor_);
@@ -331,51 +342,58 @@ GenerateBuilderMembers(io::Printer* printer) const {
   // boolean hasField()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public boolean has$capitalized_name$() {\n"
+    "$deprecation$public boolean ${$has$capitalized_name$$}$() {\n"
     "  return instance.has$capitalized_name$();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$() {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$() {\n"
     "  return instance.get$capitalized_name$();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$($type$ value) {\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$($type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder setField(Field.Builder builderForValue)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$(\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$(\n"
     "    $type$.Builder builderForValue) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(builderForValue);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder mergeField(Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder merge$capitalized_name$($type$ value) {\n"
+    "$deprecation$public Builder "
+    "${$merge$capitalized_name$$}$($type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.merge$capitalized_name$(value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field.Builder clearField()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder clear$capitalized_name$() {\n"
+    "$deprecation$public Builder ${$clear$capitalized_name$$}$() {\n"
     "  copyOnWrite();\n"
     "  instance.clear$capitalized_name$();\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void ImmutableLazyMessageOneofFieldLiteGenerator::
@@ -442,7 +460,7 @@ GenerateMembers(io::Printer* printer) const {
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
     "$deprecation$public java.util.List<$type$>\n"
-    "    get$capitalized_name$List() {\n"
+    "    ${$get$capitalized_name$List$}$() {\n"
     "  java.util.List<$type$> list =\n"
     "      new java.util.ArrayList<$type$>($name$_.size());\n"
     "  for (com.google.protobuf.LazyFieldLite lf : $name$_) {\n"
@@ -450,30 +468,36 @@ GenerateMembers(io::Printer* printer) const {
     "  }\n"
     "  return java.util.Collections.unmodifiableList(list);\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
     "$deprecation$public java.util.List<? extends $type$OrBuilder>\n"
-    "    get$capitalized_name$OrBuilderList() {\n"
+    "    ${$get$capitalized_name$OrBuilderList$}$() {\n"
     "  return get$capitalized_name$List();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public int get$capitalized_name$Count() {\n"
+    "$deprecation$public int ${$get$capitalized_name$Count$}$() {\n"
     "  return $name$_.size();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$(int index) {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$(int index) {\n"
     "  return ($type$)\n"
     "      $name$_.get(index).getValue($type$.getDefaultInstance());\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public $type$OrBuilder get$capitalized_name$OrBuilder(\n"
+    "$deprecation$public $type$OrBuilder "
+    "${$get$capitalized_name$OrBuilder$}$(\n"
     "    int index) {\n"
     "  return ($type$OrBuilder)\n"
     "      $name$_.get(index).getValue($type$.getDefaultInstance());\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   printer->Print(variables_,
     "private void ensure$capitalized_name$IsMutable() {\n"
@@ -583,111 +607,124 @@ GenerateBuilderMembers(io::Printer* printer) const {
   // List<Field> getRepeatedFieldList()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public java.util.List<$type$> get$capitalized_name$List() {\n"
+    "$deprecation$public java.util.List<$type$> "
+    "${$get$capitalized_name$List$}$() {\n"
     "  return java.util.Collections.unmodifiableList(\n"
     "      instance.get$capitalized_name$List());\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // int getRepeatedFieldCount()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public int get$capitalized_name$Count() {\n"
+    "$deprecation$public int ${$get$capitalized_name$Count$}$() {\n"
     "  return instance.get$capitalized_name$Count();\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Field getRepeatedField(int index)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public $type$ get$capitalized_name$(int index) {\n"
+    "$deprecation$public $type$ ${$get$capitalized_name$$}$(int index) {\n"
     "  return instance.get$capitalized_name$(index);\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder setRepeatedField(int index, Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$(\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$(\n"
     "    int index, $type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(index, value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder setRepeatedField(int index, Field.Builder builderForValue)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder set$capitalized_name$(\n"
+    "$deprecation$public Builder ${$set$capitalized_name$$}$(\n"
     "    int index, $type$.Builder builderForValue) {\n"
     "  copyOnWrite();\n"
     "  instance.set$capitalized_name$(index, builderForValue);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder addRepeatedField(Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder add$capitalized_name$($type$ value) {\n"
+    "$deprecation$public Builder ${$add$capitalized_name$$}$($type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.add$capitalized_name$(value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder addRepeatedField(int index, Field value)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder add$capitalized_name$(\n"
+    "$deprecation$public Builder ${$add$capitalized_name$$}$(\n"
     "    int index, $type$ value) {\n"
     "  copyOnWrite();\n"
     "  instance.add$capitalized_name$(index, value);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder addRepeatedField(Field.Builder builderForValue)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder add$capitalized_name$(\n"
+    "$deprecation$public Builder ${$add$capitalized_name$$}$(\n"
     "    $type$.Builder builderForValue) {\n"
     "  copyOnWrite();\n"
     "  instance.add$capitalized_name$(builderForValue);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder addRepeatedField(int index, Field.Builder builderForValue)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder add$capitalized_name$(\n"
+    "$deprecation$public Builder ${$add$capitalized_name$$}$(\n"
     "    int index, $type$.Builder builderForValue) {\n"
     "  copyOnWrite();\n"
     "  instance.add$capitalized_name$(index, builderForValue);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder addAllRepeatedField(Iterable<Field> values)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder addAll$capitalized_name$(\n"
+    "$deprecation$public Builder ${$addAll$capitalized_name$$}$(\n"
     "    java.lang.Iterable<? extends $type$> values) {\n"
     "  copyOnWrite();\n"
     "  instance.addAll$capitalized_name$(values);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder clearAllRepeatedField()
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder clear$capitalized_name$() {\n"
+    "$deprecation$public Builder ${$clear$capitalized_name$$}$() {\n"
     "  copyOnWrite();\n"
     "  instance.clear$capitalized_name$();\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 
   // Builder removeRepeatedField(int index)
   WriteFieldDocComment(printer, descriptor_);
   printer->Print(variables_,
-    "$deprecation$public Builder remove$capitalized_name$(int index) {\n"
+    "$deprecation$public Builder ${$remove$capitalized_name$$}$(int index) {\n"
     "  copyOnWrite();\n"
     "  instance.remove$capitalized_name$(index);\n"
     "  return this;\n"
     "}\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void RepeatedImmutableLazyMessageFieldLiteGenerator::

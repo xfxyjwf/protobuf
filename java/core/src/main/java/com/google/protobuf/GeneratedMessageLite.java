@@ -107,11 +107,12 @@ public abstract class GeneratedMessageLite<
   @SuppressWarnings("unchecked") // Guaranteed by runtime
   @Override
   public int hashCode() {
-    if (memoizedHashCode == 0) {
-      HashCodeVisitor visitor = new HashCodeVisitor();
-      visit(visitor, (MessageType) this);
-      memoizedHashCode = visitor.hashCode;
+    if (memoizedHashCode != 0) {
+      return memoizedHashCode;
     }
+    HashCodeVisitor visitor = new HashCodeVisitor();
+    visit(visitor, (MessageType) this);
+    memoizedHashCode = visitor.hashCode;
     return memoizedHashCode;
   }
 
@@ -331,7 +332,7 @@ public abstract class GeneratedMessageLite<
       if (isBuilt) {
         MessageType newInstance =
             (MessageType) instance.dynamicMethod(MethodToInvoke.NEW_MUTABLE_INSTANCE);
-        newInstance.visit(MergeFromVisitor.INSTANCE, instance);
+        mergeFromInstance(newInstance, instance);
         instance = newInstance;
         isBuilt = false;
       }
@@ -386,8 +387,12 @@ public abstract class GeneratedMessageLite<
     /** All subclasses implement this. */
     public BuilderType mergeFrom(MessageType message) {
       copyOnWrite();
-      instance.visit(MergeFromVisitor.INSTANCE, message);
+      mergeFromInstance(instance, message);
       return (BuilderType) this;
+    }
+
+    private void mergeFromInstance(MessageType dest, MessageType src) {
+      dest.visit(MergeFromVisitor.INSTANCE, src);
     }
 
     @Override

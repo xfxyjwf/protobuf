@@ -109,6 +109,7 @@ public class TimeUtilTest extends TestCase {
     }
   }
 
+@com.google.testing.testsize.MediumTest
   public void testTimestampConcurrentParsing() throws Exception {
     String[] timestampStrings =
         new String[] {

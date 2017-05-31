@@ -426,6 +426,22 @@ def Parse(text,
           descriptor_pool=None):
   """Parses a text representation of a protocol message into a message.
 
+  NOTE: for historical reasons this function does not clear the input
+  message. This is different from what the binary msg.ParseFrom(...) does.
+
+  Example
+    a = MyProto()
+    a.repeated_field.append('test')
+    b = MyProto()
+
+    text_format.Parse(repr(a), b)
+    text_format.Parse(repr(a), b) # repeated_field contains ["test", "test"]
+
+    # Binary version:
+    b.ParseFromString(a.SerializeToString()) # repeated_field is now "test"
+
+  Caller is responsible for clearing the message as needed.
+
   Args:
     text: Message text representation.
     message: A protocol buffer message to merge into.
@@ -593,11 +609,6 @@ class _Parser(object):
       ParseError: In case of text parsing problems.
     """
     message_descriptor = message.DESCRIPTOR
-    if (hasattr(message_descriptor, 'syntax') and
-        message_descriptor.syntax == 'proto3'):
-      # Proto3 doesn't represent presence so we can't test if multiple
-      # scalars have occurred.  We have to allow them.
-      self._allow_multiple_scalars = True
     if tokenizer.TryConsume('['):
       name = [tokenizer.ConsumeIdentifier()]
       while tokenizer.TryConsume('.'):
@@ -616,7 +627,8 @@ class _Parser(object):
           field = None
         else:
           raise tokenizer.ParseErrorPreviousToken(
-              'Extension "%s" not registered.' % name)
+              'Extension "%s" not registered. '
+              'Did you import the _pb2 module which defines it?' % name)
       elif message_descriptor != field.containing_type:
         raise tokenizer.ParseErrorPreviousToken(
             'Extension "%s" does not extend message type "%s".' %
@@ -780,6 +792,12 @@ class _Parser(object):
       else:
         getattr(message, field.name)[sub_message.key] = sub_message.value
 
+  @staticmethod
+  def _IsProto3Syntax(message):
+    message_descriptor = message.DESCRIPTOR
+    return (hasattr(message_descriptor, 'syntax') and
+            message_descriptor.syntax == 'proto3')
+
   def _MergeScalarField(self, tokenizer, message, field):
     """Merges a single scalar field into a message.
 
@@ -829,15 +847,20 @@ class _Parser(object):
       else:
         getattr(message, field.name).append(value)
     else:
+      # Proto3 doesn't represent presence so we can't test if multiple scalars
+      # have occurred. We have to allow them.
+      can_check_presence = not self._IsProto3Syntax(message)
       if field.is_extension:
-        if not self._allow_multiple_scalars and message.HasExtension(field):
+        if (not self._allow_multiple_scalars and can_check_presence and
+            message.HasExtension(field)):
           raise tokenizer.ParseErrorPreviousToken(
               'Message type "%s" should not have multiple "%s" extensions.' %
               (message.DESCRIPTOR.full_name, field.full_name))
         else:
           message.Extensions[field] = value
       else:
-        if not self._allow_multiple_scalars and message.HasField(field.name):
+        if (not self._allow_multiple_scalars and can_check_presence and
+            message.HasField(field.name)):
           raise tokenizer.ParseErrorPreviousToken(
               'Message type "%s" should not have multiple "%s" fields.' %
               (message.DESCRIPTOR.full_name, field.name))
@@ -1088,7 +1111,7 @@ class Tokenizer(object):
     """
     result = self.token
     if not self._IDENTIFIER_OR_NUMBER.match(result):
-      raise self.ParseError('Expected identifier or number.')
+      raise self.ParseError('Expected identifier or number, got %s.' % result)
     self.NextToken()
     return result
 

@@ -1429,6 +1429,8 @@ bool Parser::ParseExtensions(DescriptorProto* message,
   // Parse the declaration.
   DO(Consume("extensions"));
 
+  int old_range_size = message->extension_range_size();
+
   do {
     // Note that kExtensionRangeFieldNumber was already pushed by the parent.
     LocationRecorder location(extensions_location,
@@ -1474,6 +1476,30 @@ bool Parser::ParseExtensions(DescriptorProto* message,
     range->set_start(start);
     range->set_end(end);
   } while (TryConsume(","));
+
+  if (LookingAt("[")) {
+    LocationRecorder location(
+        extensions_location,
+        DescriptorProto::ExtensionRange::kOptionsFieldNumber);
+
+    DO(Consume("["));
+
+    // Parse extension range options in the first range.
+    ExtensionRangeOptions* options =
+        message->mutable_extension_range(old_range_size)->mutable_options();
+    do {
+      DO(ParseOption(options, location, containing_file, OPTION_ASSIGNMENT));
+    } while (TryConsume(","));
+
+    DO(Consume("]"));
+
+    // Then copy the extension range options to all of the other ranges we've
+    // parsed.
+    for (int i = old_range_size + 1; i < message->extension_range_size(); i++) {
+      message->mutable_extension_range(i)->mutable_options()
+          ->CopyFrom(*options);
+    }
+  }
 
   DO(ConsumeEndOfDeclaration(";", &extensions_location));
   return true;

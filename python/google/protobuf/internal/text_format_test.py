@@ -452,16 +452,18 @@ class TextFormatTest(TextFormatBase):
     text_format.Parse(text_format.MessageToString(m), m2)
     self.assertEqual('oneof_uint32', m2.WhichOneof('oneof_field'))
 
+  def testMergeMultipleOneof(self, message_module):
+    m_string = '\n'.join(['oneof_uint32: 11', 'oneof_string: "foo"'])
+    m2 = message_module.TestAllTypes()
+    text_format.Merge(m_string, m2)
+    self.assertEqual('oneof_string', m2.WhichOneof('oneof_field'))
+
   def testParseMultipleOneof(self, message_module):
     m_string = '\n'.join(['oneof_uint32: 11', 'oneof_string: "foo"'])
     m2 = message_module.TestAllTypes()
-    if message_module is unittest_pb2:
-      with self.assertRaisesRegexp(text_format.ParseError,
-                                   ' is specified along with field '):
-        text_format.Parse(m_string, m2)
-    else:
+    with self.assertRaisesRegexp(text_format.ParseError,
+                                 ' is specified along with field '):
       text_format.Parse(m_string, m2)
-      self.assertEqual('oneof_string', m2.WhichOneof('oneof_field'))
 
 
 # These are tests that aren't fundamentally specific to proto2, but are at

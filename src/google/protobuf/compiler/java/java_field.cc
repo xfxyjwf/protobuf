@@ -293,10 +293,17 @@ void SetCommonFieldVariables(const FieldDescriptor* descriptor,
                              std::map<string, string>* variables) {
   (*variables)["field_name"] = descriptor->name();
   (*variables)["name"] = info->name;
+  (*variables)["classname"] = descriptor->containing_type()->name();
   (*variables)["capitalized_name"] = info->capitalized_name;
   (*variables)["disambiguated_reason"] = info->disambiguated_reason;
   (*variables)["constant_name"] = FieldConstantName(descriptor);
   (*variables)["number"] = SimpleItoa(descriptor->number());
+  // These variables are placeholders to pick out the beginning and ends of
+  // identifiers for annotations (when doing so with existing variables would
+  // be ambiguous or impossible). They should never be set to anything but the
+  // empty string.
+  (*variables)["{"] = "";
+  (*variables)["}"] = "";
 }
 
 void SetCommonOneofVariables(const FieldDescriptor* descriptor,

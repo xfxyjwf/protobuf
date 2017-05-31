@@ -44,7 +44,7 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/map_field.h>
 #include <google/protobuf/repeated_field.h>
-// #include "google/protobuf/bridge/compatibility_mode_support.h"
+#include <google/protobuf/wire_format.h>
 
 
 #define GOOGLE_PROTOBUF_HAS_ONEOF
@@ -1020,7 +1020,7 @@ void GeneratedMessageReflection::ListFields(
       schema_.HasHasbits() ? GetHasBits(message) : NULL;
   const uint32* const has_bits_indices = schema_.has_bit_indices_;
   const uint32* const oneof_case_array =
-      &GetConstRefAtOffset<uint32>(message, schema_.oneof_case_offset_);
+      GetConstPointerAtOffset<uint32>(&message, schema_.oneof_case_offset_);
   output->reserve(descriptor_->field_count());
   for (int i = 0; i <= last_non_weak_field_index_; i++) {
     const FieldDescriptor* field = descriptor_->field(i);
@@ -2347,6 +2347,18 @@ void RegisterAllTypesInternal(const Metadata* file_level_metadata, int size) {
 
 void RegisterAllTypes(const Metadata* file_level_metadata, int size) {
   RegisterAllTypesInternal(file_level_metadata, size);
+}
+
+void UnknownFieldSetSerializer(const uint8* base, uint32 offset, uint32 tag,
+                               uint32 has_offset,
+                               ::google::protobuf::io::CodedOutputStream* output) {
+  const void* ptr = base + offset;
+  const InternalMetadataWithArena* metadata =
+      static_cast<const InternalMetadataWithArena*>(ptr);
+  if (metadata->have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        metadata->unknown_fields(), output);
+  }
 }
 
 }  // namespace internal

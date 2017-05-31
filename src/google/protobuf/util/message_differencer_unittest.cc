@@ -2823,6 +2823,37 @@ TEST_F(ComparisonTest, MapTest) {
       Run(map_proto1_, map_proto2_));
 }
 
+TEST_F(ComparisonTest, MapRoundTripSyncTest) {
+  google::protobuf::TextFormat::Parser parser;
+  unittest::TestMap map_reflection1;
+
+  // By setting via reflection, data exists in repeated field.
+  ASSERT_TRUE(parser.ParseFromString(
+      "map_int32_foreign_message { key: 1 }", &map_reflection1));
+
+  // During copy, data is synced from repeated field to map.
+  unittest::TestMap map_reflection2 = map_reflection1;
+
+  // During comparison, data is synced from map to repeated field.
+  EXPECT_TRUE(
+      util::MessageDifferencer::Equals(map_reflection1, map_reflection2));
+}
+
+TEST_F(ComparisonTest, MapEntryPartialTest) {
+  google::protobuf::TextFormat::Parser parser;
+  unittest::TestMap map_reflection1;
+  unittest::TestMap map_reflection2;
+
+  ASSERT_TRUE(parser.ParseFromString(
+      "map_int32_foreign_message {}", &map_reflection1));
+  ASSERT_TRUE(parser.ParseFromString(
+      "map_int32_foreign_message { key: 1 }", &map_reflection2));
+
+  util::MessageDifferencer differencer;
+  differencer.set_scope(util::MessageDifferencer::PARTIAL);
+  EXPECT_TRUE(differencer.Compare(map_reflection1, map_reflection2));
+}
+
 class MatchingTest : public testing::Test {
  public:
   typedef util::MessageDifferencer MessageDifferencer;

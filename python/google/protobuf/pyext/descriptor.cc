@@ -709,6 +709,10 @@ static PyObject* GetJsonName(PyBaseDescriptor* self, void *closure) {
   return PyString_FromCppString(_GetDescriptor(self)->json_name());
 }
 
+static PyObject* GetFile(PyBaseDescriptor *self, void *closure) {
+  return PyFileDescriptor_FromDescriptor(_GetDescriptor(self)->file());
+}
+
 static PyObject* GetType(PyBaseDescriptor *self, void *closure) {
   return PyInt_FromLong(_GetDescriptor(self)->type());
 }
@@ -899,6 +903,7 @@ static PyGetSetDef Getters[] = {
   { "name", (getter)GetName, NULL, "Unqualified name"},
   { "camelcase_name", (getter)GetCamelcaseName, NULL, "Camelcase name"},
   { "json_name", (getter)GetJsonName, NULL, "Json name"},
+  { "file", (getter)GetFile, NULL, "File Descriptor"},
   { "type", (getter)GetType, NULL, "C++ Type"},
   { "cpp_type", (getter)GetCppType, NULL, "C++ Type"},
   { "label", (getter)GetLabel, NULL, "Label"},

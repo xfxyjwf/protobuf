@@ -46,23 +46,23 @@ const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Struct, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -88,8 +88,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ListValue, values_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(Struct)},
   { 6, -1, sizeof(Value)},
   { 18, -1, sizeof(ListValue)},
@@ -127,13 +126,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _Struct_default_instance_.Shutdown();
+  _Struct_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _Value_default_instance_.Shutdown();
+  _Value_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
-  _ListValue_default_instance_.Shutdown();
+  _ListValue_default_instance_.Destruct();
   delete file_level_metadata[3].reflection;
-  delete file_level_metadata[0].reflection;
 }
 
 void TableStruct::InitDefaultsImpl() {
@@ -163,7 +161,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\034google/protobuf/struct.proto\022\017google.p"
       "rotobuf\"\204\001\n\006Struct\0223\n\006fields\030\001 \003(\0132#.goo"
       "gle.protobuf.Struct.FieldsEntry\032E\n\013Field"
@@ -313,6 +311,10 @@ Struct* Struct::New(::google::protobuf::Arena* arena) const {
 
 void Struct::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Struct)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   fields_.Clear();
 }
 
@@ -351,9 +353,7 @@ bool Struct::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -436,7 +436,6 @@ void Struct::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Struct::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Struct)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -598,8 +597,9 @@ void Struct::UnsafeArenaSwap(Struct* other) {
   InternalSwap(other);
 }
 void Struct::InternalSwap(Struct* other) {
+  using std::swap;
   fields_.Swap(&other->fields_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Struct::GetMetadata() const {
@@ -785,6 +785,10 @@ void Value::clear_kind() {
 
 void Value::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Value)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   clear_kind();
 }
 
@@ -885,9 +889,7 @@ bool Value::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -953,7 +955,6 @@ void Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Value)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1147,9 +1148,10 @@ void Value::UnsafeArenaSwap(Value* other) {
   InternalSwap(other);
 }
 void Value::InternalSwap(Value* other) {
-  std::swap(kind_, other->kind_);
-  std::swap(_oneof_case_[0], other->_oneof_case_[0]);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(kind_, other->kind_);
+  swap(_oneof_case_[0], other->_oneof_case_[0]);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Value::GetMetadata() const {
@@ -1622,6 +1624,10 @@ ListValue* ListValue::New(::google::protobuf::Arena* arena) const {
 
 void ListValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.ListValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   values_.Clear();
 }
 
@@ -1649,9 +1655,7 @@ bool ListValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1685,7 +1689,6 @@ void ListValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* ListValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.ListValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1786,8 +1789,9 @@ void ListValue::UnsafeArenaSwap(ListValue* other) {
   InternalSwap(other);
 }
 void ListValue::InternalSwap(ListValue* other) {
+  using std::swap;
   values_.InternalSwap(&other->values_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata ListValue::GetMetadata() const {

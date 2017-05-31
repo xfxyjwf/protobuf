@@ -518,6 +518,13 @@ class LIBPROTOBUF_EXPORT MessageDifferencer {
     report_matches_ = report_matches;
   }
 
+  // Tells the differencer whether or not to report moves (in a set or map
+  // repeated field). This method must be called before Compare. The default for
+  // a new differencer is true.
+  void set_report_moves(bool report_moves) {
+    report_moves_ = report_moves;
+  }
+
   // Sets the scope of the comparison (as defined in the Scope enumeration
   // above) that is used by this differencer when determining which fields to
   // compare between the messages.
@@ -822,6 +829,7 @@ class LIBPROTOBUF_EXPORT MessageDifferencer {
   FieldSet ignored_fields_;
 
   bool report_matches_;
+  bool report_moves_;
 
   string* output_string_;
 

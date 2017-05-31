@@ -39,23 +39,23 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Version, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Version, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -103,8 +103,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   0,
   ~0u,
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 9, sizeof(Version)},
   { 13, 22, sizeof(CodeGeneratorRequest)},
   { 26, 34, sizeof(CodeGeneratorResponse_File)},
@@ -142,13 +141,13 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _Version_default_instance_.Shutdown();
+  _Version_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
-  _CodeGeneratorRequest_default_instance_.Shutdown();
+  _CodeGeneratorRequest_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _CodeGeneratorResponse_File_default_instance_.Shutdown();
+  _CodeGeneratorResponse_File_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
-  _CodeGeneratorResponse_default_instance_.Shutdown();
+  _CodeGeneratorResponse_default_instance_.Destruct();
   delete file_level_metadata[3].reflection;
 }
 
@@ -171,7 +170,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n%google/protobuf/compiler/plugin.proto\022"
       "\030google.protobuf.compiler\032 google/protob"
       "uf/descriptor.proto\"F\n\007Version\022\r\n\005major\030"
@@ -185,12 +184,11 @@ void AddDescriptorsImpl() {
       "\t\022B\n\004file\030\017 \003(\01324.google.protobuf.compil"
       "er.CodeGeneratorResponse.File\032>\n\004File\022\014\n"
       "\004name\030\001 \001(\t\022\027\n\017insertion_point\030\002 \001(\t\022\017\n\007"
-      "content\030\017 \001(\tBg\n\034com.google.protobuf.com"
-      "pilerB\014PluginProtosZ9github.com/golang/p"
-      "rotobuf/protoc-gen-go/plugin;plugin_go"
+      "content\030\017 \001(\tB7\n\034com.google.protobuf.com"
+      "pilerB\014PluginProtosZ\tplugin_go"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 638);
+      descriptor, 590);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "google/protobuf/compiler/plugin.proto", &protobuf_RegisterTypes);
   ::google::protobuf::protobuf_google_2fprotobuf_2fdescriptor_2eproto::AddDescriptors();
@@ -285,11 +283,16 @@ Version* Version::New(::google::protobuf::Arena* arena) const {
 
 void Version::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.Version)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   if (has_suffix()) {
     GOOGLE_DCHECK(!suffix_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*suffix_.UnsafeRawStringPointer())->clear();
   }
-  if (_has_bits_[0 / 32] & 14u) {
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 14u) {
     ::memset(&major_, 0, reinterpret_cast<char*>(&patch_) -
       reinterpret_cast<char*>(&major_) + sizeof(patch_));
   }
@@ -367,9 +370,7 @@ bool Version::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -428,7 +429,6 @@ void Version::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Version::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.Version)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -578,13 +578,14 @@ void Version::Swap(Version* other) {
   InternalSwap(other);
 }
 void Version::InternalSwap(Version* other) {
+  using std::swap;
   suffix_.Swap(&other->suffix_);
-  std::swap(major_, other->major_);
-  std::swap(minor_, other->minor_);
-  std::swap(patch_, other->patch_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(major_, other->major_);
+  swap(minor_, other->minor_);
+  swap(patch_, other->patch_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Version::GetMetadata() const {
@@ -812,14 +813,19 @@ CodeGeneratorRequest* CodeGeneratorRequest::New(::google::protobuf::Arena* arena
 
 void CodeGeneratorRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.CodeGeneratorRequest)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   file_to_generate_.Clear();
   proto_file_.Clear();
-  if (_has_bits_[0 / 32] & 3u) {
-    if (has_parameter()) {
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 3u) {
+    if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!parameter_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*parameter_.UnsafeRawStringPointer())->clear();
     }
-    if (has_compiler_version()) {
+    if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(compiler_version_ != NULL);
       compiler_version_->::google::protobuf::compiler::Version::Clear();
     }
@@ -897,9 +903,7 @@ bool CodeGeneratorRequest::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -965,7 +969,6 @@ void CodeGeneratorRequest::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* CodeGeneratorRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.CodeGeneratorRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1125,13 +1128,14 @@ void CodeGeneratorRequest::Swap(CodeGeneratorRequest* other) {
   InternalSwap(other);
 }
 void CodeGeneratorRequest::InternalSwap(CodeGeneratorRequest* other) {
+  using std::swap;
   file_to_generate_.InternalSwap(&other->file_to_generate_);
   proto_file_.InternalSwap(&other->proto_file_);
   parameter_.Swap(&other->parameter_);
-  std::swap(compiler_version_, other->compiler_version_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(compiler_version_, other->compiler_version_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata CodeGeneratorRequest::GetMetadata() const {
@@ -1431,16 +1435,21 @@ CodeGeneratorResponse_File* CodeGeneratorResponse_File::New(::google::protobuf::
 
 void CodeGeneratorResponse_File::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.CodeGeneratorResponse.File)
-  if (_has_bits_[0 / 32] & 7u) {
-    if (has_name()) {
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*name_.UnsafeRawStringPointer())->clear();
     }
-    if (has_insertion_point()) {
+    if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(!insertion_point_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*insertion_point_.UnsafeRawStringPointer())->clear();
     }
-    if (has_content()) {
+    if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(!content_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*content_.UnsafeRawStringPointer())->clear();
     }
@@ -1509,9 +1518,7 @@ bool CodeGeneratorResponse_File::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -1575,7 +1582,6 @@ void CodeGeneratorResponse_File::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* CodeGeneratorResponse_File::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.CodeGeneratorResponse.File)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1723,12 +1729,13 @@ void CodeGeneratorResponse_File::Swap(CodeGeneratorResponse_File* other) {
   InternalSwap(other);
 }
 void CodeGeneratorResponse_File::InternalSwap(CodeGeneratorResponse_File* other) {
+  using std::swap;
   name_.Swap(&other->name_);
   insertion_point_.Swap(&other->insertion_point_);
   content_.Swap(&other->content_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata CodeGeneratorResponse_File::GetMetadata() const {
@@ -1998,6 +2005,10 @@ CodeGeneratorResponse* CodeGeneratorResponse::New(::google::protobuf::Arena* are
 
 void CodeGeneratorResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.CodeGeneratorResponse)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   file_.Clear();
   if (has_error()) {
     GOOGLE_DCHECK(!error_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
@@ -2047,9 +2058,7 @@ bool CodeGeneratorResponse::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -2099,7 +2108,6 @@ void CodeGeneratorResponse::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* CodeGeneratorResponse::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.CodeGeneratorResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2217,11 +2225,12 @@ void CodeGeneratorResponse::Swap(CodeGeneratorResponse* other) {
   InternalSwap(other);
 }
 void CodeGeneratorResponse::InternalSwap(CodeGeneratorResponse* other) {
+  using std::swap;
   file_.InternalSwap(&other->file_);
   error_.Swap(&other->error_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata CodeGeneratorResponse::GetMetadata() const {

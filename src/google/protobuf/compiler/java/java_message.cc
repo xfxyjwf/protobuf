@@ -253,7 +253,7 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
                                 /* immutable = */ true, "OrBuilder");
   if (descriptor_->extension_range_count() > 0) {
     printer->Print(
-        "$deprecation$public interface $classname$OrBuilder$idend$ extends\n"
+        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.GeneratedMessage$ver$.\n"
         "        ExtendableMessageOrBuilder<$classname$> {\n",
@@ -261,19 +261,19 @@ void ImmutableMessageGenerator::GenerateInterface(io::Printer* printer) {
             "@java.lang.Deprecated " : "",
         "extra_interfaces", ExtraMessageOrBuilderInterfaces(descriptor_),
         "classname", descriptor_->name(),
-        "idend", "", "ver", GeneratedCodeVersionSuffix());
+        "{", "", "}", "", "ver", GeneratedCodeVersionSuffix());
   } else {
     printer->Print(
-        "$deprecation$public interface $classname$OrBuilder$idend$ extends\n"
+        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.MessageOrBuilder {\n",
         "deprecation", descriptor_->options().deprecated() ?
             "@java.lang.Deprecated " : "",
         "extra_interfaces", ExtraMessageOrBuilderInterfaces(descriptor_),
         "classname", descriptor_->name(),
-        "idend", "");
+        "{", "", "}", "");
   }
-  printer->Annotate("classname", "idend", descriptor_);
+  printer->Annotate("{", "}", descriptor_);
 
   printer->Indent();
     for (int i = 0; i < descriptor_->field_count(); i++) {
@@ -345,6 +345,9 @@ void ImmutableMessageGenerator::Generate(io::Printer* printer) {
         "com.google.protobuf.GeneratedMessage$0.Builder<?>",
         GeneratedCodeVersionSuffix());
   }
+  printer->Print(
+    "private static final long serialVersionUID = 0L;\n");
+
   printer->Indent();
   // Using builder_type, instead of Builder, prevents the Builder class from
   // being loaded into PermGen space when the default instance is created.
@@ -674,9 +677,6 @@ GenerateMessageSerializationMethods(io::Printer* printer) {
     "  return size;\n"
     "}\n"
     "\n");
-
-  printer->Print(
-    "private static final long serialVersionUID = 0L;\n");
 }
 
 void ImmutableMessageGenerator::

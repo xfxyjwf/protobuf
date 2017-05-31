@@ -45,9 +45,9 @@ import protobuf_unittest.UnittestProto.TestService;
 import java.util.HashSet;
 import java.util.Set;
 import junit.framework.TestCase;
-import org.easymock.classextension.EasyMock;
+import org.easymock.EasyMock;
 import org.easymock.IArgumentMatcher;
-import org.easymock.classextension.IMocksControl;
+import org.easymock.IMocksControl;
 
 /**
  * Tests services and stubs.

@@ -46,6 +46,7 @@
 #include <google/protobuf/pyext/descriptor.h>
 #include <google/protobuf/pyext/descriptor_pool.h>
 #include <google/protobuf/pyext/message.h>
+#include <google/protobuf/pyext/message_factory.h>
 #include <google/protobuf/pyext/scoped_pyobject_ptr.h>
 #include <google/protobuf/reflection.h>
 
@@ -137,9 +138,12 @@ static PyObject* AddToAttached(RepeatedCompositeContainer* self,
   if (cmessage::AssureWritable(self->parent) == -1)
     return NULL;
   Message* message = self->message;
+
   Message* sub_message =
-      message->GetReflection()->AddMessage(message,
-                                           self->parent_field_descriptor);
+      message->GetReflection()->AddMessage(
+          message,
+          self->parent_field_descriptor,
+          self->child_message_class->py_message_factory->message_factory);
   CMessage* cmsg = cmessage::NewEmptyMessage(self->child_message_class);
   if (cmsg == NULL)
     return NULL;

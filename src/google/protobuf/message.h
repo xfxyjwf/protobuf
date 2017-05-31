@@ -752,9 +752,9 @@ class LIBPROTOBUF_EXPORT Reflection {
   // specifyed by 'field' passing ownership to the message.
   // TODO(tmarek): Make virtual after all subclasses have been
   // updated.
-  virtual void AddAllocatedMessage(Message* /* message */,
-                                   const FieldDescriptor* /*field */,
-                                   Message* /* new_entry */) const {}
+  virtual void AddAllocatedMessage(Message* message,
+                                   const FieldDescriptor* field,
+                                   Message* new_entry) const;
 
 
   // Get a RepeatedFieldRef object that can be used to read the underlying

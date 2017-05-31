@@ -48,16 +48,16 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
@@ -69,7 +69,7 @@ PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DoubleValue, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -125,8 +125,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BytesValue, value_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(DoubleValue)},
   { 6, -1, sizeof(FloatValue)},
   { 12, -1, sizeof(Int64Value)},
@@ -174,23 +173,23 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _DoubleValue_default_instance_.Shutdown();
+  _DoubleValue_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
-  _FloatValue_default_instance_.Shutdown();
+  _FloatValue_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _Int64Value_default_instance_.Shutdown();
+  _Int64Value_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
-  _UInt64Value_default_instance_.Shutdown();
+  _UInt64Value_default_instance_.Destruct();
   delete file_level_metadata[3].reflection;
-  _Int32Value_default_instance_.Shutdown();
+  _Int32Value_default_instance_.Destruct();
   delete file_level_metadata[4].reflection;
-  _UInt32Value_default_instance_.Shutdown();
+  _UInt32Value_default_instance_.Destruct();
   delete file_level_metadata[5].reflection;
-  _BoolValue_default_instance_.Shutdown();
+  _BoolValue_default_instance_.Destruct();
   delete file_level_metadata[6].reflection;
-  _StringValue_default_instance_.Shutdown();
+  _StringValue_default_instance_.Destruct();
   delete file_level_metadata[7].reflection;
-  _BytesValue_default_instance_.Shutdown();
+  _BytesValue_default_instance_.Destruct();
   delete file_level_metadata[8].reflection;
 }
 
@@ -215,7 +214,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\036google/protobuf/wrappers.proto\022\017google"
       ".protobuf\"\034\n\013DoubleValue\022\r\n\005value\030\001 \001(\001\""
       "\033\n\nFloatValue\022\r\n\005value\030\001 \001(\002\"\033\n\nInt64Val"
@@ -328,6 +327,10 @@ DoubleValue* DoubleValue::New(::google::protobuf::Arena* arena) const {
 
 void DoubleValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.DoubleValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = 0;
 }
 
@@ -357,9 +360,7 @@ bool DoubleValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -392,7 +393,6 @@ void DoubleValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* DoubleValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.DoubleValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -487,8 +487,9 @@ void DoubleValue::UnsafeArenaSwap(DoubleValue* other) {
   InternalSwap(other);
 }
 void DoubleValue::InternalSwap(DoubleValue* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata DoubleValue::GetMetadata() const {
@@ -593,6 +594,10 @@ FloatValue* FloatValue::New(::google::protobuf::Arena* arena) const {
 
 void FloatValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.FloatValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = 0;
 }
 
@@ -622,9 +627,7 @@ bool FloatValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -657,7 +660,6 @@ void FloatValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* FloatValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.FloatValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -752,8 +754,9 @@ void FloatValue::UnsafeArenaSwap(FloatValue* other) {
   InternalSwap(other);
 }
 void FloatValue::InternalSwap(FloatValue* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata FloatValue::GetMetadata() const {
@@ -858,6 +861,10 @@ Int64Value* Int64Value::New(::google::protobuf::Arena* arena) const {
 
 void Int64Value::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Int64Value)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = GOOGLE_LONGLONG(0);
 }
 
@@ -887,9 +894,7 @@ bool Int64Value::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -922,7 +927,6 @@ void Int64Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Int64Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Int64Value)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1019,8 +1023,9 @@ void Int64Value::UnsafeArenaSwap(Int64Value* other) {
   InternalSwap(other);
 }
 void Int64Value::InternalSwap(Int64Value* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Int64Value::GetMetadata() const {
@@ -1125,6 +1130,10 @@ UInt64Value* UInt64Value::New(::google::protobuf::Arena* arena) const {
 
 void UInt64Value::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.UInt64Value)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = GOOGLE_ULONGLONG(0);
 }
 
@@ -1154,9 +1163,7 @@ bool UInt64Value::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1189,7 +1196,6 @@ void UInt64Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* UInt64Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.UInt64Value)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1286,8 +1292,9 @@ void UInt64Value::UnsafeArenaSwap(UInt64Value* other) {
   InternalSwap(other);
 }
 void UInt64Value::InternalSwap(UInt64Value* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata UInt64Value::GetMetadata() const {
@@ -1392,6 +1399,10 @@ Int32Value* Int32Value::New(::google::protobuf::Arena* arena) const {
 
 void Int32Value::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Int32Value)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = 0;
 }
 
@@ -1421,9 +1432,7 @@ bool Int32Value::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1456,7 +1465,6 @@ void Int32Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Int32Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Int32Value)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1553,8 +1561,9 @@ void Int32Value::UnsafeArenaSwap(Int32Value* other) {
   InternalSwap(other);
 }
 void Int32Value::InternalSwap(Int32Value* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Int32Value::GetMetadata() const {
@@ -1659,6 +1668,10 @@ UInt32Value* UInt32Value::New(::google::protobuf::Arena* arena) const {
 
 void UInt32Value::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.UInt32Value)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = 0u;
 }
 
@@ -1688,9 +1701,7 @@ bool UInt32Value::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1723,7 +1734,6 @@ void UInt32Value::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* UInt32Value::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.UInt32Value)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1820,8 +1830,9 @@ void UInt32Value::UnsafeArenaSwap(UInt32Value* other) {
   InternalSwap(other);
 }
 void UInt32Value::InternalSwap(UInt32Value* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata UInt32Value::GetMetadata() const {
@@ -1926,6 +1937,10 @@ BoolValue* BoolValue::New(::google::protobuf::Arena* arena) const {
 
 void BoolValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.BoolValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_ = false;
 }
 
@@ -1955,9 +1970,7 @@ bool BoolValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1990,7 +2003,6 @@ void BoolValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* BoolValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.BoolValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2085,8 +2097,9 @@ void BoolValue::UnsafeArenaSwap(BoolValue* other) {
   InternalSwap(other);
 }
 void BoolValue::InternalSwap(BoolValue* other) {
-  std::swap(value_, other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  using std::swap;
+  swap(value_, other->value_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata BoolValue::GetMetadata() const {
@@ -2196,6 +2209,10 @@ StringValue* StringValue::New(::google::protobuf::Arena* arena) const {
 
 void StringValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.StringValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
 }
 
@@ -2227,9 +2244,7 @@ bool StringValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -2267,7 +2282,6 @@ void StringValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* StringValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.StringValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2370,8 +2384,9 @@ void StringValue::UnsafeArenaSwap(StringValue* other) {
   InternalSwap(other);
 }
 void StringValue::InternalSwap(StringValue* other) {
+  using std::swap;
   value_.Swap(&other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata StringValue::GetMetadata() const {
@@ -2534,6 +2549,10 @@ BytesValue* BytesValue::New(::google::protobuf::Arena* arena) const {
 
 void BytesValue::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.BytesValue)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   value_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
 }
 
@@ -2561,9 +2580,7 @@ bool BytesValue::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -2597,7 +2614,6 @@ void BytesValue::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* BytesValue::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.BytesValue)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2696,8 +2712,9 @@ void BytesValue::UnsafeArenaSwap(BytesValue* other) {
   InternalSwap(other);
 }
 void BytesValue::InternalSwap(BytesValue* other) {
+  using std::swap;
   value_.Swap(&other->value_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata BytesValue::GetMetadata() const {

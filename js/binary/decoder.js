@@ -994,7 +994,7 @@ jspb.BinaryDecoder.prototype.readString = function(length) {
       codeUnits.length = 0;
     }
   }
-  result += goog.crypt.byteArrayToString(codeUnits);
+  result += String.fromCharCode.apply(null, codeUnits);
   this.cursor_ = cursor;
   return result;
 };

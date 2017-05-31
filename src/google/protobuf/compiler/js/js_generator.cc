@@ -143,12 +143,16 @@ bool IsReserved(const string& ident) {
   return false;
 }
 
+bool StrEndsWith(StringPiece sp, StringPiece x) {
+  return sp.size() >= x.size() && sp.substr(sp.size() - x.size()) == x;
+}
+
 // Returns a copy of |filename| with any trailing ".protodevel" or ".proto
 // suffix stripped.
 // TODO(haberman): Unify with copy in compiler/cpp/internal/helpers.cc.
 string StripProto(const string& filename) {
-  const char* suffix = HasSuffixString(filename, ".protodevel")
-      ? ".protodevel" : ".proto";
+  const char* suffix =
+      StrEndsWith(filename, ".protodevel") ? ".protodevel" : ".proto";
   return StripSuffixString(filename, suffix);
 }
 
@@ -1507,6 +1511,10 @@ void Generator::GenerateHeader(const GeneratorOptions& options,
   printer->Print("/**\n"
                  " * @fileoverview\n"
                  " * @enhanceable\n"
+                 " * @suppress {messageConventions} JS Compiler reports an "
+                 "error if a variable or\n"
+                 " *     field starts with 'MSG_' and isn't a translatable "
+                 "message.\n"
                  " * @public\n"
                  " */\n"
                  "// GENERATED CODE -- DO NOT EDIT!\n"
@@ -1698,18 +1706,16 @@ void Generator::GenerateRequiresImpl(const GeneratorOptions& options,
                                      bool require_jspb, bool require_extension,
                                      bool require_map) const {
   if (require_jspb) {
-    printer->Print(
-        "goog.require('jspb.Message');\n"
-        "goog.require('jspb.BinaryReader');\n"
-        "goog.require('jspb.BinaryWriter');\n");
+    required->insert("jspb.Message");
+    required->insert("jspb.BinaryReader");
+    required->insert("jspb.BinaryWriter");
   }
   if (require_extension) {
-    printer->Print("goog.require('jspb.ExtensionFieldBinaryInfo');\n");
-    printer->Print(
-        "goog.require('jspb.ExtensionFieldInfo');\n");
+    required->insert("jspb.ExtensionFieldBinaryInfo");
+    required->insert("jspb.ExtensionFieldInfo");
   }
   if (require_map) {
-    printer->Print("goog.require('jspb.Map');\n");
+    required->insert("jspb.Map");
   }
 
   std::set<string>::iterator it;

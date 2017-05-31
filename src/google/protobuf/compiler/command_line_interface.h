@@ -52,17 +52,16 @@ namespace protobuf {
 class Descriptor;            // descriptor.h
 class DescriptorPool;        // descriptor.h
 class FileDescriptor;        // descriptor.h
+class FileDescriptorSet;     // descriptor.h
 class FileDescriptorProto;   // descriptor.pb.h
 template<typename T> class RepeatedPtrField;  // repeated_field.h
+class SimpleDescriptorDatabase;               // descriptor_database.h
 
-}  // namespace protobuf
-
-namespace protobuf {
 namespace compiler {
 
-class CodeGenerator;        // code_generator.h
-class GeneratorContext;      // code_generator.h
-class DiskSourceTree;       // importer.h
+class CodeGenerator;     // code_generator.h
+class GeneratorContext;  // code_generator.h
+class DiskSourceTree;    // importer.h
 
 // This class implements the command-line interface to the protocol compiler.
 // It is designed to make it very easy to create a custom protocol compiler
@@ -94,6 +93,8 @@ class DiskSourceTree;       // importer.h
 // For a full description of the command-line syntax, invoke it with --help.
 class LIBPROTOC_EXPORT CommandLineInterface {
  public:
+  static const char* const kPathSeparator;
+
   CommandLineInterface();
   ~CommandLineInterface();
 
@@ -243,6 +244,16 @@ class LIBPROTOC_EXPORT CommandLineInterface {
   // Print the --help text to stderr.
   void PrintHelpText();
 
+  // Loads proto_path_ into the provided source_tree.
+  bool InitializeDiskSourceTree(DiskSourceTree* source_tree);
+
+  // Loads descriptor_set_in into the provided database
+  bool PopulateSimpleDescriptorDatabase(SimpleDescriptorDatabase* database);
+
+  // Parses input_files_ into parsed_files
+  bool ParseInputFiles(DescriptorPool* descriptor_pool,
+                       std::vector<const FileDescriptor*>* parsed_files);
+
   // Generate the given output file from the given input.
   struct OutputDirective;  // see below
   bool GenerateOutput(const std::vector<const FileDescriptor*>& parsed_files,
@@ -383,9 +394,13 @@ class LIBPROTOC_EXPORT CommandLineInterface {
   // decoding.  (Empty string indicates --decode_raw.)
   string codec_type_;
 
+  // If --descriptor_set_in was given, these are filenames containing
+  // parsed FileDescriptorSets to be used for loading protos.  Otherwise, empty.
+  std::vector<string> descriptor_set_in_names_;
+
   // If --descriptor_set_out was given, this is the filename to which the
   // FileDescriptorSet should be written.  Otherwise, empty.
-  string descriptor_set_name_;
+  string descriptor_set_out_name_;
 
   // If --dependency_out was given, this is the path to the file where the
   // dependency file will be written. Otherwise, empty.

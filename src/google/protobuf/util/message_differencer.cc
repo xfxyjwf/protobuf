@@ -53,6 +53,7 @@
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/io/zero_copy_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/dynamic_message.h>
 #include <google/protobuf/text_format.h>
 #include <google/protobuf/util/field_comparator.h>
@@ -192,6 +193,7 @@ MessageDifferencer::MessageDifferencer()
       scope_(FULL),
       repeated_field_comparison_(AS_LIST),
       report_matches_(false),
+      report_moves_(true),
       output_string_(NULL) { }
 
 MessageDifferencer::~MessageDifferencer() {
@@ -484,8 +486,22 @@ bool MessageDifferencer::Compare(
   std::vector<const FieldDescriptor*> message2_fields;
   message2_fields.reserve(1 + message2.GetDescriptor()->field_count());
 
-  reflection1->ListFields(message1, &message1_fields);
-  reflection2->ListFields(message2, &message2_fields);
+  if (descriptor1->options().map_entry()) {
+    if (scope_ == PARTIAL) {
+      reflection1->ListFields(message1, &message1_fields);
+    } else {
+      // Map entry fields are always considered present.
+      for (int i = 0; i < descriptor1->field_count(); i++) {
+        message1_fields.push_back(descriptor1->field(i));
+      }
+    }
+    for (int i = 0; i < descriptor1->field_count(); i++) {
+      message2_fields.push_back(descriptor1->field(i));
+    }
+  } else {
+    reflection1->ListFields(message1, &message1_fields);
+    reflection2->ListFields(message2, &message2_fields);
+  }
 
   // Add sentinel values to deal with the
   // case where the number of the fields in
@@ -854,7 +870,7 @@ bool MessageDifferencer::CompareRepeatedField(
       fieldDifferent = true;
     } else if (reporter_ != NULL &&
                specific_field.index != specific_field.new_index &&
-               !specific_field.field->is_map()) {
+               !specific_field.field->is_map() && report_moves_) {
       parent_fields->push_back(specific_field);
       reporter_->ReportMoved(message1, message2, *parent_fields);
       parent_fields->pop_back();
@@ -1400,7 +1416,7 @@ bool MessageDifferencer::MatchRepeatedFieldIndices(
       // algorithm will fail to find a maximum matching.
       // Here we use the argumenting path algorithm.
       MaximumMatcher::NodeMatchCallback* callback =
-          NewPermanentCallback(
+          ::google::protobuf::NewPermanentCallback(
               this, &MessageDifferencer::IsMatch,
               repeated_field, key_comparator,
               &message1, &message2, parent_fields);

@@ -124,7 +124,7 @@ void ImmutableMessageLiteGenerator::GenerateInterface(io::Printer* printer) {
                                 /* immutable = */ true, "OrBuilder");
   if (descriptor_->extension_range_count() > 0) {
     printer->Print(
-        "$deprecation$public interface $classname$OrBuilder$idend$ extends \n"
+        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends \n"
         "    $extra_interfaces$\n"
         "     com.google.protobuf.GeneratedMessageLite.\n"
         "          ExtendableMessageOrBuilder<\n"
@@ -133,19 +133,19 @@ void ImmutableMessageLiteGenerator::GenerateInterface(io::Printer* printer) {
             "@java.lang.Deprecated " : "",
         "extra_interfaces", ExtraMessageOrBuilderInterfaces(descriptor_),
         "classname", descriptor_->name(),
-        "idend", "");
+        "{", "", "}", "");
   } else {
     printer->Print(
-        "$deprecation$public interface $classname$OrBuilder$idend$ extends\n"
+        "$deprecation$public interface ${$$classname$OrBuilder$}$ extends\n"
         "    $extra_interfaces$\n"
         "    com.google.protobuf.MessageLiteOrBuilder {\n",
         "deprecation", descriptor_->options().deprecated() ?
             "@java.lang.Deprecated " : "",
         "extra_interfaces", ExtraMessageOrBuilderInterfaces(descriptor_),
         "classname", descriptor_->name(),
-        "idend", "");
+        "{", "", "}", "");
   }
-  printer->Annotate("classname", "idend", descriptor_);
+  printer->Annotate("{", "}", descriptor_);
 
   printer->Indent();
     for (int i = 0; i < descriptor_->field_count(); i++) {
@@ -345,15 +345,15 @@ void ImmutableMessageLiteGenerator::Generate(io::Printer* printer) {
   }
 
   printer->Print(
-    "@java.lang.SuppressWarnings({\"unchecked\", \"fallthrough\"})\n"
-    "protected final Object dynamicMethod(\n"
-    "    com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,\n"
-    "    Object arg0, Object arg1) {\n"
-    "  switch (method) {\n"
-    "    case NEW_MUTABLE_INSTANCE: {\n"
-    "      return new $classname$();\n"
-    "    }\n",
-    "classname", name_resolver_->GetImmutableClassName(descriptor_));
+      "@java.lang.SuppressWarnings({\"unchecked\", \"fallthrough\"})\n"
+      "protected final java.lang.Object dynamicMethod(\n"
+      "    com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,\n"
+      "    java.lang.Object arg0, java.lang.Object arg1) {\n"
+      "  switch (method) {\n"
+      "    case NEW_MUTABLE_INSTANCE: {\n"
+      "      return new $classname$();\n"
+      "    }\n",
+      "classname", name_resolver_->GetImmutableClassName(descriptor_));
 
   printer->Indent();
   printer->Indent();

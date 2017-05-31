@@ -874,10 +874,19 @@ class LIBPROTOBUF_EXPORT Arena {
     return NULL;
   }
 
+  size_t AlignUpTo8(size_t n) {
+    // Align n to next multiple of 8 (from Hacker's Delight, Chapter 3.)
+    return (n + 7) & -8;
+  }
+
   // Allocate and also optionally call on_arena_allocation callback with the
   // allocated type info when the hooks are in place in ArenaOptions and
   // the cookie is not null.
-  void* AllocateAligned(const std::type_info* allocated, size_t n);
+  void* AllocateAligned(const std::type_info* allocated, size_t n) {
+    return AllocateAlignedInternal(allocated, AlignUpTo8(n));
+  }
+
+  void* AllocateAlignedInternal(const std::type_info* allocated, size_t n);
 
   // Allocate an internal allocation, avoiding optional typed monitoring.
   GOOGLE_ATTRIBUTE_ALWAYS_INLINE void* AllocateAligned(size_t n) {
@@ -905,8 +914,6 @@ class LIBPROTOBUF_EXPORT Arena {
     thread_cache().last_lifecycle_id_seen = lifecycle_id_;
   }
 
-  int64 lifecycle_id_;  // Unique for each arena. Changes on Reset().
-
   google::protobuf::internal::AtomicWord blocks_;       // Head of linked list of all allocated blocks
   google::protobuf::internal::AtomicWord hint_;         // Fast thread-local block access
   uint64 space_allocated_;  // Sum of sizes of all allocated blocks.
@@ -929,13 +936,15 @@ class LIBPROTOBUF_EXPORT Arena {
   // Access must be synchronized, either by blocks_lock_ or by being called from
   // Init()/Reset().
   void AddBlockInternal(Block* b);
-  void* SlowAlloc(size_t n);
+  void* SlowAlloc(size_t n, void* me);
   Block* FindBlock(void* me);
   Block* NewBlock(void* me, Block* my_last_block, size_t n,
                   size_t start_block_size, size_t max_block_size);
   static void* AllocFromBlock(Block* b, size_t n);
   template <typename Key, typename T>
   friend class Map;
+
+  int64 lifecycle_id_;  // Unique for each arena. Changes on Reset().
 
   // The arena may save a cookie it receives from the external on_init hook
   // and then use it when calling the on_reset and on_destruction hooks.

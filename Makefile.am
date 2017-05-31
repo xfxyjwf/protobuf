@@ -713,7 +713,6 @@ python_EXTRA_DIST=                                                           \
   python/google/protobuf/internal/packed_field_test.proto                    \
   python/google/protobuf/internal/proto_builder_test.py                      \
   python/google/protobuf/internal/python_message.py                          \
-  python/google/protobuf/internal/python_protobuf.cc                         \
   python/google/protobuf/internal/reflection_test.py                         \
   python/google/protobuf/internal/service_reflection_test.py                 \
   python/google/protobuf/internal/symbol_database_test.py                    \
@@ -762,7 +761,6 @@ python_EXTRA_DIST=                                                           \
   python/google/protobuf/pyext/repeated_scalar_container.h                   \
   python/google/protobuf/pyext/safe_numerics.h                               \
   python/google/protobuf/pyext/scoped_pyobject_ptr.h                         \
-  python/google/protobuf/python_protobuf.h                                   \
   python/google/protobuf/reflection.py                                       \
   python/google/protobuf/service.py                                          \
   python/google/protobuf/service_reflection.py                               \
@@ -835,51 +833,80 @@ ruby_EXTRA_DIST=                                                             \
   ruby/tests/well_known_types_test.rb                                        \
   ruby/travis-test.sh
 
-js_EXTRA_DIST=                              \
-  js/README.md                              \
-  js/binary/arith.js                        \
-  js/binary/arith_test.js                   \
-  js/binary/constants.js                    \
-  js/binary/decoder.js                      \
-  js/binary/decoder_test.js                 \
-  js/binary/encoder.js                      \
-  js/binary/message_test.js                 \
-  js/binary/proto_test.js                   \
-  js/binary/reader.js                       \
-  js/binary/reader_test.js                  \
-  js/binary/utils.js                        \
-  js/binary/utils_test.js                   \
-  js/binary/writer.js                       \
-  js/binary/writer_test.js                  \
-  js/commonjs/export.js                     \
-  js/commonjs/export_asserts.js             \
-  js/commonjs/export_testdeps.js            \
-  js/commonjs/import_test.js                \
-  js/commonjs/jasmine.json                  \
-  js/commonjs/rewrite_tests_for_commonjs.js \
-  js/commonjs/test6/test6.proto             \
-  js/commonjs/test7/test7.proto             \
-  js/data.proto                             \
-  js/debug.js                               \
-  js/debug_test.js                          \
-  js/gulpfile.js                            \
-  js/jasmine.json                           \
-  js/map.js                                 \
-  js/maps_test.js                           \
-  js/message.js                             \
-  js/message_test.js                        \
-  js/node_loader.js                         \
-  js/package.json                           \
-  js/proto3_test.js                         \
-  js/proto3_test.proto                      \
-  js/test.proto                             \
-  js/test2.proto                            \
-  js/test3.proto                            \
-  js/test4.proto                            \
-  js/test5.proto                            \
-  js/test8.proto                            \
-  js/test_bootstrap.js                      \
-  js/testbinary.proto                       \
+js_EXTRA_DIST=                                                         \
+  js/README.md                                                         \
+  js/binary/arith.js                                                   \
+  js/binary/arith_test.js                                              \
+  js/binary/constants.js                                               \
+  js/binary/decoder.js                                                 \
+  js/binary/decoder_test.js                                            \
+  js/binary/encoder.js                                                 \
+  js/binary/message_test.js                                            \
+  js/binary/proto_test.js                                              \
+  js/binary/reader.js                                                  \
+  js/binary/reader_test.js                                             \
+  js/binary/utils.js                                                   \
+  js/binary/utils_test.js                                              \
+  js/binary/writer.js                                                  \
+  js/binary/writer_test.js                                             \
+  js/commonjs/export.js                                                \
+  js/commonjs/export_asserts.js                                        \
+  js/commonjs/export_testdeps.js                                       \
+  js/commonjs/import_test.js                                           \
+  js/commonjs/jasmine.json                                             \
+  js/commonjs/rewrite_tests_for_commonjs.js                            \
+  js/commonjs/test6/test6.proto                                        \
+  js/commonjs/test7/test7.proto                                        \
+  js/compatibility_tests/v3.0.0/binary/arith_test.js                   \
+  js/compatibility_tests/v3.0.0/binary/decoder_test.js                 \
+  js/compatibility_tests/v3.0.0/binary/proto_test.js                   \
+  js/compatibility_tests/v3.0.0/binary/reader_test.js                  \
+  js/compatibility_tests/v3.0.0/binary/utils_test.js                   \
+  js/compatibility_tests/v3.0.0/binary/writer_test.js                  \
+  js/compatibility_tests/v3.0.0/commonjs/export_asserts.js             \
+  js/compatibility_tests/v3.0.0/commonjs/export_testdeps.js            \
+  js/compatibility_tests/v3.0.0/commonjs/import_test.js                \
+  js/compatibility_tests/v3.0.0/commonjs/jasmine.json                  \
+  js/compatibility_tests/v3.0.0/commonjs/rewrite_tests_for_commonjs.js \
+  js/compatibility_tests/v3.0.0/commonjs/test6/test6.proto             \
+  js/compatibility_tests/v3.0.0/commonjs/test7/test7.proto             \
+  js/compatibility_tests/v3.0.0/data.proto                             \
+  js/compatibility_tests/v3.0.0/debug_test.js                          \
+  js/compatibility_tests/v3.0.0/jasmine1.json                          \
+  js/compatibility_tests/v3.0.0/jasmine2.json                          \
+  js/compatibility_tests/v3.0.0/jasmine3.json                          \
+  js/compatibility_tests/v3.0.0/message_test.js                        \
+  js/compatibility_tests/v3.0.0/proto3_test.js                         \
+  js/compatibility_tests/v3.0.0/proto3_test.proto                      \
+  js/compatibility_tests/v3.0.0/test2.proto                            \
+  js/compatibility_tests/v3.0.0/test3.proto                            \
+  js/compatibility_tests/v3.0.0/test4.proto                            \
+  js/compatibility_tests/v3.0.0/test5.proto                            \
+  js/compatibility_tests/v3.0.0/testbinary.proto                       \
+  js/compatibility_tests/v3.0.0/testempty.proto                        \
+  js/compatibility_tests/v3.0.0/test.proto                             \
+  js/compatibility_tests/v3.0.0/test.sh                                \
+  js/data.proto                                                        \
+  js/debug.js                                                          \
+  js/debug_test.js                                                     \
+  js/gulpfile.js                                                       \
+  js/jasmine.json                                                      \
+  js/map.js                                                            \
+  js/maps_test.js                                                      \
+  js/message.js                                                        \
+  js/message_test.js                                                   \
+  js/node_loader.js                                                    \
+  js/package.json                                                      \
+  js/proto3_test.js                                                    \
+  js/proto3_test.proto                                                 \
+  js/test.proto                                                        \
+  js/test2.proto                                                       \
+  js/test3.proto                                                       \
+  js/test4.proto                                                       \
+  js/test5.proto                                                       \
+  js/test8.proto                                                       \
+  js/test_bootstrap.js                                                 \
+  js/testbinary.proto                                                  \
   js/testempty.proto
 
 all_EXTRA_DIST=$(csharp_EXTRA_DIST) $(java_EXTRA_DIST) $(javanano_EXTRA_DIST) $(objectivec_EXTRA_DIST) $(php_EXTRA_DIST) $(python_EXTRA_DIST) $(ruby_EXTRA_DIST) $(js_EXTRA_DIST)

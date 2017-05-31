@@ -277,6 +277,10 @@ inline ::google::protobuf::FileOptions_OptimizeMode GetOptimizeFor(
       : file->options().optimize_for();
 }
 
+// This orders the messages in a .pb.cc as it's outputted by file.cc
+std::vector<const Descriptor*> FlattenMessagesInFile(
+    const FileDescriptor* file);
+
 bool HasWeakFields(const Descriptor* desc);
 bool HasWeakFields(const FileDescriptor* desc);
 

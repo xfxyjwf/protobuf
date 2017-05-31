@@ -768,7 +768,7 @@ class JsonFormatTest(JsonFormatBase):
     text = '{"value": "0000-01-01T00:00:00Z"}'
     self.assertRaisesRegexp(
         json_format.ParseError,
-        'Failed to parse value field: year is out of range.',
+        'Failed to parse value field: year (0 )?is out of range.',
         json_format.Parse, text, message)
     # Time bigger than maxinum time.
     message.value.seconds = 253402300800
@@ -840,6 +840,12 @@ class JsonFormatTest(JsonFormatBase):
     json_format.Parse('{"int32_value": 12345}', message)
     self.assertEqual(12345, message.int32_value)
 
+  def testIndent(self):
+    message = json_format_proto3_pb2.TestMessage()
+    message.int32_value = 12345
+    self.assertEqual('{\n"int32Value": 12345\n}',
+                     json_format.MessageToJson(message, indent=0))
+
   def testParseDict(self):
     expected = 12345
     js_dict = {'int32Value': expected}
@@ -861,6 +867,22 @@ class JsonFormatTest(JsonFormatBase):
                      json_format.MessageToJson(message))
     parsed_message = json_format_proto3_pb2.TestCustomJsonName()
     self.CheckParseBack(message, parsed_message)
+
+  def testSortKeys(self):
+    # Testing sort_keys is not perfectly working, as by random luck we could
+    # get the output sorted. We just use a selection of names.
+    message = json_format_proto3_pb2.TestMessage(bool_value=True,
+                                                 int32_value=1,
+                                                 int64_value=3,
+                                                 uint32_value=4,
+                                                 string_value='bla')
+    self.assertEqual(
+        json_format.MessageToJson(message, sort_keys=True),
+        # We use json.dumps() instead of a hardcoded string due to differences
+        # between Python 2 and Python 3.
+        json.dumps({'boolValue': True, 'int32Value': 1, 'int64Value': '3',
+                    'uint32Value': 4, 'stringValue': 'bla'},
+                   indent=2, sort_keys=True))
 
 
 if __name__ == '__main__':

@@ -41,7 +41,6 @@ goog.provide('jspb.Message');
 goog.require('goog.array');
 goog.require('goog.asserts');
 goog.require('goog.crypt.base64');
-goog.require('goog.json');
 goog.require('jspb.Map');
 
 // Not needed in compilation units that have no protos with xids.
@@ -218,7 +217,7 @@ goog.define('jspb.Message.MINIMIZE_MEMORY_ALLOCATIONS', COMPILED);
 
 
 /**
- * Does this JavaScript environment support Uint8Aray typed arrays?
+ * Does this browser support Uint8Aray typed arrays?
  * @type {boolean}
  * @private
  */
@@ -513,7 +512,7 @@ jspb.Message.toObjectExtension = function(proto, obj, extensions,
   for (var fieldNumber in extensions) {
     var fieldInfo = extensions[fieldNumber];
     var value = getExtensionFn.call(proto, fieldInfo);
-    if (goog.isDefAndNotNull(value)) {
+    if (value != null) {
       for (var name in fieldInfo.fieldName) {
         if (fieldInfo.fieldName.hasOwnProperty(name)) {
           break; // the compiled field name
@@ -557,7 +556,7 @@ jspb.Message.serializeBinaryExtensions = function(proto, writer, extensions,
                       'without binary serialization support');
     }
     var value = getExtensionFn.call(proto, fieldInfo);
-    if (goog.isDefAndNotNull(value)) {
+    if (value != null) {
       if (fieldInfo.isMessageType()) {
         // If the message type of the extension was generated without binary
         // support, there may not be a binary message serializer function, and

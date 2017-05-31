@@ -74,6 +74,10 @@ string UnderscoresToCapitalizedCamelCase(const FieldDescriptor* field);
 // of lower-casing the first letter of the name.)
 string UnderscoresToCamelCase(const MethodDescriptor* method);
 
+// Similar to UnderscoresToCamelCase, but guarentees that the result is a
+// complete Java identifier by adding a _ if needed.
+string CamelCaseFieldName(const FieldDescriptor* field);
+
 // Get an identifier that uniquely identifies this type within the file.
 // This is used to declare static variables related to this type at the
 // outermost file scope.

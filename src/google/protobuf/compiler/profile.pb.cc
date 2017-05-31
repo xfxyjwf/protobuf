@@ -37,22 +37,22 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FieldAccessInfo, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FieldAccessInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -85,8 +85,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AccessInfo, message_),
   ~0u,
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 9, sizeof(FieldAccessInfo)},
   { 13, 21, sizeof(MessageAccessInfo)},
   { 24, 30, sizeof(AccessInfo)},
@@ -122,11 +121,11 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _FieldAccessInfo_default_instance_.Shutdown();
+  _FieldAccessInfo_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
-  _MessageAccessInfo_default_instance_.Shutdown();
+  _MessageAccessInfo_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _AccessInfo_default_instance_.Shutdown();
+  _AccessInfo_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
 }
 
@@ -145,7 +144,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n&google/protobuf/compiler/profile.proto"
       "\022\030google.protobuf.compiler\"d\n\017FieldAcces"
       "sInfo\022\014\n\004name\030\001 \001(\t\022\025\n\rgetters_count\030\002 \001"
@@ -251,11 +250,16 @@ FieldAccessInfo* FieldAccessInfo::New(::google::protobuf::Arena* arena) const {
 
 void FieldAccessInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.FieldAccessInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   if (has_name()) {
     GOOGLE_DCHECK(!name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*name_.UnsafeRawStringPointer())->clear();
   }
-  if (_has_bits_[0 / 32] & 14u) {
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 14u) {
     ::memset(&getters_count_, 0, reinterpret_cast<char*>(&configs_count_) -
       reinterpret_cast<char*>(&getters_count_) + sizeof(configs_count_));
   }
@@ -333,9 +337,7 @@ bool FieldAccessInfo::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -394,7 +396,6 @@ void FieldAccessInfo::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* FieldAccessInfo::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.FieldAccessInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -544,13 +545,14 @@ void FieldAccessInfo::Swap(FieldAccessInfo* other) {
   InternalSwap(other);
 }
 void FieldAccessInfo::InternalSwap(FieldAccessInfo* other) {
+  using std::swap;
   name_.Swap(&other->name_);
-  std::swap(getters_count_, other->getters_count_);
-  std::swap(setters_count_, other->setters_count_);
-  std::swap(configs_count_, other->configs_count_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(getters_count_, other->getters_count_);
+  swap(setters_count_, other->setters_count_);
+  swap(configs_count_, other->configs_count_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata FieldAccessInfo::GetMetadata() const {
@@ -769,6 +771,10 @@ MessageAccessInfo* MessageAccessInfo::New(::google::protobuf::Arena* arena) cons
 
 void MessageAccessInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.MessageAccessInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   field_.Clear();
   if (has_name()) {
     GOOGLE_DCHECK(!name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
@@ -833,9 +839,7 @@ bool MessageAccessInfo::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -890,7 +894,6 @@ void MessageAccessInfo::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* MessageAccessInfo::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.MessageAccessInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1029,12 +1032,13 @@ void MessageAccessInfo::Swap(MessageAccessInfo* other) {
   InternalSwap(other);
 }
 void MessageAccessInfo::InternalSwap(MessageAccessInfo* other) {
+  using std::swap;
   field_.InternalSwap(&other->field_);
   name_.Swap(&other->name_);
-  std::swap(count_, other->count_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(count_, other->count_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata MessageAccessInfo::GetMetadata() const {
@@ -1225,6 +1229,10 @@ AccessInfo* AccessInfo::New(::google::protobuf::Arena* arena) const {
 
 void AccessInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.AccessInfo)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   message_.Clear();
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -1254,9 +1262,7 @@ bool AccessInfo::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
@@ -1295,7 +1301,6 @@ void AccessInfo::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* AccessInfo::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.AccessInfo)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1390,10 +1395,11 @@ void AccessInfo::Swap(AccessInfo* other) {
   InternalSwap(other);
 }
 void AccessInfo::InternalSwap(AccessInfo* other) {
+  using std::swap;
   message_.InternalSwap(&other->message_);
-  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AccessInfo::GetMetadata() const {

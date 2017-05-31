@@ -703,6 +703,30 @@ TEST_F(ParseMessageTest, ExtensionRange) {
     "}");
 }
 
+TEST_F(ParseMessageTest, ExtensionRangeWithOptions) {
+  ExpectParsesTo(
+    "message TestMessage {\n"
+    "  extensions 10 to 19 [(i) = 5];\n"
+    "}\n",
+
+    "message_type {"
+    "  name: \"TestMessage\""
+    "  extension_range {"
+    "    start:10"
+    "    end:20"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
+    "}");
+}
+
 TEST_F(ParseMessageTest, CompoundExtensionRange) {
   ExpectParsesTo(
     "message TestMessage {\n"
@@ -716,6 +740,82 @@ TEST_F(ParseMessageTest, CompoundExtensionRange) {
     "  extension_range { start:9   end:12        }"
     "  extension_range { start:100 end:536870912 }"
     "  extension_range { start:3   end:4         }"
+    "}");
+}
+
+TEST_F(ParseMessageTest, CompoundExtensionRangeWithOptions) {
+  ExpectParsesTo(
+    "message TestMessage {\n"
+    "  extensions 2, 15, 9 to 11, 100 to max, 3 [(i) = 5];\n"
+    "}\n",
+
+    "message_type {"
+    "  name: \"TestMessage\""
+    "  extension_range {"
+    "    start:2"
+    "    end:3"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
+    "  extension_range {"
+    "    start:15"
+    "    end:16"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
+    "  extension_range {"
+    "    start:9"
+    "    end:12"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
+    "  extension_range {"
+    "    start:100"
+    "    end:536870912"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
+    "  extension_range {"
+    "    start:3"
+    "    end:4"
+    "    options {"
+    "      uninterpreted_option {"
+    "        name {"
+    "          name_part: \"i\""
+    "          is_extension: true"
+    "        }"
+    "        positive_int_value: 5"
+    "      }"
+    "    }"
+    "  }"
     "}");
 }
 

@@ -36,22 +36,22 @@ namespace {
 }  // namespace
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTableField
-    const TableStruct::entries[] = {
+    const TableStruct::entries[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   {0, 0, 0, ::google::protobuf::internal::kInvalidMask, 0, 0},
 };
 
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
-    const TableStruct::aux[] = {
+    const TableStruct::aux[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ::google::protobuf::internal::AuxillaryParseTableField(),
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
-    TableStruct::schema[] = {
+    TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
   { NULL, NULL, 0, -1, -1, false },
 };
 
-const ::google::protobuf::uint32 TableStruct::offsets[] = {
+const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Api, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -84,8 +84,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Mixin, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Mixin, root_),
 };
-
-static const ::google::protobuf::internal::MigrationSchema schemas[] = {
+static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(Api)},
   { 12, -1, sizeof(Method)},
   { 24, -1, sizeof(Mixin)},
@@ -121,11 +120,11 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void TableStruct::Shutdown() {
-  _Api_default_instance_.Shutdown();
+  _Api_default_instance_.Destruct();
   delete file_level_metadata[0].reflection;
-  _Method_default_instance_.Shutdown();
+  _Method_default_instance_.Destruct();
   delete file_level_metadata[1].reflection;
-  _Mixin_default_instance_.Shutdown();
+  _Mixin_default_instance_.Destruct();
   delete file_level_metadata[2].reflection;
 }
 
@@ -148,7 +147,7 @@ void InitDefaults() {
 }
 void AddDescriptorsImpl() {
   InitDefaults();
-  static const char descriptor[] = {
+  static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\031google/protobuf/api.proto\022\017google.prot"
       "obuf\032$google/protobuf/source_context.pro"
       "to\032\032google/protobuf/type.proto\"\201\002\n\003Api\022\014"
@@ -283,6 +282,10 @@ Api* Api::New(::google::protobuf::Arena* arena) const {
 
 void Api::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Api)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   methods_.Clear();
   options_.Clear();
   mixins_.Clear();
@@ -402,9 +405,7 @@ bool Api::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -482,7 +483,6 @@ void Api::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Api::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Api)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -682,14 +682,15 @@ void Api::Swap(Api* other) {
   InternalSwap(other);
 }
 void Api::InternalSwap(Api* other) {
+  using std::swap;
   methods_.InternalSwap(&other->methods_);
   options_.InternalSwap(&other->options_);
   mixins_.InternalSwap(&other->mixins_);
   name_.Swap(&other->name_);
   version_.Swap(&other->version_);
-  std::swap(source_context_, other->source_context_);
-  std::swap(syntax_, other->syntax_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(source_context_, other->source_context_);
+  swap(syntax_, other->syntax_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Api::GetMetadata() const {
@@ -1040,6 +1041,10 @@ Method* Method::New(::google::protobuf::Arena* arena) const {
 
 void Method::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Method)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   options_.Clear();
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   request_type_url_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -1163,9 +1168,7 @@ bool Method::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1245,7 +1248,6 @@ void Method::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Method::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Method)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1438,14 +1440,15 @@ void Method::Swap(Method* other) {
   InternalSwap(other);
 }
 void Method::InternalSwap(Method* other) {
+  using std::swap;
   options_.InternalSwap(&other->options_);
   name_.Swap(&other->name_);
   request_type_url_.Swap(&other->request_type_url_);
   response_type_url_.Swap(&other->response_type_url_);
-  std::swap(request_streaming_, other->request_streaming_);
-  std::swap(response_streaming_, other->response_streaming_);
-  std::swap(syntax_, other->syntax_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(request_streaming_, other->request_streaming_);
+  swap(response_streaming_, other->response_streaming_);
+  swap(syntax_, other->syntax_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Method::GetMetadata() const {
@@ -1761,6 +1764,10 @@ Mixin* Mixin::New(::google::protobuf::Arena* arena) const {
 
 void Mixin::Clear() {
 // @@protoc_insertion_point(message_clear_start:google.protobuf.Mixin)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   root_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1809,9 +1816,7 @@ bool Mixin::MergePartialFromCodedStream(
 
       default: {
       handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+        if (tag == 0) {
           goto success;
         }
         DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
@@ -1859,7 +1864,6 @@ void Mixin::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Mixin::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
   // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.Mixin)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1970,9 +1974,10 @@ void Mixin::Swap(Mixin* other) {
   InternalSwap(other);
 }
 void Mixin::InternalSwap(Mixin* other) {
+  using std::swap;
   name_.Swap(&other->name_);
   root_.Swap(&other->root_);
-  std::swap(_cached_size_, other->_cached_size_);
+  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Mixin::GetMetadata() const {

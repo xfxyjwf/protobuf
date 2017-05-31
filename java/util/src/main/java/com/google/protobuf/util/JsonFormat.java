@@ -104,8 +104,7 @@ public class JsonFormat {
    */
   public static Printer printer() {
     return new Printer(
-        TypeRegistry.getEmptyTypeRegistry(), false, Collections.<FieldDescriptor>emptySet(),
-        false, false);
+        TypeRegistry.getEmptyTypeRegistry(), false, Collections.emptySet(), false, false);
   }
 
   /**
@@ -168,7 +167,7 @@ public class JsonFormat {
       return new Printer(
           registry,
           true,
-          Collections.<FieldDescriptor>emptySet(),
+          Collections.emptySet(),
           preservingProtoFieldNames,
           omittingInsignificantWhitespace);
     }
@@ -1686,7 +1685,11 @@ public class JsonFormat {
     }
 
     private ByteString parseBytes(JsonElement json) throws InvalidProtocolBufferException {
-      return ByteString.copyFrom(BaseEncoding.base64().decode(json.getAsString()));
+      try {
+        return ByteString.copyFrom(BaseEncoding.base64().decode(json.getAsString()));
+      } catch (IllegalArgumentException e) {
+        return ByteString.copyFrom(BaseEncoding.base64Url().decode(json.getAsString()));
+      }
     }
 
     private EnumValueDescriptor parseEnum(EnumDescriptor enumDescriptor, JsonElement json)

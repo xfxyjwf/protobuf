@@ -235,7 +235,7 @@ jspb.BinaryWriter.prototype.getResultBuffer = function() {
 
 
 /**
- * Converts the encoded data into a bas64-encoded string.
+ * Converts the encoded data into a base64-encoded string.
  * @return {string}
  */
 jspb.BinaryWriter.prototype.getResultBase64String = function() {

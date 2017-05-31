@@ -521,6 +521,11 @@ class GeneratedDescriptorTest(unittest.TestCase):
     del enum
     self.assertEqual('FOO', next(values_iter).name)
 
+  def testServiceDescriptor(self):
+    service_descriptor = unittest_pb2.DESCRIPTOR.services_by_name['TestService']
+    self.assertEqual(service_descriptor.name, 'TestService')
+    self.assertEqual(service_descriptor.methods[0].name, 'Foo')
+
 
 class DescriptorCopyToProtoTest(unittest.TestCase):
   """Tests for CopyTo functions of Descriptor."""

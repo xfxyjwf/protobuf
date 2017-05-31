@@ -582,12 +582,12 @@ public class MapTest extends TestCase {
     TestMap map = tryParseTestMap(BizarroTestMap.newBuilder()
         .putInt32ToInt32Field(5, bytes)
         .build());
-    assertEquals(map.getInt32ToInt32FieldOrDefault(5, -1), 0);
+    assertEquals(0, map.getInt32ToInt32FieldOrDefault(5, -1));
 
     map = tryParseTestMap(BizarroTestMap.newBuilder()
         .putInt32ToStringField(stringKey, 5)
         .build());
-    assertEquals(map.getInt32ToStringFieldOrDefault(0, null), "");
+    assertEquals("", map.getInt32ToStringFieldOrDefault(0, null));
 
     map = tryParseTestMap(BizarroTestMap.newBuilder()
         .putInt32ToBytesField(stringKey, 5)
@@ -597,7 +597,7 @@ public class MapTest extends TestCase {
     map = tryParseTestMap(BizarroTestMap.newBuilder()
         .putInt32ToEnumField(stringKey, bytes)
         .build());
-    assertEquals(map.getInt32ToEnumFieldOrDefault(0, null), TestMap.EnumValue.FOO);
+    assertEquals(TestMap.EnumValue.FOO, map.getInt32ToEnumFieldOrDefault(0, null));
 
     try {
       tryParseTestMap(BizarroTestMap.newBuilder()
@@ -613,7 +613,7 @@ public class MapTest extends TestCase {
     map = tryParseTestMap(BizarroTestMap.newBuilder()
         .putStringToInt32Field(stringKey, bytes)
         .build());
-    assertEquals(map.getStringToInt32FieldOrDefault(stringKey, -1), 0);
+    assertEquals(0, map.getStringToInt32FieldOrDefault(stringKey, -1));
   }
 
   public void testMergeFrom() throws Exception {
@@ -1516,8 +1516,7 @@ public class MapTest extends TestCase {
     }
 
     try {
-      builder.putAllInt32ToMessageField(
-          MapTest.<Integer, MessageValue>newMap(4, null, 5, null));
+      builder.putAllInt32ToMessageField(newMap(4, null, 5, null));
       fail();
     } catch (NullPointerException expected) {
     }

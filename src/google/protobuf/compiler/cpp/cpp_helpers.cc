@@ -37,12 +37,13 @@
 #include <vector>
 #include <google/protobuf/stubs/hash.h>
 
-#include <google/protobuf/compiler/cpp/cpp_helpers.h>
-#include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/logging.h>
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/compiler/cpp/cpp_helpers.h>
+#include <google/protobuf/io/printer.h>
 #include <google/protobuf/stubs/strutil.h>
 #include <google/protobuf/stubs/substitute.h>
+
 
 
 namespace google {
@@ -652,6 +653,26 @@ void GenerateUtf8CheckCodeForCord(const FieldDescriptor* field,
                                   io::Printer* printer) {
   GenerateUtf8CheckCode(field, options, for_parse, variables, parameters,
                         "VerifyUtf8Cord", "VerifyUTF8CordNamedField", printer);
+}
+
+namespace {
+
+void Flatten(const Descriptor* descriptor,
+             std::vector<const Descriptor*>* flatten) {
+  for (int i = 0; i < descriptor->nested_type_count(); i++)
+    Flatten(descriptor->nested_type(i), flatten);
+  flatten->push_back(descriptor);
+}
+
+}  // namespace
+
+std::vector<const Descriptor*> FlattenMessagesInFile(
+    const FileDescriptor* file) {
+  std::vector<const Descriptor*> result;
+  for (int i = 0; i < file->message_type_count(); i++) {
+    Flatten(file->message_type(i), &result);
+  }
+  return result;
 }
 
 bool HasWeakFields(const Descriptor* descriptor) {

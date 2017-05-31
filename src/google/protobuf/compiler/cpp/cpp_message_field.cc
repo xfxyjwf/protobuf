@@ -98,6 +98,7 @@ void MessageFieldGenerator::
 GenerateGetterDeclaration(io::Printer* printer) const {
   printer->Print(variables_,
       "$deprecated_attr$const $type$& $name$() const;\n");
+  printer->Annotate("name", descriptor_);
 }
 
 void MessageFieldGenerator::
@@ -107,9 +108,14 @@ GenerateDependentAccessorDeclarations(io::Printer* printer) const {
   }
   // Arena manipulation code is out-of-line in the derived message class.
   printer->Print(variables_,
-    "$deprecated_attr$$type$* mutable_$name$();\n"
-    "$deprecated_attr$$type$* $release_name$();\n"
-    "$deprecated_attr$void set_allocated_$name$($type$* $name$);\n");
+                 "$deprecated_attr$$type$* ${$mutable_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_, "$deprecated_attr$$type$* $release_name$();\n");
+  printer->Annotate("release_name", descriptor_);
+  printer->Print(variables_,
+                 "$deprecated_attr$void ${$set_allocated_$name$$}$"
+                 "($type$* $name$);\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void MessageFieldGenerator::
@@ -130,15 +136,25 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   GenerateGetterDeclaration(printer);
   if (!dependent_field_) {
     printer->Print(variables_,
-      "$deprecated_attr$$type$* mutable_$name$();\n"
-      "$deprecated_attr$$type$* $release_name$();\n"
-      "$deprecated_attr$void set_allocated_$name$($type$* $name$);\n");
+                   "$deprecated_attr$$type$* ${$mutable_$name$$}$();\n");
+    printer->Annotate("{", "}", descriptor_);
+    printer->Print(variables_, "$deprecated_attr$$type$* $release_name$();\n");
+    printer->Annotate("release_name", descriptor_);
+    printer->Print(variables_,
+                   "$deprecated_attr$void ${$set_allocated_$name$$}$"
+                   "($type$* $name$);\n");
+    printer->Annotate("{", "}", descriptor_);
   }
   if (SupportsArenas(descriptor_)) {
+    printer->Print(
+        variables_,
+        "$deprecated_attr$$type$* ${$unsafe_arena_release_$name$$}$();\n");
+    printer->Annotate("{", "}", descriptor_);
     printer->Print(variables_,
-      "$deprecated_attr$$type$* unsafe_arena_release_$name$();\n"
-      "$deprecated_attr$void unsafe_arena_set_allocated_$name$(\n"
-      "    $type$* $name$);\n");
+                   "$deprecated_attr$void "
+                   "${$unsafe_arena_set_allocated_$name$$}$(\n"
+                   "    $type$* $name$);\n");
+    printer->Annotate("{", "}", descriptor_);
   }
 }
 
@@ -511,7 +527,7 @@ GenerateMergingCode(io::Printer* printer) const {
 
 void MessageFieldGenerator::
 GenerateSwappingCode(io::Printer* printer) const {
-  printer->Print(variables_, "std::swap($name$_, other->$name$_);\n");
+  printer->Print(variables_, "swap($name$_, other->$name$_);\n");
 }
 
 void MessageFieldGenerator::
@@ -899,16 +915,20 @@ GeneratePrivateMembers(io::Printer* printer) const {
 void RepeatedMessageFieldGenerator::
 InternalGenerateTypeDependentAccessorDeclarations(io::Printer* printer) const {
   printer->Print(variables_,
-    "$deprecated_attr$$type$* mutable_$name$(int index);\n"
-    "$deprecated_attr$$type$* add_$name$();\n");
+                 "$deprecated_attr$$type$* ${$mutable_$name$$}$(int index);\n");
+  printer->Annotate("{", "}", descriptor_);
+  printer->Print(variables_, "$deprecated_attr$$type$* ${$add_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
   if (dependent_getter_) {
     printer->Print(variables_,
       "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< $type$ >&\n"
       "    $name$() const;\n");
+    printer->Annotate("name", descriptor_);
   }
   printer->Print(variables_,
-    "$deprecated_attr$::google::protobuf::RepeatedPtrField< $type$ >*\n"
-    "    mutable_$name$();\n");
+                 "$deprecated_attr$::google::protobuf::RepeatedPtrField< $type$ >*\n"
+                 "    ${$mutable_$name$$}$();\n");
+  printer->Annotate("{", "}", descriptor_);
 }
 
 void RepeatedMessageFieldGenerator::
@@ -916,6 +936,7 @@ GenerateDependentAccessorDeclarations(io::Printer* printer) const {
   if (dependent_getter_) {
     printer->Print(variables_,
       "$deprecated_attr$const $type$& $name$(int index) const;\n");
+    printer->Annotate("name", descriptor_);
   }
   if (dependent_field_) {
     InternalGenerateTypeDependentAccessorDeclarations(printer);
@@ -927,6 +948,7 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
   if (!dependent_getter_) {
     printer->Print(variables_,
       "$deprecated_attr$const $type$& $name$(int index) const;\n");
+    printer->Annotate("name", descriptor_);
   }
   if (!dependent_field_) {
     InternalGenerateTypeDependentAccessorDeclarations(printer);
@@ -935,6 +957,7 @@ GenerateAccessorDeclarations(io::Printer* printer) const {
     printer->Print(variables_,
       "$deprecated_attr$const ::google::protobuf::RepeatedPtrField< $type$ >&\n"
       "    $name$() const;\n");
+    printer->Annotate("name", descriptor_);
   }
 }
 

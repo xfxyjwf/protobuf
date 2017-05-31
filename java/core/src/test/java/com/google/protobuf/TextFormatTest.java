@@ -54,6 +54,7 @@ import junit.framework.TestCase;
  *
  * @author wenboz@google.com (Wenbo Zhu)
  */
+@com.google.testing.testsize.MediumTest
 public class TextFormatTest extends TestCase {
 
   // A basic string with different escapable characters for testing.
