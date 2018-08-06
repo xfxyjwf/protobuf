@@ -5,8 +5,8 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "build/protoc-wasm.js",
-    "build/protoc-wasm.wasm"
+    "build/protoc.js",
+    "build/protoc.wasm"
   ],
   "bin": {
     "protoc": "./index.js"

@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-const protoc = require('./build/protoc-wasm.js');
+const protoc = require('./build/protoc.js');
