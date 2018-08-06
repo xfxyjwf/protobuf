@@ -1,0 +1,27 @@
+{
+  "name": "google-protocol-compiler",
+  "version": "0.0.1",
+  "description": "Google Protocol Compiler",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "build/protoc-wasm.js",
+    "build/protoc-wasm.wasm"
+  ],
+  "bin": {
+    "protoc": "./index.js"
+  },
+  "scripts": {
+    "test": "./index.js --version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/google/protobuf.git"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/google/protobuf/issues"
+  },
+  "homepage": "https://github.com/google/protobuf#readme"
+}
