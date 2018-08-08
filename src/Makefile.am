@@ -194,6 +194,8 @@ libprotobuf_lite_la_SOURCES =                                  \
   google/protobuf/stubs/strutil.h                              \
   google/protobuf/stubs/time.cc                                \
   google/protobuf/stubs/time.h                                 \
+  google/protobuf/stubs/wasm.cc                                \
+  google/protobuf/stubs/wasm.h                                 \
   google/protobuf/arena.cc                                     \
   google/protobuf/arenastring.cc                               \
   google/protobuf/extension_set.cc                             \

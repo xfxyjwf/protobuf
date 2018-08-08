@@ -83,6 +83,9 @@
 #include <google/protobuf/stubs/stl_util.h>
 #include <google/protobuf/stubs/io_win32.h>
 
+#ifdef __EMSCRIPTEN__
+#include <google/protobuf/stubs/wasm.h>
+#endif  // __EMSCRIPTEN__
 
 namespace google {
 namespace protobuf {
@@ -154,12 +157,16 @@ void AddTrailingSlash(string* path) {
 bool VerifyDirectoryExists(const string& path) {
   if (path.empty()) return true;
 
+#ifdef __EMSCRIPTEN__
+  return wasm::FileExists(path);
+#else
   if (access(path.c_str(), F_OK) == -1) {
     std::cerr << path << ": " << strerror(errno) << std::endl;
     return false;
   } else {
     return true;
   }
+#endif
 }
 
 // Try to create the parent directory of the given file, creating the parent's
@@ -172,6 +179,11 @@ bool TryCreateParentDirectory(const string& prefix, const string& filename) {
   string path_so_far = prefix;
   for (int i = 0; i < parts.size() - 1; i++) {
     path_so_far += parts[i];
+#ifdef __EMSCRIPTEN__
+    if (!wasm::CreateDirectory(path_so_far)) {
+      return false;
+    }
+#else
     if (mkdir(path_so_far.c_str(), 0777) != 0) {
       if (errno != EEXIST) {
         std::cerr << filename << ": while trying to create directory "
@@ -179,6 +191,7 @@ bool TryCreateParentDirectory(const string& prefix, const string& filename) {
         return false;
       }
     }
+#endif
     path_so_far += '/';
   }
 
@@ -471,6 +484,12 @@ bool CommandLineInterface::GeneratorContextImpl::WriteAllToDisk(
     }
     string filename = prefix + relative_filename;
 
+#ifdef __EMSCRIPTEN__
+    if (!wasm::WriteFile(filename, *iter->second)) {
+      std::cerr << filename << ": failed to write." << std::endl;
+      return false;
+    }
+#else
     // Create the output file.
     int file_descriptor;
     do {
@@ -520,6 +539,7 @@ bool CommandLineInterface::GeneratorContextImpl::WriteAllToDisk(
       std::cerr << filename << ": close: " << strerror(error);
       return false;
     }
+#endif
   }
 
   return true;

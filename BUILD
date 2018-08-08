@@ -109,6 +109,7 @@ cc_library(
         "src/google/protobuf/stubs/structurally_valid.cc",
         "src/google/protobuf/stubs/strutil.cc",
         "src/google/protobuf/stubs/time.cc",
+        "src/google/protobuf/stubs/wasm.cc",
         "src/google/protobuf/wire_format_lite.cc",
     ],
     hdrs = glob(["src/google/protobuf/**/*.h"]),

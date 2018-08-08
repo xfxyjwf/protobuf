@@ -60,48 +60,12 @@
 #endif
 
 #ifdef __EMSCRIPTEN__
-#include <emscripten/emscripten.h>
-
-typedef int (*DiskSourceTreeHelperType)(int, int);
-DiskSourceTreeHelperType disk_source_tree_helper;
-
-extern "C" {
-EMSCRIPTEN_KEEPALIVE
-int SetDiskSourceTreeHelper(int helper) {
-  disk_source_tree_helper = reinterpret_cast<DiskSourceTreeHelperType>(helper);
-  return 0;
-}
-}
-
+#include <google/protobuf/stubs/wasm.h>
 #endif  // __EMSCRIPTEN__
 
 namespace google {
 namespace protobuf {
 namespace compiler {
-
-namespace {
-static constexpr int kDiskSourceTreeHelperCommandFileExists = 1;
-static constexpr int kDiskSourceTreeHelperCommandReadFile = 1;
-bool FileExists(const string& name) {
-  int p1 = kDiskSourceTreeHelperCommandFileExists;
-  int p2 = reinterpret_cast<int>(name.c_str());
-  int ret = disk_source_tree_helper(p1, p2);
-  return ret != 0;
-}
-
-bool ReadFile(const string& name, string* content) {
-  int p1 = kDiskSourceTreeHelperCommandReadFile;
-  int p2 = reinterpret_cast<int>(name.c_str());
-  auto ret = reinterpret_cast<char*>(disk_source_tree_helper(p1, p2));
-  if (ret == nullptr) {
-    return false;
-  }
-  content->assign(ret);
-  free(ret);
-  return true;
-}
-}  // namespace
-
 #ifdef _WIN32
 // DO NOT include <io.h>, instead create functions in io_win32.{h,cc} and import
 // them like we do below.
@@ -447,7 +411,7 @@ DiskSourceTree::DiskFileToVirtualFile(
     if (ApplyMapping(*virtual_file, mappings_[i].virtual_path,
                      mappings_[i].disk_path, shadowing_disk_file)) {
 #ifdef __EMSCRIPTEN__
-      if (FileExists(*shadowing_disk_file)) {
+      if (wasm::FileExists(*shadowing_disk_file)) {
         // File exists.
         return SHADOWED;
       }
@@ -538,7 +502,7 @@ io::ZeroCopyInputStream* DiskSourceTree::OpenDiskFile(
     const string& filename) {
 #ifdef __EMSCRIPTEN__
   std::unique_ptr<string> content(new string());
-  if (ReadFile(filename, content.get())) {
+  if (wasm::ReadFile(filename, content.get())) {
     return new StringInputStream(std::move(content));
   }
   return nullptr;

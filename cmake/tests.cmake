@@ -82,16 +82,28 @@ set(tests_protos
   google/protobuf/util/message_differencer_unittest.proto
 )
 
+set(EXTERNAL_PROTOC_FOR_TESTS "" CACHE STRING "Path to host protoc used in building tests.")
 macro(compile_proto_file filename)
   get_filename_component(dirname ${filename} PATH)
   get_filename_component(basename ${filename} NAME_WE)
-  add_custom_command(
-    OUTPUT ${protobuf_source_dir}/src/${dirname}/${basename}.pb.cc
-    DEPENDS protoc ${protobuf_source_dir}/src/${dirname}/${basename}.proto
-    COMMAND protoc ${protobuf_source_dir}/src/${dirname}/${basename}.proto
-        --proto_path=${protobuf_source_dir}/src
-        --cpp_out=${protobuf_source_dir}/src
-  )
+  if ("${EXTERNAL_PROTOC_FOR_TESTS}" STREQUAL "")
+    add_custom_command(
+      OUTPUT ${protobuf_source_dir}/src/${dirname}/${basename}.pb.cc
+      DEPENDS protoc ${protobuf_source_dir}/src/${dirname}/${basename}.proto
+      COMMAND protoc ${protobuf_source_dir}/src/${dirname}/${basename}.proto
+          --proto_path=${protobuf_source_dir}/src
+          --cpp_out=${protobuf_source_dir}/src
+    )
+  else()
+    message("Using external protoc: ${EXTERNAL_PROTOC_FOR_TESTS}")
+    add_custom_command(
+      OUTPUT ${protobuf_source_dir}/src/${dirname}/${basename}.pb.cc
+      DEPENDS ${protobuf_source_dir}/src/${dirname}/${basename}.proto
+      COMMAND ${EXTERNAL_PROTOC_FOR_TESTS} ${protobuf_source_dir}/src/${dirname}/${basename}.proto
+          --proto_path=${protobuf_source_dir}/src
+          --cpp_out=${protobuf_source_dir}/src
+    )
+  endif()
 endmacro(compile_proto_file)
 
 set(lite_test_proto_files)

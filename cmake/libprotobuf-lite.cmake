@@ -21,6 +21,7 @@ set(libprotobuf_lite_files
   ${protobuf_source_dir}/src/google/protobuf/stubs/structurally_valid.cc
   ${protobuf_source_dir}/src/google/protobuf/stubs/strutil.cc
   ${protobuf_source_dir}/src/google/protobuf/stubs/time.cc
+  ${protobuf_source_dir}/src/google/protobuf/stubs/wasm.cc
   ${protobuf_source_dir}/src/google/protobuf/wire_format_lite.cc
 )
 
