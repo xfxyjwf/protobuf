@@ -1,6 +1,6 @@
 {
   "name": "google-protocol-compiler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Google Protocol Compiler",
   "main": "index.js",
   "files": [
