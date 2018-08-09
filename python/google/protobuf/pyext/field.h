@@ -28,43 +28,32 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// Author: anuraag@google.com (Anuraag Agrawal)
-// Author: tibell@google.com (Johan Tibell)
-
-#ifndef GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
-#define GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
+#ifndef GOOGLE_PROTOBUF_PYTHON_CPP_FIELD_H__
+#define GOOGLE_PROTOBUF_PYTHON_CPP_FIELD_H__
 
 #include <Python.h>
-
-#include <memory>
-
-#include <google/protobuf/pyext/message.h>
 
 namespace google {
 namespace protobuf {
 
-class Message;
 class FieldDescriptor;
 
 namespace python {
 
-typedef struct ExtensionDict {
+// A data descriptor that represents a field in a Message class.
+struct PyMessageFieldProperty {
   PyObject_HEAD;
 
-  // Strong, owned reference to the parent message. Never NULL.
-  CMessage* parent;
-} ExtensionDict;
+  // This pointer is owned by the same pool as the Message class it belongs to.
+  const FieldDescriptor* field_descriptor;
+};
 
-extern PyTypeObject ExtensionDict_Type;
+extern PyTypeObject* CFieldProperty_Type;
 
-namespace extension_dict {
+PyObject* NewFieldProperty(const FieldDescriptor* field_descriptor);
 
-// Builds an Extensions dict for a specific message.
-ExtensionDict* NewExtensionDict(CMessage *parent);
-
-}  // namespace extension_dict
 }  // namespace python
 }  // namespace protobuf
 }  // namespace google
 
-#endif  // GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
+#endif  // GOOGLE_PROTOBUF_PYTHON_CPP_FIELD_H__

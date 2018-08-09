@@ -185,6 +185,8 @@ if __name__ == '__main__':
         extra_compile_args.append('-Wno-write-strings')
         extra_compile_args.append('-Wno-invalid-offsetof')
         extra_compile_args.append('-Wno-sign-compare')
+        extra_compile_args.append('-Wno-unused-variable')
+        extra_compile_args.append('-Wno-maybe-uninitialized')
         extra_compile_args.append('-std=c++11')
 
     # https://github.com/Theano/Theano/issues/4926

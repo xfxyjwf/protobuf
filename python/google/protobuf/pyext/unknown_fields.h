@@ -28,43 +28,63 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// Author: anuraag@google.com (Anuraag Agrawal)
-// Author: tibell@google.com (Johan Tibell)
-
-#ifndef GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
-#define GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
+#ifndef GOOGLE_PROTOBUF_PYTHON_CPP_UNKNOWN_FIELDS_H__
+#define GOOGLE_PROTOBUF_PYTHON_CPP_UNKNOWN_FIELDS_H__
 
 #include <Python.h>
 
 #include <memory>
+#include <set>
 
 #include <google/protobuf/pyext/message.h>
 
 namespace google {
 namespace protobuf {
 
-class Message;
-class FieldDescriptor;
+class UnknownField;
+class UnknownFieldSet;
 
 namespace python {
+class CMessage;
 
-typedef struct ExtensionDict {
+typedef struct PyUnknownFields {
   PyObject_HEAD;
+  // Strong pointer to the parent CMessage or PyUnknownFields.
+  // The top PyUnknownFields holds a reference to its parent CMessage
+  // object before release.
+  // Sub PyUnknownFields holds reference to parent PyUnknownFields.
+  PyObject* parent;
 
-  // Strong, owned reference to the parent message. Never NULL.
-  CMessage* parent;
-} ExtensionDict;
+  // Pointer to the C++ UnknownFieldSet.
+  // PyUnknownFields does not own this pointer.
+  const UnknownFieldSet* fields;
 
-extern PyTypeObject ExtensionDict_Type;
+  // Weak references to child unknown fields.
+  std::set<PyUnknownFields*> sub_unknown_fields;
+} PyUnknownFields;
 
-namespace extension_dict {
+typedef struct PyUnknownFieldRef {
+  PyObject_HEAD;
+  // Every Python PyUnknownFieldRef holds a reference to its parent
+  // PyUnknownFields in order to keep it alive.
+  PyUnknownFields* parent;
 
-// Builds an Extensions dict for a specific message.
-ExtensionDict* NewExtensionDict(CMessage *parent);
+  // The UnknownField index in UnknownFields.
+  Py_ssize_t index;
+} UknownFieldRef;
 
-}  // namespace extension_dict
+extern PyTypeObject PyUnknownFields_Type;
+extern PyTypeObject PyUnknownFieldRef_Type;
+
+namespace unknown_fields {
+
+// Builds an PyUnknownFields for a specific message.
+PyObject* NewPyUnknownFields(CMessage *parent);
+void Clear(PyUnknownFields* self);
+
+}  // namespace unknown_fields
 }  // namespace python
 }  // namespace protobuf
 }  // namespace google
 
-#endif  // GOOGLE_PROTOBUF_PYTHON_CPP_EXTENSION_DICT_H__
+#endif  // GOOGLE_PROTOBUF_PYTHON_CPP_UNKNOWN_FIELDS_H__
