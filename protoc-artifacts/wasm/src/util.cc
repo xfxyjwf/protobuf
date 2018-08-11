@@ -173,7 +173,8 @@ wasm::util::GeneratorOutput GenerateUsingJsonInput(const string &json) {
   wasm::util::GeneratorOutput output;
   auto status = util::JsonStringToMessage(json, &input);
   if (!status.ok()) {
-    output.set_error(status.error_message());
+    output.set_error(string(status.error_message()) + "\nInput type is:\n" +
+                     wasm::util::GeneratorInput::descriptor()->DebugString());
     return output;
   }
   return Generate(input.name(), input.content(), input.language(),
