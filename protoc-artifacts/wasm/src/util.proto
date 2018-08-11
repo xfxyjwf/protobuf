@@ -13,3 +13,7 @@ message GeneratorOutput {
   string error = 1;
   map<string, string> files = 2;
 }
+
+message LanguageList {
+  repeated string languages = 1;
+}

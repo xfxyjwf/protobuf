@@ -45,3 +45,21 @@ Module["onRuntimeInitialized"] = function() {
     Module._SetSystemHelper(systemHelper);
   }
 };
+Module["GetGeneratorFunction"] = function() {
+  const rawFunction = Module.cwrap('Generate', 'number', ['string']);
+  return function(input) {
+    const raw = rawFunction(JSON.stringify(input));
+    const result = Module.UTF8ToString(raw);
+    Module._free(raw);
+    return JSON.parse(result);
+  };
+};
+Module["GetListLanguagesFunction"] = function() {
+  const rawFunction = Module.cwrap('ListLanguages', 'number', []);
+  return function() {
+    const raw = rawFunction();
+    const result = Module.UTF8ToString(raw);
+    Module._free(raw);
+    return JSON.parse(result);
+  };
+};

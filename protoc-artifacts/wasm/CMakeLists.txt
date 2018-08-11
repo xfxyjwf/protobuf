@@ -26,13 +26,8 @@ target_link_libraries(protoc-wasm-lib libprotoc libprotobuf)
 add_executable(protoc-wasm src/wasm.cc)
 target_link_libraries(protoc-wasm libprotoc libprotobuf)
 
-add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/src/util.pb.cc
-         ${CMAKE_CURRENT_BINARY_DIR}/src/util.pb.h
-  DEPENDS protoc src/util.proto
-  COMMAND protoc -I ${CMAKE_CURRENT_SOURCE_DIR}/src
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/util.proto --cpp_out=${CMAKE_CURRENT_BINARY_DIR}/src)
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/src)
-add_executable(util-wasm src/util.cc ${CMAKE_CURRENT_BINARY_DIR}/src/util.pb.cc)
+include_directories(src)
+# Here we are checking in generated files because protoc can't be used as part
+# of the build process.
+add_executable(util-wasm src/util.cc src/util.pb.cc)
 target_link_libraries(util-wasm libprotoc libprotobuf)

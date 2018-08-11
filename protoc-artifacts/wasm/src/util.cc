@@ -132,6 +132,11 @@ wasm::util::GeneratorOutput Generate(const string &name, const string &content,
                                      const string &language,
                                      const string &parameters) {
   wasm::util::GeneratorOutput result;
+  if (name.empty()) {
+    result.set_error("Invalid file name: " + name);
+    return result;
+  }
+
   CodeGenerator *generator = code_generators[language].get();
   if (generator == nullptr) {
     result.set_error("Language not supported: " + language);
@@ -154,7 +159,7 @@ wasm::util::GeneratorOutput Generate(const string &name, const string &content,
   }
   string error;
   ResultContext context;
-  if (!generator->Generate(file, parameters, &context, &error)) {
+  if (!generator->GenerateAll({file}, parameters, &context, &error)) {
     result.set_error(error);
     return result;
   }
@@ -203,13 +208,35 @@ extern "C" {
 EMSCRIPTEN_KEEPALIVE
 #endif  // __EMSCRIPTEN__
 char *Generate(const char *input);
+
+#ifdef __EMSCRIPTEN__
+EMSCRIPTEN_KEEPALIVE
+#endif  // __EMSCRIPTEN__
+char *ListLanguages();
+}
+
+static char *ToJavascriptString(const string &value) {
+  char *buffer = static_cast<char *>(malloc(value.size() + 1));
+  memcpy(buffer, value.data(), value.size() + 1);
+  return buffer;
 }
 
 char *Generate(const char *input) {
   string result = google::protobuf::compiler::GenerateUsingJson(input);
-  char *buffer = static_cast<char *>(malloc(result.size() + 1));
-  memcpy(buffer, result.data(), result.size() + 1);
-  return buffer;
+  return ToJavascriptString(result);
+}
+
+char *ListLanguages() {
+  google::protobuf::compiler::wasm::util::LanguageList list;
+  for (const auto &p : google::protobuf::compiler::code_generators) {
+    list.add_languages(p.first);
+  }
+  string result;
+  auto status = google::protobuf::util::MessageToJsonString(list, &result);
+  if (!status.ok()) {
+    cerr << "Failed to convert result message to json: " << status << endl;
+  }
+  return ToJavascriptString(result);
 }
 
 int main(int argc, char *argv[]) {
@@ -217,7 +244,7 @@ int main(int argc, char *argv[]) {
   for (int i = 1; i < argc; i++) {
     string name = argv[i];
     auto result = google::protobuf::compiler::Generate(
-        name, google::protobuf::compiler::ReadFile(name), "C++", "");
+        name, google::protobuf::compiler::ReadFile(name), "Javascript", "");
     if (result.error().empty()) {
       for (auto p : result.files()) {
         cout << "// " << p.first << endl;
