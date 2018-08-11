@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package google.protobuf.compiler.wasm.util;
+
+message GeneratorInput {
+  string name = 1;
+  string content = 2;
+  string language = 3;
+  string parameters = 4;
+}
+
+message GeneratorOutput {
+  string error = 1;
+  map<string, string> files = 2;
+}
