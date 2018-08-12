@@ -48,6 +48,10 @@
         </el-row>
         <div style="margin: 20px 0;"></div>
         <el-row>
+            <pre>Command line: {{ commandLine }}</pre>
+        </el-row>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
             <el-col :span="3">
                 <el-button :disabled="!isReady || autogen" onclick="generate()">{{ buttonText }}</el-button>
             </el-col>
@@ -105,7 +109,23 @@
                 return this.isReady ? "Generate" : "Loading...";
             },
             commandLine() {
-                return "protoc --";
+                if (!this.isReady) {
+                    return "loading...";
+                }
+                if (typeof this.languages[this.proto.language] === 'undefined') {
+                    return "unknown language: " + this.proto.language;
+                } else {
+                    const desc = this.languages[this.proto.language];
+                    if (this.proto.parameters) {
+                        if (desc.protocOptionFlag) {
+                            return "protoc " + desc.protocOutputFlag + "=. " + desc.protocOptionFlag + "=" + this.proto.parameters + " " + this.proto.name;
+                        } else {
+                            return "protoc " + desc.protocOutputFlag + "=" + this.proto.parameters + ":. " + this.proto.name;
+                        }
+                    } else {
+                        return "protoc " + desc.protocOutputFlag + "=. " + this.proto.name;
+                    }
+                }
             }
         },
         mounted() {
@@ -176,6 +196,9 @@
 
     let timer = null;
     function updateGeneratedCode() {
+        if (!app.autogen) {
+            return;
+        }
         if (!generator.isReady) {
             return;
         }
