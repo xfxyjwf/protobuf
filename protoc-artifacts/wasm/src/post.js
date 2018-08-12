@@ -1,4 +1,4 @@
-var systemHelper = addFunction(function(p1,p2,p3) {
+var systemHelper = addFunction(function (p1, p2, p3) {
   // console.log(p1, p2, p3);
   if (p1 == 1) {
     const name = UTF8ToString(p2);
@@ -40,26 +40,35 @@ var systemHelper = addFunction(function(p1,p2,p3) {
   }
 }, 'iii');
 
-Module["onRuntimeInitialized"] = function() {
+Module["onRuntimeInitialized"] = function () {
   if (typeof Module["_SetSystemHelper"] !== "undefined") {
     Module._SetSystemHelper(systemHelper);
   }
 };
-Module["GetGeneratorFunction"] = function() {
+Module["GetGeneratorFunction"] = function () {
   const rawFunction = Module.cwrap('Generate', 'number', ['string']);
-  return function(input) {
+  return function (input) {
     const raw = rawFunction(JSON.stringify(input));
     const result = Module.UTF8ToString(raw);
     Module._free(raw);
     return JSON.parse(result);
   };
 };
-Module["GetListLanguagesFunction"] = function() {
+Module["GetListLanguagesFunction"] = function () {
   const rawFunction = Module.cwrap('ListLanguages', 'number', []);
-  return function() {
+  return function () {
     const raw = rawFunction();
     const result = Module.UTF8ToString(raw);
     Module._free(raw);
     return JSON.parse(result);
+  };
+};
+Module["GetVersionNumberFunction"] = function () {
+  const rawFunction = Module.cwrap('GetVersionNumber', 'number', []);
+  return function () {
+    const raw = rawFunction();
+    const result = Module.UTF8ToString(raw);
+    Module._free(raw);
+    return result;
   };
 };

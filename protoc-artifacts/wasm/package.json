@@ -1,21 +1,23 @@
 {
   "name": "google-protocol-compiler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Google Protocol Compiler",
-  "main": "index.js",
+  "main": "util.js",
   "files": [
-    "index.js",
-    "util.js",
     "build/protoc-wasm.js",
     "build/protoc-wasm.wasm",
     "build/util-wasm.js",
-    "build/util-wasm.wasm"
+    "build/util-wasm.wasm",
+    "index.html",
+    "protoc.js",
+    "util.js",
+    "web.js"
   ],
   "bin": {
-    "protoc": "./index.js"
+    "protoc": "./protoc.js"
   },
   "scripts": {
-    "test": "./index.js --version"
+    "test": "./protoc.js --version"
   },
   "repository": {
     "type": "git",

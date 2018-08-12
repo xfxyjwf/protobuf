@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="//unpkg.com/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src="./build/util-wasm.js"></script>
+    <script src="./web.js"></script>
+</head>
+
+<body>
+    <div id="app" style="max-width: 960px; margin: 0 auto;">
+        <h1>Google Protocol Compiler in the Browser</h1>
+        <span>Protocol Compiler Version: {{ version }}</span>
+        <br>
+        <span>Documentation:
+            <a href="https://www.npmjs.com/package/google-protocol-compiler">https://www.npmjs.com/package/google-protocol-compiler</a>
+        </span>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
+            <el-col :span="24">
+                <el-input v-model="proto.name" placeholder="name of the .proto file"></el-input>
+            </el-col>
+        </el-row>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
+            <el-col :span="24">
+                <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" cols="80" placeholder="Content of the .proto file" v-model="proto.content">
+                </el-input>
+            </el-col>
+        </el-row>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
+            <el-col :span="4">
+                <template>
+                    <el-select v-model="proto.language" placeholder="Generated Code Language">
+                        <el-option v-for="language in languages" :key="language" :label="language" :value="language">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-col>
+            <el-col :span="1">&nbsp;</el-col>
+            <el-col :span="19">
+                <el-input v-model="proto.parameters" placeholder="additional parameters to the code generator"></el-input>
+            </el-col>
+        </el-row>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
+            <el-col :span="3">
+                <el-button :disabled="!isReady || autogen" onclick="generate()">{{ buttonText }}</el-button>
+            </el-col>
+            <el-col :span="4">
+                <template>
+                    <el-checkbox style="padding: 12px" v-model="autogen">Generate code automatically</el-checkbox>
+                </template>
+            </el-col>
+        </el-row>
+        <template v-if="result.error">
+            <div style="margin: 20px 0;"></div>
+            <el-row>
+                <el-col :span="24">
+                    <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" cols="80" placeholder="error message" v-model="result.error">
+                    </el-input>
+                </el-col>
+            </el-row>
+        </template>
+        <div style="margin: 20px 0;"></div>
+        <el-row>
+            <el-col :span="24">
+                <template>
+                    <el-tabs v-model="result.currentPage">
+                        <el-tab-pane v-for="(content, file) in result.files" :label="file" :name="file" :key="file">
+                            <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 20}" cols="80" placeholder="Content of the .proto file" v-model="result.files[file]">
+                        </el-tab-pane>
+                    </el-tabs>
+                </template>
+            </el-col>
+        </el-row>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            version: "Loading...",
+            languages: ["C++", "Java"],
+            isReady: false,
+            autogen: false,
+            proto: {
+                name: 'foo.proto',
+                content: '// .proto file content\nsyntax = "proto3";\npackage test;\n',
+                language: 'C++',
+                parameters: '',
+            },
+            result: {
+                error: '',
+                currentPage: '',
+                files: [],
+            }
+        },
+        computed: {
+            buttonText() {
+                return this.isReady ? "Generate" : "Loading...";
+            }
+        },
+        mounted() {
+            if (localStorage.name) {
+                this.proto.name = localStorage.name;
+            }
+            if (localStorage.content) {
+                this.proto.content = localStorage.content;
+            }
+            if (localStorage.language) {
+                this.proto.language = localStorage.language;
+            }
+            if (localStorage.parameters) {
+                this.proto.parameters = localStorage.parameters;
+            }
+        },
+        watch: {
+            autogen(value) {
+                if (value) {
+                    updateGeneratedCode();
+                }
+            },
+            'proto.name'(value) {
+                console.log('new name: ', value);
+                localStorage.name = value;
+                updateGeneratedCode();
+            },
+            'proto.content'(value) {
+                localStorage.content = value;
+                updateGeneratedCode();
+            },
+            'proto.language'(value) {
+                localStorage.language = value;
+                updateGeneratedCode();
+            },
+            'proto.parameters'(value) {
+                localStorage.parameters = value;
+                updateGeneratedCode();
+            }
+        }
+    });
+
+    let generator = new CodeGenerator();
+    generator.onReady(() => {
+        console.log("CodeGenerator is ready!");
+        app.isReady = true;
+        app.version = generator.versionNumber;
+        app.languages = generator.languageList;
+    });
+
+    function generate() {
+        if (!generator.isReady) {
+            alert('CodeGenerator is not ready!');
+            return;
+        }
+        const result = generator.generateCode(app.proto.name, app.proto.content, app.proto.language, app.proto.parameters);
+        app.result.error = result.error;
+        app.result.files = result.files;
+        if (typeof result.files[app.result.currentPage] === 'undefined') {
+            for (var key in result.files) {
+                app.result.currentPage = key;
+                console.log('Set current page to: ', key);
+                break;
+            }
+        }
+        console.log(result);
+    }
+
+    let timer = null;
+    function updateGeneratedCode() {
+        if (!generator.isReady) {
+            return;
+        }
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(generate, 500);
+    }
+</script>
+
+</html>

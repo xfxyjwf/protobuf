@@ -200,6 +200,10 @@ string ReadFile(const string &name) {
   }
   return result;
 }
+
+string GetVersionNumber() {
+  return protobuf::internal::VersionString(GOOGLE_PROTOBUF_VERSION);
+}
 }  // namespace compiler
 }  // namespace protobuf
 }  // namespace google
@@ -214,6 +218,11 @@ char *Generate(const char *input);
 EMSCRIPTEN_KEEPALIVE
 #endif  // __EMSCRIPTEN__
 char *ListLanguages();
+
+#ifdef __EMSCRIPTEN__
+EMSCRIPTEN_KEEPALIVE
+#endif  // __EMSCRIPTEN__
+char *GetVersionNumber();
 }
 
 static char *ToJavascriptString(const string &value) {
@@ -225,6 +234,10 @@ static char *ToJavascriptString(const string &value) {
 char *Generate(const char *input) {
   string result = google::protobuf::compiler::GenerateUsingJson(input);
   return ToJavascriptString(result);
+}
+
+char *GetVersionNumber() {
+  return ToJavascriptString(google::protobuf::compiler::GetVersionNumber());
 }
 
 char *ListLanguages() {

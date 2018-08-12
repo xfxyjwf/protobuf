@@ -3,4 +3,4 @@
 mkdir -p build
 cd build
 ../cmake.sh -DCMAKE_BUILD_TYPE=RELEASE
-emmake make -j8 protoc-wasm
+emmake make -j8 protoc-wasm util-wasm
