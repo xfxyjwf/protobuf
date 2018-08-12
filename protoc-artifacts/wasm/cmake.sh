@@ -1,6 +1,8 @@
 #!/bin/bash
 
-DIR=$(realpath $(dirname $0))
+pushd $(dirname $0)
+DIR=`pwd`
+popd
 POSTJS="${DIR}/src/post.js"
 emconfigure cmake \
   -Dprotobuf_BUILD_TESTS=OFF \
