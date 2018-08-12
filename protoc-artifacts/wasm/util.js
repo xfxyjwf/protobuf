@@ -112,4 +112,4 @@ class LanguageList {
   }
 }
 
-exports.generator = new CodeGenerator();
+module.exports = new CodeGenerator();
