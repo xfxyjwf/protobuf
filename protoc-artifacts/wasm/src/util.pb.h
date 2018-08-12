@@ -41,7 +41,7 @@ namespace protobuf_util_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[4];
+  static const ::google::protobuf::internal::ParseTable schema[6];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -62,9 +62,15 @@ extern GeneratorOutputDefaultTypeInternal _GeneratorOutput_default_instance_;
 class GeneratorOutput_FilesEntry_DoNotUse;
 class GeneratorOutput_FilesEntry_DoNotUseDefaultTypeInternal;
 extern GeneratorOutput_FilesEntry_DoNotUseDefaultTypeInternal _GeneratorOutput_FilesEntry_DoNotUse_default_instance_;
+class LanguageDescription;
+class LanguageDescriptionDefaultTypeInternal;
+extern LanguageDescriptionDefaultTypeInternal _LanguageDescription_default_instance_;
 class LanguageList;
 class LanguageListDefaultTypeInternal;
 extern LanguageListDefaultTypeInternal _LanguageList_default_instance_;
+class LanguageList_LanguagesEntry_DoNotUse;
+class LanguageList_LanguagesEntry_DoNotUseDefaultTypeInternal;
+extern LanguageList_LanguagesEntry_DoNotUseDefaultTypeInternal _LanguageList_LanguagesEntry_DoNotUse_default_instance_;
 }  // namespace util
 }  // namespace wasm
 }  // namespace compiler
@@ -75,7 +81,9 @@ namespace protobuf {
 template<> ::google::protobuf::compiler::wasm::util::GeneratorInput* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::GeneratorInput>(Arena*);
 template<> ::google::protobuf::compiler::wasm::util::GeneratorOutput* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::GeneratorOutput>(Arena*);
 template<> ::google::protobuf::compiler::wasm::util::GeneratorOutput_FilesEntry_DoNotUse* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::GeneratorOutput_FilesEntry_DoNotUse>(Arena*);
+template<> ::google::protobuf::compiler::wasm::util::LanguageDescription* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::LanguageDescription>(Arena*);
 template<> ::google::protobuf::compiler::wasm::util::LanguageList* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::LanguageList>(Arena*);
+template<> ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse* Arena::CreateMaybeMessage<::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace google {
@@ -390,6 +398,153 @@ class GeneratorOutput : public ::google::protobuf::Message /* @@protoc_insertion
 };
 // -------------------------------------------------------------------
 
+class LanguageDescription : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.protobuf.compiler.wasm.util.LanguageDescription) */ {
+ public:
+  LanguageDescription();
+  virtual ~LanguageDescription();
+
+  LanguageDescription(const LanguageDescription& from);
+
+  inline LanguageDescription& operator=(const LanguageDescription& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  LanguageDescription(LanguageDescription&& from) noexcept
+    : LanguageDescription() {
+    *this = ::std::move(from);
+  }
+
+  inline LanguageDescription& operator=(LanguageDescription&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const LanguageDescription& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const LanguageDescription* internal_default_instance() {
+    return reinterpret_cast<const LanguageDescription*>(
+               &_LanguageDescription_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(LanguageDescription* other);
+  friend void swap(LanguageDescription& a, LanguageDescription& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LanguageDescription* New() const final {
+    return CreateMaybeMessage<LanguageDescription>(NULL);
+  }
+
+  LanguageDescription* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<LanguageDescription>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const LanguageDescription& from);
+  void MergeFrom(const LanguageDescription& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LanguageDescription* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string protoc_output_flag = 1;
+  void clear_protoc_output_flag();
+  static const int kProtocOutputFlagFieldNumber = 1;
+  const ::std::string& protoc_output_flag() const;
+  void set_protoc_output_flag(const ::std::string& value);
+  #if LANG_CXX11
+  void set_protoc_output_flag(::std::string&& value);
+  #endif
+  void set_protoc_output_flag(const char* value);
+  void set_protoc_output_flag(const char* value, size_t size);
+  ::std::string* mutable_protoc_output_flag();
+  ::std::string* release_protoc_output_flag();
+  void set_allocated_protoc_output_flag(::std::string* protoc_output_flag);
+
+  // string protoc_option_flag = 2;
+  void clear_protoc_option_flag();
+  static const int kProtocOptionFlagFieldNumber = 2;
+  const ::std::string& protoc_option_flag() const;
+  void set_protoc_option_flag(const ::std::string& value);
+  #if LANG_CXX11
+  void set_protoc_option_flag(::std::string&& value);
+  #endif
+  void set_protoc_option_flag(const char* value);
+  void set_protoc_option_flag(const char* value, size_t size);
+  ::std::string* mutable_protoc_option_flag();
+  ::std::string* release_protoc_option_flag();
+  void set_allocated_protoc_option_flag(::std::string* protoc_option_flag);
+
+  // @@protoc_insertion_point(class_scope:google.protobuf.compiler.wasm.util.LanguageDescription)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr protoc_output_flag_;
+  ::google::protobuf::internal::ArenaStringPtr protoc_option_flag_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_util_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class LanguageList_LanguagesEntry_DoNotUse : public ::google::protobuf::internal::MapEntry<LanguageList_LanguagesEntry_DoNotUse, 
+    ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+    0 > {
+public:
+  typedef ::google::protobuf::internal::MapEntry<LanguageList_LanguagesEntry_DoNotUse, 
+    ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+    0 > SuperType;
+  LanguageList_LanguagesEntry_DoNotUse();
+  LanguageList_LanguagesEntry_DoNotUse(::google::protobuf::Arena* arena);
+  void MergeFrom(const LanguageList_LanguagesEntry_DoNotUse& other);
+  static const LanguageList_LanguagesEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const LanguageList_LanguagesEntry_DoNotUse*>(&_LanguageList_LanguagesEntry_DoNotUse_default_instance_); }
+  void MergeFrom(const ::google::protobuf::Message& other) final;
+  ::google::protobuf::Metadata GetMetadata() const;
+};
+
+// -------------------------------------------------------------------
+
 class LanguageList : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.protobuf.compiler.wasm.util.LanguageList) */ {
  public:
   LanguageList();
@@ -425,7 +580,7 @@ class LanguageList : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_LanguageList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    5;
 
   void Swap(LanguageList* other);
   friend void swap(LanguageList& a, LanguageList& b) {
@@ -475,35 +630,28 @@ class LanguageList : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   // nested types ----------------------------------------------------
 
+
   // accessors -------------------------------------------------------
 
-  // repeated string languages = 1;
+  // map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
   int languages_size() const;
   void clear_languages();
   static const int kLanguagesFieldNumber = 1;
-  const ::std::string& languages(int index) const;
-  ::std::string* mutable_languages(int index);
-  void set_languages(int index, const ::std::string& value);
-  #if LANG_CXX11
-  void set_languages(int index, ::std::string&& value);
-  #endif
-  void set_languages(int index, const char* value);
-  void set_languages(int index, const char* value, size_t size);
-  ::std::string* add_languages();
-  void add_languages(const ::std::string& value);
-  #if LANG_CXX11
-  void add_languages(::std::string&& value);
-  #endif
-  void add_languages(const char* value);
-  void add_languages(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& languages() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_languages();
+  const ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >&
+      languages() const;
+  ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >*
+      mutable_languages();
 
   // @@protoc_insertion_point(class_scope:google.protobuf.compiler.wasm.util.LanguageList)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> languages_;
+  ::google::protobuf::internal::MapField<
+      LanguageList_LanguagesEntry_DoNotUse,
+      ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+      0 > languages_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_util_2eproto::TableStruct;
 };
@@ -809,80 +957,145 @@ GeneratorOutput::mutable_files() {
 
 // -------------------------------------------------------------------
 
+// LanguageDescription
+
+// string protoc_output_flag = 1;
+inline void LanguageDescription::clear_protoc_output_flag() {
+  protoc_output_flag_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LanguageDescription::protoc_output_flag() const {
+  // @@protoc_insertion_point(field_get:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+  return protoc_output_flag_.GetNoArena();
+}
+inline void LanguageDescription::set_protoc_output_flag(const ::std::string& value) {
+  
+  protoc_output_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+}
+#if LANG_CXX11
+inline void LanguageDescription::set_protoc_output_flag(::std::string&& value) {
+  
+  protoc_output_flag_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+}
+#endif
+inline void LanguageDescription::set_protoc_output_flag(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  protoc_output_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+}
+inline void LanguageDescription::set_protoc_output_flag(const char* value, size_t size) {
+  
+  protoc_output_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+}
+inline ::std::string* LanguageDescription::mutable_protoc_output_flag() {
+  
+  // @@protoc_insertion_point(field_mutable:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+  return protoc_output_flag_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LanguageDescription::release_protoc_output_flag() {
+  // @@protoc_insertion_point(field_release:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+  
+  return protoc_output_flag_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LanguageDescription::set_allocated_protoc_output_flag(::std::string* protoc_output_flag) {
+  if (protoc_output_flag != NULL) {
+    
+  } else {
+    
+  }
+  protoc_output_flag_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), protoc_output_flag);
+  // @@protoc_insertion_point(field_set_allocated:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag)
+}
+
+// string protoc_option_flag = 2;
+inline void LanguageDescription::clear_protoc_option_flag() {
+  protoc_option_flag_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& LanguageDescription::protoc_option_flag() const {
+  // @@protoc_insertion_point(field_get:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+  return protoc_option_flag_.GetNoArena();
+}
+inline void LanguageDescription::set_protoc_option_flag(const ::std::string& value) {
+  
+  protoc_option_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+}
+#if LANG_CXX11
+inline void LanguageDescription::set_protoc_option_flag(::std::string&& value) {
+  
+  protoc_option_flag_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+}
+#endif
+inline void LanguageDescription::set_protoc_option_flag(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  protoc_option_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+}
+inline void LanguageDescription::set_protoc_option_flag(const char* value, size_t size) {
+  
+  protoc_option_flag_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+}
+inline ::std::string* LanguageDescription::mutable_protoc_option_flag() {
+  
+  // @@protoc_insertion_point(field_mutable:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+  return protoc_option_flag_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* LanguageDescription::release_protoc_option_flag() {
+  // @@protoc_insertion_point(field_release:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+  
+  return protoc_option_flag_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void LanguageDescription::set_allocated_protoc_option_flag(::std::string* protoc_option_flag) {
+  if (protoc_option_flag != NULL) {
+    
+  } else {
+    
+  }
+  protoc_option_flag_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), protoc_option_flag);
+  // @@protoc_insertion_point(field_set_allocated:google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag)
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // LanguageList
 
-// repeated string languages = 1;
+// map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
 inline int LanguageList::languages_size() const {
   return languages_.size();
 }
 inline void LanguageList::clear_languages() {
   languages_.Clear();
 }
-inline const ::std::string& LanguageList::languages(int index) const {
-  // @@protoc_insertion_point(field_get:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  return languages_.Get(index);
-}
-inline ::std::string* LanguageList::mutable_languages(int index) {
-  // @@protoc_insertion_point(field_mutable:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  return languages_.Mutable(index);
-}
-inline void LanguageList::set_languages(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  languages_.Mutable(index)->assign(value);
-}
-#if LANG_CXX11
-inline void LanguageList::set_languages(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  languages_.Mutable(index)->assign(std::move(value));
-}
-#endif
-inline void LanguageList::set_languages(int index, const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  languages_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-inline void LanguageList::set_languages(int index, const char* value, size_t size) {
-  languages_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-inline ::std::string* LanguageList::add_languages() {
-  // @@protoc_insertion_point(field_add_mutable:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  return languages_.Add();
-}
-inline void LanguageList::add_languages(const ::std::string& value) {
-  languages_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-#if LANG_CXX11
-inline void LanguageList::add_languages(::std::string&& value) {
-  languages_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-#endif
-inline void LanguageList::add_languages(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  languages_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-inline void LanguageList::add_languages(const char* value, size_t size) {
-  languages_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:google.protobuf.compiler.wasm.util.LanguageList.languages)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+inline const ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >&
 LanguageList::languages() const {
-  // @@protoc_insertion_point(field_list:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  return languages_;
+  // @@protoc_insertion_point(field_map:google.protobuf.compiler.wasm.util.LanguageList.languages)
+  return languages_.GetMap();
 }
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >*
 LanguageList::mutable_languages() {
-  // @@protoc_insertion_point(field_mutable_list:google.protobuf.compiler.wasm.util.LanguageList.languages)
-  return &languages_;
+  // @@protoc_insertion_point(field_mutable_map:google.protobuf.compiler.wasm.util.LanguageList.languages)
+  return languages_.MutableMap();
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

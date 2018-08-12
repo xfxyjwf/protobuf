@@ -7,7 +7,7 @@
     <script src="//unpkg.com/vue/dist/vue.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src="./build/util-wasm.js"></script>
-    <script src="./web.js"></script>
+    <script src="./util.js"></script>
 </head>
 
 <body>
@@ -36,7 +36,7 @@
             <el-col :span="4">
                 <template>
                     <el-select v-model="proto.language" placeholder="Generated Code Language">
-                        <el-option v-for="language in languages" :key="language" :label="language" :value="language">
+                        <el-option v-for="(description, language) in languages" :key="language" :label="language" :value="language">
                         </el-option>
                     </el-select>
                 </template>
@@ -85,7 +85,7 @@
         el: '#app',
         data: {
             version: "Loading...",
-            languages: ["C++", "Java"],
+            languages: [],
             isReady: false,
             autogen: false,
             proto: {
@@ -103,6 +103,9 @@
         computed: {
             buttonText() {
                 return this.isReady ? "Generate" : "Loading...";
+            },
+            commandLine() {
+                return "protoc --";
             }
         },
         mounted() {
@@ -161,7 +164,7 @@
         const result = generator.generateCode(app.proto.name, app.proto.content, app.proto.language, app.proto.parameters);
         app.result.error = result.error;
         app.result.files = result.files;
-        if (typeof result.files[app.result.currentPage] === 'undefined') {
+        if (!result.error && typeof result.files[app.result.currentPage] === 'undefined') {
             for (var key in result.files) {
                 app.result.currentPage = key;
                 console.log('Set current page to: ', key);

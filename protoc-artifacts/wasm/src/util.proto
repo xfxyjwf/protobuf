@@ -14,6 +14,11 @@ message GeneratorOutput {
   map<string, string> files = 2;
 }
 
+message LanguageDescription {
+  string protoc_output_flag = 1;
+  string protoc_option_flag = 2;
+}
+
 message LanguageList {
-  repeated string languages = 1;
+  map<string, LanguageDescription> languages = 1;
 }

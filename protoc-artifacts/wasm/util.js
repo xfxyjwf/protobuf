@@ -1,14 +1,14 @@
-const m = require('./build/util-wasm.js');
+var Module = typeof Module !== 'undefined' ? Module : require('./build/util-wasm.js');
 
-const listLanguagesFunction = m.GetListLanguagesFunction();
-const generateCodeFunction = m.GetGeneratorFunction();
-const getVersionNumberFunction = m.GetVersionNumberFunction();
+const listLanguagesFunction = Module.GetListLanguagesFunction();
+const generateCodeFunction = Module.GetGeneratorFunction();
+const getVersionNumberFunction = Module.GetVersionNumberFunction();
 
 let isReady = false;
 let readyCallbacks = [];
 
-const chainCallback = m.onRuntimeInitialized;
-m.onRuntimeInitialized = function () {
+const chainCallback = Module.onRuntimeInitialized;
+Module.onRuntimeInitialized = function () {
   if (chainCallback) {
     chainCallback();
   }
@@ -18,31 +18,39 @@ m.onRuntimeInitialized = function () {
   });
 }
 
+class LanguageDescription {
+  constructor(description) {
+    /**
+     * @type {string}
+     * @description Command line flag to generate code for this language; e.g.: "--cpp_out"
+     */
+    this.protocOutputFlag = description.protocOutputFlag;
+    /**
+     * @type {?string}
+     * @description If supported, command line flag to pass options for this language; e.g.: "--cpp_opt"
+     */
+    this.protocOptionFlag = description.protocOptionFlag;
+  }
+}
+
 class GeneratorResult {
   constructor(result) {
+    /**
+     * @type {?string}
+     * @description An error message if code generation fails.
+     */
     this.error = result.error;
+    /**
+     * @type {Object.<string, string>}
+     * @description List of generated files.
+     */
     this.files = result.files;
-  }
-
-  /**
-   * @returns {?string} An error message if code generation fails.
-   */
-  get error() {
-    return this.error;
-  }
-
-  /**
-   * @returns {Object.<string,string>} List of generated files.
-   */
-  get files() {
-    return this.files;
   }
 }
 
 /**
  * @callback GeneratorReadyCallback
  */
-
 
 class CodeGenerator {
   constructor() {
@@ -75,7 +83,7 @@ class CodeGenerator {
   }
 
   /**
-   * @returns {string[]} A list of supported languages.
+   * @returns {Object.<string, LanguageDescription>} A list of supported languages.
    */
   get languageList() {
     if (!isReady) {
@@ -99,17 +107,6 @@ class CodeGenerator {
   }
 }
 
-/**
- * @typedef {Object} LanguageList
- * @property {string[]} languages
- */
-class LanguageList {
-  /**
-   * @param {string[]} languages 
-   */
-  constructor(languages) {
-    this.languages = languages;
-  }
+if (typeof module !== 'undefined') {
+  module.exports = new CodeGenerator();
 }
-
-module.exports = new CodeGenerator();

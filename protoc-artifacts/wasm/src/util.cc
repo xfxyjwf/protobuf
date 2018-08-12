@@ -42,11 +42,17 @@
 #include <google/protobuf/compiler/php/php_generator.h>
 #include <google/protobuf/compiler/python/python_generator.h>
 #include <google/protobuf/compiler/ruby/ruby_generator.h>
+#include <google/protobuf/descriptor.pb.h>
+#include <google/protobuf/duration.pb.h>
+#include <google/protobuf/field_mask.pb.h>
 #include <google/protobuf/io/tokenizer.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/struct.pb.h>
 #include <google/protobuf/stubs/stringprintf.h>
+#include <google/protobuf/timestamp.pb.h>
 #include <google/protobuf/util/json_util.h>
+#include <google/protobuf/wrappers.pb.h>
 
 #include "util.pb.h"
 
@@ -59,21 +65,40 @@ using namespace std;
 namespace google {
 namespace protobuf {
 namespace compiler {
-map<string, std::unique_ptr<CodeGenerator>> CreateCodeGenerators() {
-  map<string, std::unique_ptr<CodeGenerator>> generators;
-  generators["C++"].reset(new cpp::CppGenerator());
-  generators["Java"].reset(new java::JavaGenerator());
-  generators["Python"].reset(new python::Generator());
-  generators["PHP"].reset(new php::Generator());
-  generators["Ruby"].reset(new ruby::Generator());
-  generators["C#"].reset(new csharp::Generator());
-  generators["Objective C"].reset(new objectivec::ObjectiveCGenerator());
-  generators["Javascript"].reset(new js::Generator());
+
+struct CodeGeneratorInfo {
+  string protoc_output_flag;
+  string protoc_option_flag;
+  std::unique_ptr<CodeGenerator> generator;
+
+  template <typename T>
+  void SetInfo(const string &output_flag) {
+    SetInfo<T>(output_flag, "");
+  }
+
+  template <typename T>
+  void SetInfo(const string &output_flag, const string &option_flag) {
+    protoc_output_flag = output_flag;
+    protoc_option_flag = option_flag;
+    generator.reset(new T());
+  }
+};
+
+map<string, CodeGeneratorInfo> CreateCodeGenerators() {
+  map<string, CodeGeneratorInfo> generators;
+  generators["C++"].SetInfo<cpp::CppGenerator>("--cpp_out", "--cpp_opt");
+  generators["Java"].SetInfo<java::JavaGenerator>("--java_out", "--java_opt");
+  generators["Python"].SetInfo<python::Generator>("--python_out");
+  generators["PHP"].SetInfo<php::Generator>("--php_out");
+  generators["Ruby"].SetInfo<ruby::Generator>("--ruby_out");
+  generators["C#"].SetInfo<csharp::Generator>("--csharp_out", "--csharp_opt");
+  generators["Objective C"].SetInfo<objectivec::ObjectiveCGenerator>(
+      "--objc_out", "--objc_opt");
+  generators["Javascript"].SetInfo<js::Generator>("--js_out");
   return std::move(generators);
 }
 
-map<string, std::unique_ptr<CodeGenerator>> code_generators =
-    CreateCodeGenerators();
+map<string, CodeGeneratorInfo> code_generators = CreateCodeGenerators();
 
 bool Parse(const string &name, const string &content,
            io::ErrorCollector *error_collector, FileDescriptorProto *proto) {
@@ -128,6 +153,29 @@ class ResultContext : public GeneratorContext {
   map<string, string> files_;
 };
 
+void PopulateDescriptorPool(DescriptorPool *pool, const FileDescriptor *file) {
+  FileDescriptorProto proto;
+  file->CopyTo(&proto);
+  if (!pool->BuildFile(proto)) {
+    cerr << "Failed to populate DescriptorPool with descriptor for: "
+         << file->name() << endl;
+  }
+}
+
+template <typename T>
+void PopulateDescriptorPool(DescriptorPool *pool) {
+  PopulateDescriptorPool(pool, T::descriptor()->file());
+}
+
+void PopulateWithWellKnownTypes(DescriptorPool *pool) {
+  PopulateDescriptorPool<FileDescriptorProto>(pool);
+  PopulateDescriptorPool<Timestamp>(pool);
+  PopulateDescriptorPool<Duration>(pool);
+  PopulateDescriptorPool<Struct>(pool);
+  PopulateDescriptorPool<FieldMask>(pool);
+  PopulateDescriptorPool<Int32Value>(pool);
+}
+
 wasm::util::GeneratorOutput Generate(const string &name, const string &content,
                                      const string &language,
                                      const string &parameters) {
@@ -137,7 +185,7 @@ wasm::util::GeneratorOutput Generate(const string &name, const string &content,
     return result;
   }
 
-  CodeGenerator *generator = code_generators[language].get();
+  CodeGenerator *generator = code_generators[language].generator.get();
   if (generator == nullptr) {
     result.set_error("Language not supported: " + language);
     return result;
@@ -151,6 +199,7 @@ wasm::util::GeneratorOutput Generate(const string &name, const string &content,
     return result;
   }
   DescriptorPool pool;
+  PopulateWithWellKnownTypes(&pool);
   const FileDescriptor *file =
       pool.BuildFileCollectingErrors(proto, &error_collector);
   if (file == nullptr) {
@@ -243,7 +292,12 @@ char *GetVersionNumber() {
 char *ListLanguages() {
   google::protobuf::compiler::wasm::util::LanguageList list;
   for (const auto &p : google::protobuf::compiler::code_generators) {
-    list.add_languages(p.first);
+    google::protobuf::compiler::wasm::util::LanguageDescription *desc =
+        &(*list.mutable_languages())[p.first];
+    desc->set_protoc_output_flag(p.second.protoc_output_flag);
+    if (!p.second.protoc_option_flag.empty()) {
+      desc->set_protoc_option_flag(p.second.protoc_option_flag);
+    }
   }
   string result;
   auto status = google::protobuf::util::MessageToJsonString(list, &result);

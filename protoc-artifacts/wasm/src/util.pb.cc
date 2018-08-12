@@ -21,6 +21,8 @@
 
 namespace protobuf_util_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_util_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_GeneratorOutput_FilesEntry_DoNotUse;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_util_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_LanguageDescription;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_util_2eproto ::google::protobuf::internal::SCCInfo<1> scc_info_LanguageList_LanguagesEntry_DoNotUse;
 }  // namespace protobuf_util_2eproto
 namespace google {
 namespace protobuf {
@@ -42,6 +44,16 @@ class GeneratorOutputDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<GeneratorOutput>
       _instance;
 } _GeneratorOutput_default_instance_;
+class LanguageDescriptionDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<LanguageDescription>
+      _instance;
+} _LanguageDescription_default_instance_;
+class LanguageList_LanguagesEntry_DoNotUseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<LanguageList_LanguagesEntry_DoNotUse>
+      _instance;
+} _LanguageList_LanguagesEntry_DoNotUse_default_instance_;
 class LanguageListDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<LanguageList>
@@ -95,6 +107,34 @@ static void InitDefaultsGeneratorOutput() {
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsGeneratorOutput}, {
       &protobuf_util_2eproto::scc_info_GeneratorOutput_FilesEntry_DoNotUse.base,}};
 
+static void InitDefaultsLanguageDescription() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::google::protobuf::compiler::wasm::util::_LanguageDescription_default_instance_;
+    new (ptr) ::google::protobuf::compiler::wasm::util::LanguageDescription();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::google::protobuf::compiler::wasm::util::LanguageDescription::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_LanguageDescription =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsLanguageDescription}, {}};
+
+static void InitDefaultsLanguageList_LanguagesEntry_DoNotUse() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::google::protobuf::compiler::wasm::util::_LanguageList_LanguagesEntry_DoNotUse_default_instance_;
+    new (ptr) ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse();
+  }
+  ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_LanguageList_LanguagesEntry_DoNotUse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsLanguageList_LanguagesEntry_DoNotUse}, {
+      &protobuf_util_2eproto::scc_info_LanguageDescription.base,}};
+
 static void InitDefaultsLanguageList() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -106,17 +146,20 @@ static void InitDefaultsLanguageList() {
   ::google::protobuf::compiler::wasm::util::LanguageList::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_LanguageList =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsLanguageList}, {}};
+::google::protobuf::internal::SCCInfo<1> scc_info_LanguageList =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsLanguageList}, {
+      &protobuf_util_2eproto::scc_info_LanguageList_LanguagesEntry_DoNotUse.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_GeneratorInput.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GeneratorOutput_FilesEntry_DoNotUse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_GeneratorOutput.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_LanguageDescription.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_LanguageList_LanguagesEntry_DoNotUse.base);
   ::google::protobuf::internal::InitSCC(&scc_info_LanguageList.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[4];
+::google::protobuf::Metadata file_level_metadata[6];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -145,6 +188,22 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::GeneratorOutput, error_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::GeneratorOutput, files_),
   ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageDescription, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageDescription, protoc_output_flag_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageDescription, protoc_option_flag_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse, key_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse, value_),
+  0,
+  1,
+  ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::protobuf::compiler::wasm::util::LanguageList, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -155,13 +214,17 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 0, -1, sizeof(::google::protobuf::compiler::wasm::util::GeneratorInput)},
   { 9, 16, sizeof(::google::protobuf::compiler::wasm::util::GeneratorOutput_FilesEntry_DoNotUse)},
   { 18, -1, sizeof(::google::protobuf::compiler::wasm::util::GeneratorOutput)},
-  { 25, -1, sizeof(::google::protobuf::compiler::wasm::util::LanguageList)},
+  { 25, -1, sizeof(::google::protobuf::compiler::wasm::util::LanguageDescription)},
+  { 32, 39, sizeof(::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse)},
+  { 41, -1, sizeof(::google::protobuf::compiler::wasm::util::LanguageList)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_GeneratorInput_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_GeneratorOutput_FilesEntry_DoNotUse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_GeneratorOutput_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_LanguageDescription_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_LanguageList_LanguagesEntry_DoNotUse_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::google::protobuf::compiler::wasm::util::_LanguageList_default_instance_),
 };
 
@@ -180,7 +243,7 @@ static void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 4);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
 }
 
 static void AddDescriptorsImpl() {
@@ -193,11 +256,17 @@ static void AddDescriptorsImpl() {
       "rror\030\001 \001(\t\022M\n\005files\030\002 \003(\0132>.google.proto"
       "buf.compiler.wasm.util.GeneratorOutput.F"
       "ilesEntry\032,\n\nFilesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005"
-      "value\030\002 \001(\t:\0028\001\"!\n\014LanguageList\022\021\n\tlangu"
-      "ages\030\001 \003(\tb\006proto3"
+      "value\030\002 \001(\t:\0028\001\"M\n\023LanguageDescription\022\032"
+      "\n\022protoc_output_flag\030\001 \001(\t\022\032\n\022protoc_opt"
+      "ion_flag\030\002 \001(\t\"\315\001\n\014LanguageList\022R\n\tlangu"
+      "ages\030\001 \003(\0132\?.google.protobuf.compiler.wa"
+      "sm.util.LanguageList.LanguagesEntry\032i\n\016L"
+      "anguagesEntry\022\013\n\003key\030\001 \001(\t\022F\n\005value\030\002 \001("
+      "\01327.google.protobuf.compiler.wasm.util.L"
+      "anguageDescription:\0028\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 338);
+      descriptor, 590);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "util.proto", &protobuf_RegisterTypes);
 }
@@ -1052,6 +1121,323 @@ void GeneratorOutput::InternalSwap(GeneratorOutput* other) {
 
 // ===================================================================
 
+void LanguageDescription::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int LanguageDescription::kProtocOutputFlagFieldNumber;
+const int LanguageDescription::kProtocOptionFlagFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+LanguageDescription::LanguageDescription()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_util_2eproto::scc_info_LanguageDescription.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:google.protobuf.compiler.wasm.util.LanguageDescription)
+}
+LanguageDescription::LanguageDescription(const LanguageDescription& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  protoc_output_flag_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.protoc_output_flag().size() > 0) {
+    protoc_output_flag_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protoc_output_flag_);
+  }
+  protoc_option_flag_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.protoc_option_flag().size() > 0) {
+    protoc_option_flag_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protoc_option_flag_);
+  }
+  // @@protoc_insertion_point(copy_constructor:google.protobuf.compiler.wasm.util.LanguageDescription)
+}
+
+void LanguageDescription::SharedCtor() {
+  protoc_output_flag_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protoc_option_flag_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+LanguageDescription::~LanguageDescription() {
+  // @@protoc_insertion_point(destructor:google.protobuf.compiler.wasm.util.LanguageDescription)
+  SharedDtor();
+}
+
+void LanguageDescription::SharedDtor() {
+  protoc_output_flag_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protoc_option_flag_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void LanguageDescription::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* LanguageDescription::descriptor() {
+  ::protobuf_util_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_util_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const LanguageDescription& LanguageDescription::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_util_2eproto::scc_info_LanguageDescription.base);
+  return *internal_default_instance();
+}
+
+
+void LanguageDescription::Clear() {
+// @@protoc_insertion_point(message_clear_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  protoc_output_flag_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  protoc_option_flag_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
+}
+
+bool LanguageDescription::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // string protoc_output_flag = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_protoc_output_flag()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->protoc_output_flag().data(), static_cast<int>(this->protoc_output_flag().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string protoc_option_flag = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_protoc_option_flag()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->protoc_option_flag().data(), static_cast<int>(this->protoc_option_flag().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:google.protobuf.compiler.wasm.util.LanguageDescription)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:google.protobuf.compiler.wasm.util.LanguageDescription)
+  return false;
+#undef DO_
+}
+
+void LanguageDescription::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string protoc_output_flag = 1;
+  if (this->protoc_output_flag().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protoc_output_flag().data(), static_cast<int>(this->protoc_output_flag().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->protoc_output_flag(), output);
+  }
+
+  // string protoc_option_flag = 2;
+  if (this->protoc_option_flag().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protoc_option_flag().data(), static_cast<int>(this->protoc_option_flag().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->protoc_option_flag(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:google.protobuf.compiler.wasm.util.LanguageDescription)
+}
+
+::google::protobuf::uint8* LanguageDescription::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string protoc_output_flag = 1;
+  if (this->protoc_output_flag().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protoc_output_flag().data(), static_cast<int>(this->protoc_output_flag().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_output_flag");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->protoc_output_flag(), target);
+  }
+
+  // string protoc_option_flag = 2;
+  if (this->protoc_option_flag().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->protoc_option_flag().data(), static_cast<int>(this->protoc_option_flag().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "google.protobuf.compiler.wasm.util.LanguageDescription.protoc_option_flag");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->protoc_option_flag(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:google.protobuf.compiler.wasm.util.LanguageDescription)
+  return target;
+}
+
+size_t LanguageDescription::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // string protoc_output_flag = 1;
+  if (this->protoc_output_flag().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->protoc_output_flag());
+  }
+
+  // string protoc_option_flag = 2;
+  if (this->protoc_option_flag().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->protoc_option_flag());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void LanguageDescription::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  GOOGLE_DCHECK_NE(&from, this);
+  const LanguageDescription* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const LanguageDescription>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:google.protobuf.compiler.wasm.util.LanguageDescription)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:google.protobuf.compiler.wasm.util.LanguageDescription)
+    MergeFrom(*source);
+  }
+}
+
+void LanguageDescription::MergeFrom(const LanguageDescription& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.protoc_output_flag().size() > 0) {
+
+    protoc_output_flag_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protoc_output_flag_);
+  }
+  if (from.protoc_option_flag().size() > 0) {
+
+    protoc_option_flag_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.protoc_option_flag_);
+  }
+}
+
+void LanguageDescription::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void LanguageDescription::CopyFrom(const LanguageDescription& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:google.protobuf.compiler.wasm.util.LanguageDescription)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LanguageDescription::IsInitialized() const {
+  return true;
+}
+
+void LanguageDescription::Swap(LanguageDescription* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void LanguageDescription::InternalSwap(LanguageDescription* other) {
+  using std::swap;
+  protoc_output_flag_.Swap(&other->protoc_output_flag_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  protoc_option_flag_.Swap(&other->protoc_option_flag_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata LanguageDescription::GetMetadata() const {
+  protobuf_util_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_util_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+LanguageList_LanguagesEntry_DoNotUse::LanguageList_LanguagesEntry_DoNotUse() {}
+LanguageList_LanguagesEntry_DoNotUse::LanguageList_LanguagesEntry_DoNotUse(::google::protobuf::Arena* arena) : SuperType(arena) {}
+void LanguageList_LanguagesEntry_DoNotUse::MergeFrom(const LanguageList_LanguagesEntry_DoNotUse& other) {
+  MergeFromInternal(other);
+}
+::google::protobuf::Metadata LanguageList_LanguagesEntry_DoNotUse::GetMetadata() const {
+  ::protobuf_util_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_util_2eproto::file_level_metadata[4];
+}
+void LanguageList_LanguagesEntry_DoNotUse::MergeFrom(
+    const ::google::protobuf::Message& other) {
+  ::google::protobuf::Message::MergeFrom(other);
+}
+
+
+// ===================================================================
+
 void LanguageList::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -1067,9 +1453,9 @@ LanguageList::LanguageList()
 }
 LanguageList::LanguageList(const LanguageList& from)
   : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      languages_(from.languages_) {
+      _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  languages_.MergeFrom(from.languages_);
   // @@protoc_insertion_point(copy_constructor:google.protobuf.compiler.wasm.util.LanguageList)
 }
 
@@ -1118,17 +1504,23 @@ bool LanguageList::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated string languages = 1;
+      // map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->add_languages()));
+          LanguageList_LanguagesEntry_DoNotUse::Parser< ::google::protobuf::internal::MapField<
+              LanguageList_LanguagesEntry_DoNotUse,
+              ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription,
+              ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+              ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+              0 >,
+            ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription > > parser(&languages_);
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+              input, &parser));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->languages(this->languages_size() - 1).data(),
-            static_cast<int>(this->languages(this->languages_size() - 1).length()),
+            parser.key().data(), static_cast<int>(parser.key().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "google.protobuf.compiler.wasm.util.LanguageList.languages"));
+            "google.protobuf.compiler.wasm.util.LanguageList.LanguagesEntry.key"));
         } else {
           goto handle_unusual;
         }
@@ -1161,14 +1553,53 @@ void LanguageList::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated string languages = 1;
-  for (int i = 0, n = this->languages_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->languages(i).data(), static_cast<int>(this->languages(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.protobuf.compiler.wasm.util.LanguageList.languages");
-    ::google::protobuf::internal::WireFormatLite::WriteString(
-      1, this->languages(i), output);
+  // map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
+  if (!this->languages().empty()) {
+    typedef ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_pointer
+        ConstPtr;
+    typedef ConstPtr SortItem;
+    typedef ::google::protobuf::internal::CompareByDerefFirst<SortItem> Less;
+    struct Utf8Check {
+      static void Check(ConstPtr p) {
+        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          p->first.data(), static_cast<int>(p->first.length()),
+          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+          "google.protobuf.compiler.wasm.util.LanguageList.LanguagesEntry.key");
+      }
+    };
+
+    if (output->IsSerializationDeterministic() &&
+        this->languages().size() > 1) {
+      ::std::unique_ptr<SortItem[]> items(
+          new SortItem[this->languages().size()]);
+      typedef ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::size_type size_type;
+      size_type n = 0;
+      for (::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_iterator
+          it = this->languages().begin();
+          it != this->languages().end(); ++it, ++n) {
+        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
+      }
+      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
+      ::std::unique_ptr<LanguageList_LanguagesEntry_DoNotUse> entry;
+      for (size_type i = 0; i < n; i++) {
+        entry.reset(languages_.NewEntryWrapper(
+            items[static_cast<ptrdiff_t>(i)]->first, items[static_cast<ptrdiff_t>(i)]->second));
+        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+            1, *entry, output);
+        Utf8Check::Check(items[static_cast<ptrdiff_t>(i)]);
+      }
+    } else {
+      ::std::unique_ptr<LanguageList_LanguagesEntry_DoNotUse> entry;
+      for (::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_iterator
+          it = this->languages().begin();
+          it != this->languages().end(); ++it) {
+        entry.reset(languages_.NewEntryWrapper(
+            it->first, it->second));
+        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+            1, *entry, output);
+        Utf8Check::Check(&*it);
+      }
+    }
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1185,14 +1616,57 @@ void LanguageList::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated string languages = 1;
-  for (int i = 0, n = this->languages_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->languages(i).data(), static_cast<int>(this->languages(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.protobuf.compiler.wasm.util.LanguageList.languages");
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteStringToArray(1, this->languages(i), target);
+  // map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
+  if (!this->languages().empty()) {
+    typedef ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_pointer
+        ConstPtr;
+    typedef ConstPtr SortItem;
+    typedef ::google::protobuf::internal::CompareByDerefFirst<SortItem> Less;
+    struct Utf8Check {
+      static void Check(ConstPtr p) {
+        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          p->first.data(), static_cast<int>(p->first.length()),
+          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+          "google.protobuf.compiler.wasm.util.LanguageList.LanguagesEntry.key");
+      }
+    };
+
+    if (deterministic &&
+        this->languages().size() > 1) {
+      ::std::unique_ptr<SortItem[]> items(
+          new SortItem[this->languages().size()]);
+      typedef ::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::size_type size_type;
+      size_type n = 0;
+      for (::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_iterator
+          it = this->languages().begin();
+          it != this->languages().end(); ++it, ++n) {
+        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
+      }
+      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
+      ::std::unique_ptr<LanguageList_LanguagesEntry_DoNotUse> entry;
+      for (size_type i = 0; i < n; i++) {
+        entry.reset(languages_.NewEntryWrapper(
+            items[static_cast<ptrdiff_t>(i)]->first, items[static_cast<ptrdiff_t>(i)]->second));
+        target = ::google::protobuf::internal::WireFormatLite::
+                   InternalWriteMessageNoVirtualToArray(
+                       1, *entry, deterministic, target);
+;
+        Utf8Check::Check(items[static_cast<ptrdiff_t>(i)]);
+      }
+    } else {
+      ::std::unique_ptr<LanguageList_LanguagesEntry_DoNotUse> entry;
+      for (::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_iterator
+          it = this->languages().begin();
+          it != this->languages().end(); ++it) {
+        entry.reset(languages_.NewEntryWrapper(
+            it->first, it->second));
+        target = ::google::protobuf::internal::WireFormatLite::
+                   InternalWriteMessageNoVirtualToArray(
+                       1, *entry, deterministic, target);
+;
+        Utf8Check::Check(&*it);
+      }
+    }
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1212,12 +1686,18 @@ size_t LanguageList::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated string languages = 1;
+  // map<string, .google.protobuf.compiler.wasm.util.LanguageDescription> languages = 1;
   total_size += 1 *
       ::google::protobuf::internal::FromIntSize(this->languages_size());
-  for (int i = 0, n = this->languages_size(); i < n; i++) {
-    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
-      this->languages(i));
+  {
+    ::std::unique_ptr<LanguageList_LanguagesEntry_DoNotUse> entry;
+    for (::google::protobuf::Map< ::std::string, ::google::protobuf::compiler::wasm::util::LanguageDescription >::const_iterator
+        it = this->languages().begin();
+        it != this->languages().end(); ++it) {
+      entry.reset(languages_.NewEntryWrapper(it->first, it->second));
+      total_size += ::google::protobuf::internal::WireFormatLite::
+          MessageSizeNoVirtual(*entry);
+    }
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1274,7 +1754,7 @@ void LanguageList::Swap(LanguageList* other) {
 }
 void LanguageList::InternalSwap(LanguageList* other) {
   using std::swap;
-  languages_.InternalSwap(CastToBase(&other->languages_));
+  languages_.Swap(&other->languages_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
@@ -1300,6 +1780,12 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::google::protobuf::compiler::wasm
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::google::protobuf::compiler::wasm::util::GeneratorOutput* Arena::CreateMaybeMessage< ::google::protobuf::compiler::wasm::util::GeneratorOutput >(Arena* arena) {
   return Arena::CreateInternal< ::google::protobuf::compiler::wasm::util::GeneratorOutput >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::google::protobuf::compiler::wasm::util::LanguageDescription* Arena::CreateMaybeMessage< ::google::protobuf::compiler::wasm::util::LanguageDescription >(Arena* arena) {
+  return Arena::CreateInternal< ::google::protobuf::compiler::wasm::util::LanguageDescription >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse* Arena::CreateMaybeMessage< ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse >(Arena* arena) {
+  return Arena::CreateInternal< ::google::protobuf::compiler::wasm::util::LanguageList_LanguagesEntry_DoNotUse >(arena);
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::google::protobuf::compiler::wasm::util::LanguageList* Arena::CreateMaybeMessage< ::google::protobuf::compiler::wasm::util::LanguageList >(Arena* arena) {
   return Arena::CreateInternal< ::google::protobuf::compiler::wasm::util::LanguageList >(arena);
