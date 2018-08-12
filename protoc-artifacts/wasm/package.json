@@ -1,6 +1,6 @@
 {
   "name": "google-protocol-compiler",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Google Protocol Compiler",
   "main": "util.js",
   "files": [
@@ -10,7 +10,7 @@
     "build/util-wasm.wasm",
     "index.html",
     "protoc.js",
-    "util.js",
+    "util.js"
   ],
   "bin": {
     "protoc": "./protoc.js"
