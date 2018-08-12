@@ -85,11 +85,24 @@
     </div>
 </body>
 <script>
+    function toHash(proto) {
+        return '#' + encodeURIComponent(JSON.stringify(proto));
+    }
+
+    function fromHash(hash) {
+        try {
+            return JSON.parse(decodeURIComponent(hash.substr(1)));
+        } catch (err) {
+            alert('Failed to parse proto info from url: ' + err);
+            return {};
+        }
+    }
+
     const app = new Vue({
         el: '#app',
         data: {
             version: "Loading...",
-            languages: [],
+            languages: {},
             isReady: false,
             autogen: false,
             proto: {
@@ -101,7 +114,7 @@
             result: {
                 error: '',
                 currentPage: '',
-                files: [],
+                files: {},
             }
         },
         computed: {
@@ -129,41 +142,45 @@
             }
         },
         mounted() {
-            if (localStorage.name) {
-                this.proto.name = localStorage.name;
-            }
-            if (localStorage.content) {
-                this.proto.content = localStorage.content;
-            }
-            if (localStorage.language) {
-                this.proto.language = localStorage.language;
-            }
-            if (localStorage.parameters) {
-                this.proto.parameters = localStorage.parameters;
+            if (location.hash) {
+                const proto = fromHash(location.hash);
+                this.proto = proto;
+            } else {
+                if (localStorage.name) {
+                    this.proto.name = localStorage.name;
+                }
+                if (localStorage.content) {
+                    this.proto.content = localStorage.content;
+                }
+                if (localStorage.language) {
+                    this.proto.language = localStorage.language;
+                }
+                if (localStorage.parameters) {
+                    this.proto.parameters = localStorage.parameters;
+                }
             }
         },
         watch: {
             autogen(value) {
-                if (value) {
-                    updateGeneratedCode();
+                if (value && app.isReady) {
+                    delayedUpdateGeneratedCode();
                 }
             },
             'proto.name'(value) {
-                console.log('new name: ', value);
                 localStorage.name = value;
-                updateGeneratedCode();
+                onInputUpdated();
             },
             'proto.content'(value) {
                 localStorage.content = value;
-                updateGeneratedCode();
+                onInputUpdated();
             },
             'proto.language'(value) {
                 localStorage.language = value;
-                updateGeneratedCode();
+                onInputUpdated();
             },
             'proto.parameters'(value) {
                 localStorage.parameters = value;
-                updateGeneratedCode();
+                onInputUpdated();
             }
         }
     });
@@ -174,6 +191,9 @@
         app.isReady = true;
         app.version = generator.versionNumber;
         app.languages = generator.languageList;
+        if (app.autogen) {
+            generate();
+        }
     });
 
     function generate() {
@@ -184,28 +204,32 @@
         const result = generator.generateCode(app.proto.name, app.proto.content, app.proto.language, app.proto.parameters);
         app.result.error = result.error;
         app.result.files = result.files;
-        if (!result.error && typeof result.files[app.result.currentPage] === 'undefined') {
+        if (result.files && typeof result.files[app.result.currentPage] === 'undefined') {
             for (var key in result.files) {
                 app.result.currentPage = key;
                 console.log('Set current page to: ', key);
                 break;
             }
         }
-        console.log(result);
+        console.log(app.result);
     }
 
     let timer = null;
-    function updateGeneratedCode() {
-        if (!app.autogen) {
-            return;
-        }
-        if (!generator.isReady) {
-            return;
-        }
+    function delayedUpdateGeneratedCode() {
         if (timer) {
             clearTimeout(timer);
         }
         timer = setTimeout(generate, 500);
+    }
+
+    function onInputUpdated() {
+        // Update hash
+        location.hash = toHash(app.proto);
+
+        // Update generated code if autogen is enabled.
+        if (app.autogen && app.isReady) {
+            delayedUpdateGeneratedCode();
+        }
     }
 </script>
 
