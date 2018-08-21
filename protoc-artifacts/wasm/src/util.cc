@@ -32,6 +32,8 @@
 #include <map>
 #include <string>
 
+#include <google/protobuf/any.pb.h>
+#include <google/protobuf/api.pb.h>
 #include <google/protobuf/compiler/command_line_interface.h>
 #include <google/protobuf/compiler/cpp/cpp_generator.h>
 #include <google/protobuf/compiler/csharp/csharp_generator.h>
@@ -40,17 +42,21 @@
 #include <google/protobuf/compiler/objectivec/objectivec_generator.h>
 #include <google/protobuf/compiler/parser.h>
 #include <google/protobuf/compiler/php/php_generator.h>
+#include <google/protobuf/compiler/plugin.pb.h>
 #include <google/protobuf/compiler/python/python_generator.h>
 #include <google/protobuf/compiler/ruby/ruby_generator.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/duration.pb.h>
+#include <google/protobuf/empty.pb.h>
 #include <google/protobuf/field_mask.pb.h>
 #include <google/protobuf/io/tokenizer.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/source_context.pb.h>
 #include <google/protobuf/struct.pb.h>
 #include <google/protobuf/stubs/stringprintf.h>
 #include <google/protobuf/timestamp.pb.h>
+#include <google/protobuf/type.pb.h>
 #include <google/protobuf/util/json_util.h>
 #include <google/protobuf/wrappers.pb.h>
 
@@ -154,6 +160,12 @@ class ResultContext : public GeneratorContext {
 };
 
 void PopulateDescriptorPool(DescriptorPool *pool, const FileDescriptor *file) {
+  if (pool->FindFileByName(file->name()) != nullptr) {
+    return;
+  }
+  for (int i = 0; i < file->dependency_count(); i++) {
+    PopulateDescriptorPool(pool, file->dependency(i));
+  }
   FileDescriptorProto proto;
   file->CopyTo(&proto);
   if (!pool->BuildFile(proto)) {
@@ -174,6 +186,12 @@ void PopulateWithWellKnownTypes(DescriptorPool *pool) {
   PopulateDescriptorPool<Struct>(pool);
   PopulateDescriptorPool<FieldMask>(pool);
   PopulateDescriptorPool<Int32Value>(pool);
+  PopulateDescriptorPool<Any>(pool);
+  PopulateDescriptorPool<Api>(pool);
+  PopulateDescriptorPool<Empty>(pool);
+  PopulateDescriptorPool<SourceContext>(pool);
+  PopulateDescriptorPool<Type>(pool);
+  PopulateDescriptorPool<CodeGeneratorRequest>(pool);
 }
 
 wasm::util::GeneratorOutput Generate(const string &name, const string &content,
