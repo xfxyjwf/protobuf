@@ -123,8 +123,8 @@ class MemoryErrorCollector : public io::ErrorCollector,
   // Inherited via ErrorCollector
   void AddError(int line, int column, const string &message) override {
     error_count_++;
-    error_ += StringPrintf("%s:%d:%d: %s\n", filename_.c_str(), line, column,
-                           message.c_str());
+    error_ += StringPrintf("%s:%d:%d: %s\n", filename_.c_str(), line + 1,
+                           column + 1, message.c_str());
   }
 
   // Inherited via ErrorCollector
