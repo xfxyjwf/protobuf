@@ -54,7 +54,7 @@ Likewise, if you are using absolute path for the file, you must specify a “-I�
 
 If you specify multiple “-I” flags, protoc will match them in the provided order. For example:
 
-	~$ protoc --cpp_out=. -I. -Isrc src/foo/bar.proto (4)
+	  ~$ protoc --cpp_out=. -I. -Isrc src/foo/bar.proto (4)
 
 In (4), protoc will match “-I.” with src/foo/bar.proto because it comes before “-Isrc” and as a result protoc will consider “src/foo/bar.proto” as the import path.
 
@@ -71,7 +71,7 @@ Suppose src/foo/bar.proto has the following content:
     import “foo/baz.proto”;
     message Bar {}
 
-Protoc will first check whether ~/foo/baz.proto exists for the “-I.” flag. If it doesn’t exist, it will then check whether “~/src/foo/baz.proto” exists. If none exists, protoc will report an error.
+Protoc will first check whether ./foo/baz.proto exists for the “-I.” flag. If it doesn’t exist, it will then check whether “./src/foo/baz.proto” exists. If none exists, protoc will report an error.
 
 ## Import path and output files
 
